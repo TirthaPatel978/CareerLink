@@ -1,0 +1,304 @@
+﻿@model CareerLink.Models.Application
+
+@{
+    ViewData["Title"] = "Application Details";
+}
+
+<div class="container py-4">
+
+    <div class="mb-3">
+
+        <a asp-action="Index"
+           class="text-decoration-none">
+            ← Back to My Applications
+        </a>
+
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    <div class="row g-4">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex justify-content-between
+                        align-items-start mb-4">
+
+                        <div>
+
+                            <h1 class="fw-bold mb-1">
+                                @Model.Job.Title
+                            </h1>
+
+                            <h5 class="text-muted">
+                                @Model.Job.Company.Name
+                            </h5>
+
+                        </div>
+
+                        @{
+                            var badgeClass =
+                                Model.Status switch
+                                {
+                                    CareerLink.Models.Enums
+                                        .ApplicationStatus.Applied
+                                        => "bg-primary",
+
+                                    CareerLink.Models.Enums
+                                        .ApplicationStatus.UnderReview
+                                        => "bg-info",
+
+                                    CareerLink.Models.Enums
+                                        .ApplicationStatus.Shortlisted
+                                        => "bg-success",
+
+                                    CareerLink.Models.Enums
+                                        .ApplicationStatus.Interview
+                                        => "bg-warning text-dark",
+
+                                    CareerLink.Models.Enums
+                                        .ApplicationStatus.Selected
+                                        => "bg-success",
+
+                                    CareerLink.Models.Enums
+                                        .ApplicationStatus.Rejected
+                                        => "bg-danger",
+
+                                    CareerLink.Models.Enums
+                                        .ApplicationStatus.Withdrawn
+                                        => "bg-secondary",
+
+                                    _ => "bg-secondary"
+                                };
+                        }
+
+                        <span class="badge @badgeClass fs-6">
+                            @Model.Status
+                        </span>
+
+                    </div>
+
+                    <hr />
+
+                    <h4 class="mt-4">
+                        Application Information
+                    </h4>
+
+                    <div class="row mb-4">
+
+                        <div class="col-md-6 mb-3">
+
+                            <strong>
+                                Applied On
+                            </strong>
+
+                            <div class="text-muted">
+                                @Model.AppliedAt
+                                .ToLocalTime()
+                                .ToString("dd MMM yyyy, hh:mm tt")
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <strong>
+                                Last Updated
+                            </strong>
+
+                            <div class="text-muted">
+
+                                @if (Model.UpdatedAt.HasValue)
+                                {
+                                    @(
+                                        Model.UpdatedAt.Value
+                                            .ToLocalTime()
+                                            .ToString(
+                                                "dd MMM yyyy, hh:mm tt")
+                                    )
+                                }
+                                else
+                                {
+                                    <span>
+                                        Not updated yet
+                                    </span>
+                                }
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <h4>
+                        Cover Letter
+                    </h4>
+
+                    @if (!string.IsNullOrWhiteSpace(Model.CoverLetter))
+                    {
+                        <div class="card bg-light border-0">
+
+                            <div class="card-body">
+
+                                @Html.Raw(
+                                    Model.CoverLetter
+                                        .Replace("\n", "<br />"))
+
+                            </div>
+
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-muted">
+                            No cover letter was submitted.
+                        </p>
+                    }
+
+                    @if (Model.MatchScore.HasValue)
+                    {
+                        <h4 class="mt-4">
+                            Match Score
+                        </h4>
+
+                        <div class="card bg-light border-0">
+
+                            <div class="card-body">
+
+                                <h3 class="mb-1">
+                                    @Model.MatchScore.Value
+                                    .ToString("0.##")%
+                                </h3>
+
+                                <p class="text-muted mb-0">
+                                    This score will be calculated using
+                                    CareerLink's rule-based matching system.
+                                </p>
+
+                            </div>
+
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-info mt-4">
+                            Match score will be available after the
+                            matching system is implemented.
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <div class="card shadow-sm mb-4">
+
+                <div class="card-body">
+
+                    <h5 class="fw-bold mb-3">
+                        Job Information
+                    </h5>
+
+                    @if (!string.IsNullOrWhiteSpace(
+                        Model.Job.Location))
+                    {
+                        <div class="mb-3">
+
+                            <strong>
+                                Location
+                            </strong>
+
+                            <div class="text-muted">
+                                @Model.Job.Location
+                            </div>
+
+                        </div>
+                    }
+
+                    <div class="mb-3">
+
+                        <strong>
+                            Job Type
+                        </strong>
+
+                        <div class="text-muted">
+                            @Model.Job.JobType
+                        </div>
+
+                    </div>
+
+                    <a asp-controller="Jobs"
+                       asp-action="Details"
+                       asp-route-id="@Model.JobId"
+                       class="btn btn-outline-primary w-100">
+                        View Job
+                    </a>
+
+                </div>
+
+            </div>
+
+            @if (Model.Status !=
+                 CareerLink.Models.Enums.ApplicationStatus.Withdrawn &&
+                Model.Status !=
+                 CareerLink.Models.Enums.ApplicationStatus.Selected &&
+                Model.Status !=
+                 CareerLink.Models.Enums.ApplicationStatus.Rejected)
+            {
+                <div class="card shadow-sm">
+
+                    <div class="card-body">
+
+                        <h5 class="fw-bold">
+                            Application Actions
+                        </h5>
+
+                        <p class="text-muted">
+                            You can withdraw this application if you no
+                            longer wish to be considered for the position.
+                        </p>
+
+                        <form asp-action="Withdraw"
+                              asp-route-id="@Model.Id"
+                              method="post">
+
+                            @Html.AntiForgeryToken()
+
+                            <button type="submit"
+                                    class="btn btn-outline-danger w-100"
+                                    onclick="return confirm('Are you sure you want to withdraw this application?');">
+                                Withdraw Application
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>

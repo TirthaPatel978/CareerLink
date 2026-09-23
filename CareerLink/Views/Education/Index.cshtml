@@ -1,0 +1,122 @@
+﻿@model IEnumerable<CareerLink.ViewModels.EducationViewModel>
+
+@{
+    ViewData["Title"] = "My Education";
+}
+
+<div class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="fw-bold">My Education</h1>
+            <p class="text-muted mb-0">
+                Add and manage your educational qualifications.
+            </p>
+        </div>
+
+        <a asp-action="Create"
+           class="btn btn-primary">
+            + Add Education
+        </a>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show">
+            @TempData["SuccessMessage"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+            </button>
+        </div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="card shadow-sm">
+            <div class="card-body text-center py-5">
+
+                <h4>No education records yet</h4>
+
+                <p class="text-muted">
+                    Add your educational background to improve your profile.
+                </p>
+
+                <a asp-action="Create"
+                   class="btn btn-primary">
+                    Add Your First Education
+                </a>
+
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+
+            @foreach (var education in Model)
+            {
+                <div class="col-md-6">
+
+                    <div class="card shadow-sm h-100">
+
+                        <div class="card-body">
+
+                            <h4 class="card-title">
+                                @education.Degree
+                            </h4>
+
+                            <h6 class="text-primary mb-3">
+                                @education.FieldOfStudy
+                            </h6>
+
+                            <p class="mb-2">
+                                <strong>Institution:</strong>
+                                @education.Institution
+                            </p>
+
+                            <p class="mb-2">
+                                <strong>Duration:</strong>
+                                @education.StartDate.ToString("MMM yyyy")
+                                -
+                                @(education.EndDate.HasValue
+                                    ? education.EndDate.Value.ToString("MMM yyyy")
+                                    : "Present")
+                            </p>
+
+                            @if (!string.IsNullOrWhiteSpace(education.Grade))
+                            {
+                                <p class="mb-3">
+                                    <strong>Grade:</strong>
+                                    @education.Grade
+                                </p>
+                            }
+
+                            <div class="d-flex gap-2">
+
+                                <a asp-action="Edit"
+                                   asp-route-id="@education.Id"
+                                   class="btn btn-outline-primary btn-sm">
+                                    Edit
+                                </a>
+
+                                <a asp-action="Delete"
+                                   asp-route-id="@education.Id"
+                                   class="btn btn-outline-danger btn-sm">
+                                    Delete
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    }
+
+</div>

@@ -1,0 +1,163 @@
+﻿@model IEnumerable<CareerLink.ViewModels.CertificationViewModel>
+
+@{
+    ViewData["Title"] = "Certifications";
+}
+
+<div class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h1 class="fw-bold">
+                Certifications
+            </h1>
+
+            <p class="text-muted mb-0">
+                Manage your professional certifications.
+            </p>
+
+        </div>
+
+        <a asp-action="Create"
+           class="btn btn-primary">
+            Add Certification
+        </a>
+
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="card shadow-sm">
+
+            <div class="card-body text-center py-5">
+
+                <h5>
+                    No certifications added yet.
+                </h5>
+
+                <p class="text-muted">
+                    Add professional certifications
+                    that strengthen your profile.
+                </p>
+
+                <a asp-action="Create"
+                   class="btn btn-primary">
+                    Add Certification
+                </a>
+
+            </div>
+
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+
+            @foreach (var item in Model)
+            {
+                <div class="col-md-6">
+
+                    <div class="card shadow-sm h-100">
+
+                        <div class="card-body">
+
+                            <div class="d-flex justify-content-between">
+
+                                <span class="badge bg-primary">
+                                    Certification
+                                </span>
+
+                                <div class="d-flex gap-2">
+
+                                    <a asp-action="Edit"
+                                       asp-route-id="@item.Id"
+                                       class="btn btn-outline-primary btn-sm">
+                                        Edit
+                                    </a>
+
+                                    <a asp-action="Delete"
+                                       asp-route-id="@item.Id"
+                                       class="btn btn-outline-danger btn-sm">
+                                        Delete
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                            <h4 class="fw-bold mt-3">
+                                @item.Name
+                            </h4>
+
+                            @if (!string.IsNullOrWhiteSpace(
+                                item.IssuingOrganization))
+                            {
+                                <p class="text-muted mb-2">
+                                    Issued by
+                                    <strong>
+                                        @item.IssuingOrganization
+                                    </strong>
+                                </p>
+                            }
+
+                            <p class="mb-2">
+
+                                <strong>
+                                    Issue Date:
+                                </strong>
+
+                                @item.IssueDate.ToString("dd MMM yyyy")
+
+                            </p>
+
+                            @if (item.ExpiryDate.HasValue)
+                            {
+                                <p class="mb-2">
+
+                                    <strong>
+                                        Expiry Date:
+                                    </strong>
+
+                                    @item.ExpiryDate.Value
+                                    .ToString("dd MMM yyyy")
+
+                                </p>
+                            }
+                            else
+                            {
+                                <p class="mb-2 text-success">
+                                    No expiry date
+                                </p>
+                            }
+
+                            @if (!string.IsNullOrWhiteSpace(
+                                item.CredentialUrl))
+                            {
+                                <a href="@item.CredentialUrl"
+                                   target="_blank"
+                                   rel="noopener noreferrer"
+                                   class="btn btn-sm btn-outline-secondary mt-2">
+                                    View Credential
+                                </a>
+                            }
+
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    }
+
+</div>

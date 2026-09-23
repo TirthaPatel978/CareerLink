@@ -1,0 +1,146 @@
+﻿@model CareerLink.ViewModels.CertificationViewModel
+
+@{
+    ViewData["Title"] = "Edit Certification";
+}
+
+<div class="container py-4">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="mb-4">
+
+                <h1 class="fw-bold">
+                    Edit Certification
+                </h1>
+
+                <p class="text-muted">
+                    Update your certification information.
+                </p>
+
+            </div>
+
+            <div class="card shadow-sm">
+
+                <div class="card-body p-4">
+
+                    <form asp-action="Edit"
+                          method="post">
+
+                        <input type="hidden"
+                               asp-for="Id" />
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="alert alert-danger">
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="Name"
+                                   class="form-label">
+                            </label>
+
+                            <input asp-for="Name"
+                                   class="form-control" />
+
+                            <span asp-validation-for="Name"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="IssuingOrganization"
+                                   class="form-label">
+                            </label>
+
+                            <input asp-for="IssuingOrganization"
+                                   class="form-control" />
+
+                            <span asp-validation-for="IssuingOrganization"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="IssueDate"
+                                       class="form-label">
+                                </label>
+
+                                <input asp-for="IssueDate"
+                                       class="form-control" />
+
+                                <span asp-validation-for="IssueDate"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="ExpiryDate"
+                                       class="form-label">
+                                </label>
+
+                                <input asp-for="ExpiryDate"
+                                       class="form-control" />
+
+                                <span asp-validation-for="ExpiryDate"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label asp-for="CredentialUrl"
+                                   class="form-label">
+                            </label>
+
+                            <input asp-for="CredentialUrl"
+                                   class="form-control" />
+
+                            <span asp-validation-for="CredentialUrl"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+
+                            <a asp-action="Index"
+                               class="btn btn-secondary">
+                                Cancel
+                            </a>
+
+                            <button type="submit"
+                                    class="btn btn-primary">
+                                Save Changes
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

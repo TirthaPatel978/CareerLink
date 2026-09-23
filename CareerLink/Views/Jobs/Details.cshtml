@@ -1,0 +1,379 @@
+﻿@model CareerLink.ViewModels.JobDetailsViewModel
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="container py-4">
+
+    <div class="mb-3">
+        <a asp-controller="Jobs"
+           asp-action="Index"
+           class="text-decoration-none">
+            ← Back to Jobs
+        </a>
+    </div>
+
+    <div class="row g-4">
+
+        <!-- Main Job Information -->
+        <div class="col-lg-8">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex justify-content-between
+                        align-items-start mb-3">
+
+                        <div>
+
+                            <h1 class="fw-bold mb-2">
+                                @Model.Title
+                            </h1>
+
+                            <h5 class="text-muted">
+                                @Model.CompanyName
+                            </h5>
+
+                        </div>
+
+                        @if (Model.IsRemote)
+                        {
+                            <span class="badge bg-success fs-6">
+                                Remote
+                            </span>
+                        }
+
+                    </div>
+
+                    <div class="mb-4">
+
+                        <span class="badge bg-primary me-2">
+                            @Model.JobType
+                        </span>
+
+                        @if (!string.IsNullOrWhiteSpace(Model.Location))
+                        {
+                            <span class="text-muted me-3">
+                                📍 @Model.Location
+                            </span>
+                        }
+
+                        @if (Model.SalaryMin.HasValue ||
+                             Model.SalaryMax.HasValue)
+                        {
+                            <span class="text-muted">
+                                💰
+
+                                @if (Model.SalaryMin.HasValue &&
+                                     Model.SalaryMax.HasValue)
+                                {
+                                    @($"{Model.SalaryMin:N0} - {Model.SalaryMax:N0}")
+                                }
+                                else if (Model.SalaryMin.HasValue)
+                                {
+                                    @($"From {Model.SalaryMin:N0}")
+                                }
+                                else
+                                {
+                                    @($"Up to {Model.SalaryMax:N0}")
+                                }
+                            </span>
+                        }
+
+                    </div>
+
+                    <hr />
+
+                    <h4 class="mt-4">Job Description</h4>
+
+                    <div class="mb-4">
+                        @Html.Raw(
+                            Model.Description
+                                .Replace("\n", "<br />"))
+                    </div>
+
+                    <h4>Requirements</h4>
+
+                    <div class="row mb-4">
+
+                        <div class="col-md-6 mb-3">
+
+                            <div class="card bg-light border-0">
+                                <div class="card-body">
+
+                                    <h6 class="fw-bold">
+                                        Experience
+                                    </h6>
+
+                                    <p class="mb-0">
+                                        @Model.ExperienceRequired years
+                                    </p>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <div class="card bg-light border-0">
+                                <div class="card-body">
+
+                                    <h6 class="fw-bold">
+                                        Education
+                                    </h6>
+
+                                    <p class="mb-0">
+                                        @(string.IsNullOrWhiteSpace(
+                                            Model.EducationRequirement)
+                                            ? "Not specified"
+                                            : Model.EducationRequirement)
+                                    </p>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <h4>Required Skills</h4>
+
+                    @if (Model.Skills.Any())
+                    {
+                        <div class="mb-4">
+
+                            @foreach (var skill in Model.Skills)
+                            {
+                                @if (skill.IsRequired)
+                                {
+                                    <span class="badge bg-danger me-2 mb-2">
+                                        @skill.Name
+                                        <small>(Required)</small>
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary me-2 mb-2">
+                                        @skill.Name
+                                        <small>(Preferred)</small>
+                                    </span>
+                                }
+                            }
+
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-muted">
+                            No specific skills were listed.
+                        </p>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+
+            <div class="card shadow-sm mb-4">
+
+                <div class="card-body">
+
+                    <h5 class="fw-bold mb-3">
+                        Job Information
+                    </h5>
+
+                    <div class="mb-3">
+
+                        <strong>Job Type</strong>
+
+                        <div class="text-muted">
+                            @Model.JobType
+                        </div>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <strong>Location</strong>
+
+                        <div class="text-muted">
+                            @(string.IsNullOrWhiteSpace(Model.Location)
+                                ? "Not specified"
+                                : Model.Location)
+                        </div>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <strong>Experience Required</strong>
+
+                        <div class="text-muted">
+                            @Model.ExperienceRequired years
+                        </div>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <strong>Application Deadline</strong>
+
+                        <div class="text-muted">
+
+                            @if (Model.ApplicationDeadline.HasValue)
+                            {
+                                @(
+                                    Model.ApplicationDeadline.Value
+                                        .ToLocalTime()
+                                        .ToString("dd MMM yyyy")
+                                )
+                            }
+                            else
+                            {
+                                <span>No deadline</span>
+                            }
+
+                        </div>
+
+                    </div>
+
+                    <div>
+
+                        <strong>Posted</strong>
+
+                        <div class="text-muted">
+                            @Model.CreatedAt
+                            .ToLocalTime()
+                            .ToString("dd MMM yyyy")
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Actions -->
+            <div class="card shadow-sm mb-4">
+
+                <div class="card-body">
+
+                    <h5 class="fw-bold mb-3">
+                        Actions
+                    </h5>
+
+                    @if (Model.HasApplied)
+                    {
+                        <a asp-controller="Applications"
+                           asp-action="Details"
+                           asp-route-id="@Model.Id"
+                           class="btn btn-success w-100 mb-2">
+                            ✓ View Application
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Applications"
+                           asp-action="Create"
+                           asp-route-jobId="@Model.Id"
+                           class="btn btn-primary w-100 mb-2">
+                            Apply for Job
+                        </a>
+                    }
+
+                    @if (Model.IsSaved)
+                    {
+                        <form asp-controller="SavedJobs"
+                              asp-action="Remove"
+                              method="post">
+
+                            @Html.AntiForgeryToken()
+
+                            <input type="hidden"
+                                   name="jobId"
+                                   value="@Model.Id" />
+
+                            <button type="submit"
+                                    class="btn btn-outline-danger w-100">
+                                ★ Remove from Saved Jobs
+                            </button>
+
+                        </form>
+                    }
+                    else
+                    {
+                        <form asp-controller="SavedJobs"
+                              asp-action="Save"
+                              method="post">
+
+                            @Html.AntiForgeryToken()
+
+                            <input type="hidden"
+                                   name="jobId"
+                                   value="@Model.Id" />
+
+                            <button type="submit"
+                                    class="btn btn-outline-primary w-100">
+                                ☆ Save Job
+                            </button>
+
+                        </form>
+                    }
+
+                </div>
+
+            </div>
+
+            <!-- Company -->
+            <div class="card shadow-sm">
+
+                <div class="card-body">
+
+                    <h5 class="fw-bold mb-3">
+                        About @Model.CompanyName
+                    </h5>
+
+                    @if (!string.IsNullOrWhiteSpace(
+                        Model.CompanyDescription))
+                    {
+                        <p>
+                            @Model.CompanyDescription
+                        </p>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(
+                        Model.CompanyLocation))
+                    {
+                        <p class="mb-2">
+                            📍 @Model.CompanyLocation
+                        </p>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(
+                        Model.CompanyWebsite))
+                    {
+                        <p class="mb-0">
+                            <a href="@Model.CompanyWebsite"
+                               target="_blank"
+                               rel="noopener noreferrer">
+                                Visit Company Website
+                            </a>
+                        </p>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
