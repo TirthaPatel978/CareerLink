@@ -1,0 +1,324 @@
+﻿@model CareerLink.ViewModels.JobMatchViewModel
+
+@{
+    ViewData["Title"] = "Job Match";
+}
+
+<div class="container py-4">
+
+    <div class="mb-3">
+
+        <a asp-controller="Jobs"
+           asp-action="Details"
+           asp-route-id="@Model.JobId"
+           class="text-decoration-none">
+            ← Back to Job
+        </a>
+
+    </div>
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-9">
+
+            <!-- Header -->
+            <div class="card shadow-sm mb-4">
+
+                <div class="card-body text-center p-4">
+
+                    <h1 class="fw-bold mb-2">
+                        Your Job Match
+                    </h1>
+
+                    <h4 class="text-muted">
+                        @Model.JobTitle
+                    </h4>
+
+                    <p class="text-muted">
+                        @Model.CompanyName
+                    </p>
+
+                    <div class="my-4">
+
+                        <div class="display-3 fw-bold">
+                            @Model.TotalScore.ToString("0.##")
+                        </div>
+
+                        <div class="text-muted">
+                            out of 100
+                        </div>
+
+                    </div>
+
+                    <p class="text-muted mb-0">
+                        This score is calculated using CareerLink's
+                        rule-based matching system.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- Score Breakdown -->
+            <div class="card shadow-sm mb-4">
+
+                <div class="card-body p-4">
+
+                    <h4 class="fw-bold mb-4">
+                        Match Breakdown
+                    </h4>
+
+                    <!-- Skills -->
+                    <div class="mb-4">
+
+                        <div class="d-flex justify-content-between mb-2">
+
+                            <strong>
+                                Skills
+                            </strong>
+
+                            <span>
+                                @Model.SkillScore.ToString("0.##")
+                                /
+                                @Model.SkillWeight.ToString("0.##")
+                            </span>
+
+                        </div>
+
+                        <div class="progress"
+                             role="progressbar">
+
+                            @{
+                                var skillPercentage =
+                                    Model.SkillWeight > 0
+                                        ? (double)(
+                                            Model.SkillScore /
+                                            Model.SkillWeight * 100)
+                                        : 0;
+                            }
+
+                            <div class="progress-bar"
+                                 style="width: @skillPercentage%">
+                            </div>
+
+                        </div>
+
+                        <small class="text-muted">
+                            @Model.MatchedSkills of
+                            @Model.TotalJobSkills
+                            job skills matched.
+                        </small>
+
+                    </div>
+
+                    <!-- Education -->
+                    <div class="mb-4">
+
+                        <div class="d-flex justify-content-between mb-2">
+
+                            <strong>
+                                Education
+                            </strong>
+
+                            <span>
+                                @Model.EducationScore.ToString("0.##")
+                                /
+                                @Model.EducationWeight.ToString("0.##")
+                            </span>
+
+                        </div>
+
+                        <div class="progress">
+
+                            @{
+                                var educationPercentage =
+                                    Model.EducationWeight > 0
+                                        ? (double)(
+                                            Model.EducationScore /
+                                            Model.EducationWeight * 100)
+                                        : 0;
+                            }
+
+                            <div class="progress-bar"
+                                 style="width: @educationPercentage%">
+                            </div>
+
+                        </div>
+
+                        <small class="text-muted">
+                            @Model.EducationExplanation
+                        </small>
+
+                    </div>
+
+                    <!-- Experience -->
+                    <div class="mb-4">
+
+                        <div class="d-flex justify-content-between mb-2">
+
+                            <strong>
+                                Experience
+                            </strong>
+
+                            <span>
+                                @Model.ExperienceScore.ToString("0.##")
+                                /
+                                @Model.ExperienceWeight.ToString("0.##")
+                            </span>
+
+                        </div>
+
+                        <div class="progress">
+
+                            @{
+                                var experiencePercentage =
+                                    Model.ExperienceWeight > 0
+                                        ? (double)(
+                                            Model.ExperienceScore /
+                                            Model.ExperienceWeight * 100)
+                                        : 0;
+                            }
+
+                            <div class="progress-bar"
+                                 style="width: @experiencePercentage%">
+                            </div>
+
+                        </div>
+
+                        <small class="text-muted">
+                            @Model.ExperienceExplanation
+                        </small>
+
+                    </div>
+
+                    <!-- Location -->
+                    <div>
+
+                        <div class="d-flex justify-content-between mb-2">
+
+                            <strong>
+                                Location
+                            </strong>
+
+                            <span>
+                                @Model.LocationScore.ToString("0.##")
+                                /
+                                @Model.LocationWeight.ToString("0.##")
+                            </span>
+
+                        </div>
+
+                        <div class="progress">
+
+                            @{
+                                var locationPercentage =
+                                    Model.LocationWeight > 0
+                                        ? (double)(
+                                            Model.LocationScore /
+                                            Model.LocationWeight * 100)
+                                        : 0;
+                            }
+
+                            <div class="progress-bar"
+                                 style="width: @locationPercentage%">
+                            </div>
+
+                        </div>
+
+                        <small class="text-muted">
+                            @Model.LocationExplanation
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Skills Details -->
+            <div class="row g-4">
+
+                <div class="col-md-6">
+
+                    <div class="card shadow-sm h-100">
+
+                        <div class="card-body">
+
+                            <h5 class="fw-bold mb-3">
+                                Matched Skills
+                            </h5>
+
+                            @if (Model.MatchedSkillNames.Any())
+                            {
+                                @foreach (var skill in
+                                    Model.MatchedSkillNames)
+                                {
+                                    <span class="badge bg-success me-1 mb-2">
+                                        @skill
+                                    </span>
+                                }
+                            }
+                            else
+                            {
+                                <p class="text-muted mb-0">
+                                    No matching skills found.
+                                </p>
+                            }
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <div class="card shadow-sm h-100">
+
+                        <div class="card-body">
+
+                            <h5 class="fw-bold mb-3">
+                                Missing Skills
+                            </h5>
+
+                            @if (Model.MissingSkillNames.Any())
+                            {
+                                @foreach (var skill in
+                                    Model.MissingSkillNames)
+                                {
+                                    <span class="badge bg-danger me-1 mb-2">
+                                        @skill
+                                    </span>
+                                }
+                            }
+                            else
+                            {
+                                <p class="text-success mb-0">
+                                    You have all the listed skills.
+                                </p>
+                            }
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="text-center mt-4">
+
+                <a asp-controller="Jobs"
+                   asp-action="Details"
+                   asp-route-id="@Model.JobId"
+                   class="btn btn-primary">
+                    Back to Job
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

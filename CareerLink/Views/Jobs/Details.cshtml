@@ -287,7 +287,12 @@
                             Apply for Job
                         </a>
                     }
-
+                    <a asp-controller="Jobs"
+                       asp-action="Match"
+                       asp-route-id="@Model.Id"
+                       class="btn btn-outline-success w-100 mb-2">
+                        Check My Match
+                    </a>
                     @if (Model.IsSaved)
                     {
                         <form asp-controller="SavedJobs"

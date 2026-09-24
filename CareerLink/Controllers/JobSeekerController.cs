@@ -21,7 +21,84 @@ namespace CareerLink.Controllers
             _context = context;
             _userManager = userManager;
         }
+        [Authorize(Roles = "JobSeeker")]
+        [HttpGet]
+        public async Task<IActionResult> Dashboard()
+        {
+            var user = await _userManager.GetUserAsync(User);
 
+            if (user == null)
+            {
+                return Challenge();
+            }
+
+            var jobSeeker = await _context.JobSeekers
+                .Include(x => x.Skills)
+                .Include(x => x.Educations)
+                .Include(x => x.Experiences)
+                .Include(x => x.Projects)
+                .Include(x => x.Certifications)
+                .FirstOrDefaultAsync(x =>
+                    x.ApplicationUserId == user.Id);
+
+            if (jobSeeker == null)
+            {
+                return NotFound(
+                    "Job Seeker profile was not found.");
+            }
+
+            var savedJobCount = await _context.SavedJobs
+                .CountAsync(x =>
+                    x.JobSeekerId == jobSeeker.Id);
+
+            var applicationCount = await _context.Applications
+                .CountAsync(x =>
+                    x.JobSeekerId == jobSeeker.Id);
+
+            var recentJobs = await _context.Jobs
+                .Include(x => x.Company)
+                .Where(x => x.IsActive)
+                .Where(x =>
+                    !x.ApplicationDeadline.HasValue ||
+                    x.ApplicationDeadline.Value >= DateTime.UtcNow)
+                .OrderByDescending(x => x.CreatedAt)
+                .Take(5)
+                .Select(x => new JobListItemViewModel
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    CompanyName = x.Company.Name,
+                    Location = x.Location,
+                    JobType = x.JobType,
+                    SalaryMin = x.SalaryMin,
+                    SalaryMax = x.SalaryMax,
+                    IsRemote = x.IsRemote,
+                    ApplicationDeadline = x.ApplicationDeadline,
+                    CreatedAt = x.CreatedAt
+                })
+                .ToListAsync();
+
+            var model = new JobSeekerDashboardViewModel
+            {
+                FullName = user.FullName,
+                ProfessionalTitle = jobSeeker.ProfessionalTitle,
+                Location = jobSeeker.Location,
+                Summary = jobSeeker.Summary,
+
+                SkillCount = jobSeeker.Skills.Count,
+                EducationCount = jobSeeker.Educations.Count,
+                ExperienceCount = jobSeeker.Experiences.Count,
+                ProjectCount = jobSeeker.Projects.Count,
+                CertificationCount = jobSeeker.Certifications.Count,
+
+                SavedJobCount = savedJobCount,
+                ApplicationCount = applicationCount,
+
+                RecentJobs = recentJobs
+            };
+
+            return View(model);
+        }
         // GET: /JobSeeker/Profile
         [HttpGet]
         public async Task<IActionResult> Profile()
