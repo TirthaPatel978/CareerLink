@@ -1,8 +1,993 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model CareerLink.ViewModels.HomeViewModel
+
+@{
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="cl-home">
+
+
+    <!-- =====================================================
+         HERO
+         ===================================================== -->
+
+    <section class="cl-hero">
+
+        <div class="container">
+
+            <div class="row align-items-center g-5">
+
+
+                <!-- HERO CONTENT -->
+
+                <div class="col-lg-7">
+
+                    <div class="cl-hero-content">
+
+
+                        <div class="cl-eyebrow">
+
+                            <i class="bi bi-stars"></i>
+
+                            Careers and talent, connected.
+
+                        </div>
+
+
+                        <h1>
+
+                            Find opportunities.
+                            <br />
+
+                            <span>Build what's next.</span>
+
+                        </h1>
+
+
+                        <p class="cl-hero-description">
+
+                            CareerLink brings job seekers and employers
+                            together through one professional platform
+                            for discovering opportunities, building
+                            careers and finding talent.
+
+                        </p>
+
+
+                        <div class="cl-hero-actions">
+
+
+                            <a asp-controller="Jobs"
+                               asp-action="Index"
+                               class="cl-hero-primary">
+
+                                Find Jobs
+
+                                <i class="bi bi-arrow-right"></i>
+
+                            </a>
+
+
+                            <a href="#for-employers"
+                               class="cl-hero-secondary">
+
+                                I'm Hiring
+
+                                <i class="bi bi-arrow-right"></i>
+
+                            </a>
+
+                        </div>
+
+
+                        <div class="cl-hero-note">
+
+                            <i class="bi bi-shield-check"></i>
+
+                            Professional profiles
+                            ·
+                            Transparent matching
+                            ·
+                            Simple hiring
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+                <!-- HERO VISUAL -->
+
+                <div class="col-lg-5">
+
+                    <div class="cl-hero-visual">
+
+
+                        <div class="cl-hero-orbit"></div>
+
+
+                        <div class="cl-hero-card">
+
+
+                            <div class="cl-hero-card-top">
+
+
+                                <div class="cl-hero-card-icon">
+
+                                    <i class="bi bi-briefcase"></i>
+
+                                </div>
+
+
+                                <div>
+
+                                    <div class="cl-hero-card-label">
+                                        Featured opportunity
+                                    </div>
+
+                                    <div class="cl-hero-card-title">
+                                        Software Developer
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="cl-hero-card-line"></div>
+
+
+                            <div class="cl-hero-card-details">
+
+
+                                <span class="cl-mini-detail">
+
+                                    <i class="bi bi-geo-alt"></i>
+
+                                    Ahmedabad
+
+                                </span>
+
+
+                                <span class="cl-mini-detail">
+
+                                    <i class="bi bi-clock"></i>
+
+                                    Full Time
+
+                                </span>
+
+
+                            </div>
+
+
+                            <div class="cl-skill-row">
+
+
+                                <span class="cl-skill-pill">
+                                    ASP.NET
+                                </span>
+
+
+                                <span class="cl-skill-pill">
+                                    C#
+                                </span>
+
+
+                                <span class="cl-skill-pill">
+                                    SQL
+                                </span>
+
+
+                            </div>
+
+
+                            <div class="cl-match-box">
+
+
+                                <span class="cl-match-score">
+                                    88%
+                                </span>
+
+
+                                <span>
+                                    Transparent compatibility
+                                    based on your profile.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         TWO SIDES
+         ===================================================== -->
+
+    <section class="cl-section cl-section-soft">
+
+        <div class="container">
+
+
+            <div class="cl-section-heading">
+
+
+                <div class="cl-section-label">
+                    One platform
+                </div>
+
+
+                <h2>
+                    Built for both sides of the job market.
+                </h2>
+
+
+                <p>
+                    Whether you're looking for your next opportunity
+                    or the right person for your team, CareerLink
+                    gives you the tools to move forward.
+                </p>
+
+            </div>
+
+
+            <div class="row g-4">
+
+
+                <!-- JOB SEEKERS -->
+
+                <div class="col-lg-6">
+
+                    <div class="cl-side-card">
+
+
+                        <div class="cl-side-icon">
+
+                            <i class="bi bi-person-workspace"></i>
+
+                        </div>
+
+
+                        <h3>
+                            For Job Seekers
+                        </h3>
+
+
+                        <p>
+
+                            Build a professional profile, discover
+                            relevant opportunities and manage your
+                            career journey from one place.
+
+                        </p>
+
+
+                        <ul class="cl-feature-list">
+
+
+                            <li>
+                                <i class="bi bi-check2"></i>
+                                Build your professional profile
+                            </li>
+
+
+                            <li>
+                                <i class="bi bi-check2"></i>
+                                Discover and filter job opportunities
+                            </li>
+
+
+                            <li>
+                                <i class="bi bi-check2"></i>
+                                Save jobs for later
+                            </li>
+
+
+                            <li>
+                                <i class="bi bi-check2"></i>
+                                Track your applications
+                            </li>
+
+
+                            <li>
+                                <i class="bi bi-check2"></i>
+                                Understand your job compatibility
+                            </li>
+
+
+                        </ul>
+
+
+                        <a asp-controller="Jobs"
+                           asp-action="Index"
+                           class="cl-text-link">
+
+                            Explore opportunities
+
+                            <i class="bi bi-arrow-right"></i>
+
+                        </a>
+
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- EMPLOYERS -->
+
+                <div class="col-lg-6">
+
+                    <div class="cl-side-card">
+
+
+                        <div class="cl-side-icon">
+
+                            <i class="bi bi-building"></i>
+
+                        </div>
+
+
+                        <h3>
+                            For Employers
+                        </h3>
+
+
+                        <p>
+
+                            Create your company presence, publish
+                            opportunities and manage candidates through
+                            a professional hiring workflow.
+
+                        </p>
+
+
+                        <ul class="cl-feature-list">
+
+
+                            <li>
+                                <i class="bi bi-check2"></i>
+                                Create your company profile
+                            </li>
+
+
+                            <li>
+                                <i class="bi bi-check2"></i>
+                                Publish job openings
+                            </li>
+
+
+                            <li>
+                                <i class="bi bi-check2"></i>
+                                Manage applicants
+                            </li>
+
+
+                            <li>
+                                <i class="bi bi-check2"></i>
+                                Shortlist and review candidates
+                            </li>
+
+
+                            <li>
+                                <i class="bi bi-check2"></i>
+                                Schedule interviews
+                            </li>
+
+
+                        </ul>
+
+
+                        <a href="#for-employers"
+                           class="cl-text-link">
+
+                            Find talent
+
+                            <i class="bi bi-arrow-right"></i>
+
+                        </a>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         FEATURED OPPORTUNITIES
+         ===================================================== -->
+
+    <section class="cl-section">
+
+        <div class="container">
+
+
+            <div class="cl-section-heading">
+
+
+                <div class="cl-section-label">
+                    Opportunities
+                </div>
+
+
+                <h2>
+                    Featured opportunities
+                </h2>
+
+
+                <p>
+                    Explore some of the latest opportunities
+                    available through CareerLink.
+                </p>
+
+            </div>
+
+
+            @if (Model.FeaturedJobs.Any())
+            {
+
+                <div class="row g-4">
+
+
+                    @foreach (var job in Model.FeaturedJobs)
+                    {
+
+                        <div class="col-lg-4">
+
+
+                            <div class="cl-job-card">
+
+
+                                <div class="cl-job-company">
+
+
+                                    <div class="cl-company-avatar">
+
+                                        @if (!string.IsNullOrWhiteSpace(job.CompanyName))
+                                        {
+                                            @job.CompanyName.Substring(0, 1).ToUpper()
+                                        }
+                                        else
+                                        {
+                                            <i class="bi bi-building"></i>
+                                        }
+
+                                    </div>
+
+
+                                    <div class="cl-company-name">
+
+                                        @job.CompanyName
+
+                                    </div>
+
+
+                                </div>
+
+
+                                <h3>
+                                    @job.Title
+                                </h3>
+
+
+                                <div class="cl-job-meta">
+
+
+                                    <span>
+
+                                        <i class="bi bi-geo-alt"></i>
+
+                                        @(job.IsRemote
+                                            ? "Remote"
+                                            : job.Location
+                                                ?? "Location not specified")
+
+                                    </span>
+
+
+                                    <span>
+
+                                        <i class="bi bi-clock"></i>
+
+                                        @job.JobType
+
+                                    </span>
+
+
+                                </div>
+
+
+                                @if (job.Skills.Any())
+                                {
+
+                                    <div class="cl-job-skills">
+
+                                        @foreach (var skill in job.Skills)
+                                        {
+
+                                            <span class="cl-job-skill">
+                                                @skill
+                                            </span>
+
+                                        }
+
+                                    </div>
+
+                                }
+
+
+                                <div class="cl-job-footer">
+
+
+                                    <span class="cl-job-type">
+
+
+                                        @if (job.SalaryMin.HasValue ||
+                                             job.SalaryMax.HasValue)
+                                        {
+
+                                            @if (job.SalaryMin.HasValue &&
+                                                 job.SalaryMax.HasValue)
+                                            {
+
+                                                @($"{job.SalaryMin.Value:N0} – {job.SalaryMax.Value:N0}")
+
+                                            }
+                                            else if (job.SalaryMin.HasValue)
+                                            {
+
+                                                @($"From {job.SalaryMin.Value:N0}")
+
+                                            }
+                                            else
+                                            {
+
+                                                @($"Up to {job.SalaryMax!.Value:N0}")
+
+                                            }
+
+                                        }
+                                        else
+                                        {
+
+                                            <span>
+                                                Salary not specified
+                                            </span>
+
+                                        }
+
+
+                                    </span>
+
+
+                                    <a asp-controller="Jobs"
+                                       asp-action="Details"
+                                       asp-route-id="@job.Id"
+                                       class="cl-job-link">
+
+                                        View job
+
+                                        <i class="bi bi-arrow-right"></i>
+
+                                    </a>
+
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+                    }
+
+
+                </div>
+
+
+                <div class="text-center mt-4">
+
+                    <a asp-controller="Jobs"
+                       asp-action="Index"
+                       class="cl-text-link">
+
+                        View all opportunities
+
+                        <i class="bi bi-arrow-right"></i>
+
+                    </a>
+
+                </div>
+
+            }
+            else
+            {
+
+                <div class="cl-empty-jobs">
+
+
+                    <i class="bi bi-briefcase fs-4 d-block mb-2"></i>
+
+
+                    <div>
+
+                        New opportunities will appear here
+                        as employers begin posting jobs.
+
+                    </div>
+
+
+                </div>
+
+            }
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         HOW IT WORKS
+         ===================================================== -->
+
+    <section id="how-it-works"
+             class="cl-section cl-section-soft">
+
+        <div class="container">
+
+
+            <div class="cl-section-heading">
+
+
+                <div class="cl-section-label">
+                    How it works
+                </div>
+
+
+                <h2>
+                    Simple for everyone.
+                </h2>
+
+
+                <p>
+
+                    CareerLink keeps the journey straightforward
+                    for both job seekers and employers.
+
+                </p>
+
+
+            </div>
+
+
+            <div class="row g-4">
+
+
+                <div class="col-md-4">
+
+                    <div class="cl-step">
+
+
+                        <div class="cl-step-number">
+                            01
+                        </div>
+
+
+                        <h3>
+                            Build your profile
+                        </h3>
+
+
+                        <p>
+
+                            Job seekers can showcase their skills,
+                            education, experience, projects and
+                            certifications.
+
+                        </p>
+
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <div class="cl-step">
+
+
+                        <div class="cl-step-number">
+                            02
+                        </div>
+
+
+                        <h3>
+                            Discover opportunities
+                        </h3>
+
+
+                        <p>
+
+                            Explore relevant jobs or publish
+                            opportunities when you're looking
+                            for talent.
+
+                        </p>
+
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <div class="cl-step">
+
+
+                        <div class="cl-step-number">
+                            03
+                        </div>
+
+
+                        <h3>
+                            Connect and move forward
+                        </h3>
+
+
+                        <p>
+
+                            Manage applications, candidates,
+                            interviews and the next stage of
+                            your career journey.
+
+                        </p>
+
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         MATCHING
+         ===================================================== -->
+
+    <section class="cl-section cl-matching-section">
+
+        <div class="container">
+
+
+            <div class="cl-matching-card">
+
+
+                <div class="row align-items-center g-4">
+
+
+                    <div class="col-lg-8">
+
+
+                        <div class="cl-matching-content">
+
+
+                            <div class="cl-section-label">
+                                Transparent matching
+                            </div>
+
+
+                            <h2>
+
+                                Understand why an opportunity
+                                fits your profile.
+
+                            </h2>
+
+
+                            <p>
+
+                                CareerLink uses a transparent,
+                                rule-based compatibility score
+                                based on factors such as skills,
+                                education, experience and location.
+
+                            </p>
+
+
+                            <div class="cl-match-breakdown">
+
+
+                                <div class="cl-match-item">
+
+                                    <strong>
+                                        50%
+                                    </strong>
+
+                                    <span>
+                                        Skills
+                                    </span>
+
+                                </div>
+
+
+                                <div class="cl-match-item">
+
+                                    <strong>
+                                        20%
+                                    </strong>
+
+                                    <span>
+                                        Education
+                                    </span>
+
+                                </div>
+
+
+                                <div class="cl-match-item">
+
+                                    <strong>
+                                        20%
+                                    </strong>
+
+                                    <span>
+                                        Experience
+                                    </span>
+
+                                </div>
+
+
+                                <div class="cl-match-item">
+
+                                    <strong>
+                                        10%
+                                    </strong>
+
+                                    <span>
+                                        Location
+                                    </span>
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-lg-4">
+
+
+                        <div class="text-center">
+
+
+                            <div class="cl-match-score mx-auto mb-3">
+
+                                88%
+
+                            </div>
+
+
+                            <div class="fw-semibold mb-1">
+
+                                Example compatibility
+
+                            </div>
+
+
+                            <div class="text-muted small">
+
+                                Based on profile requirements
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         EMPLOYER CTA
+         ===================================================== -->
+
+    <section id="for-employers"
+             class="cl-employer-cta">
+
+        <div class="container">
+
+
+            <div class="cl-employer-box">
+
+
+                <div class="cl-employer-content">
+
+
+                    <div class="cl-section-label">
+                        For employers
+                    </div>
+
+
+                    <h2>
+                        Build your team with CareerLink.
+                    </h2>
+
+
+                    <p>
+
+                        Create your company presence, publish
+                        opportunities and manage your hiring
+                        workflow from one professional platform.
+
+                    </p>
+
+
+                    <a asp-area="Identity"
+                       asp-page="/Account/Register"
+                       class="cl-hero-primary">
+
+                        Create an employer account
+
+                        <i class="bi bi-arrow-right"></i>
+
+                    </a>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
 </div>

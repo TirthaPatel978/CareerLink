@@ -1,0 +1,280 @@
+﻿@model CareerLink.ViewModels.ResumeViewModel
+
+@{
+    ViewData["Title"] = "My Resume";
+}
+
+<div class="container py-5">
+
+    <div class="page-header mb-4">
+        <div>
+            <span class="section-eyebrow">PROFILE</span>
+
+            <h1 class="page-title">
+                My Resume
+            </h1>
+
+            <p class="page-subtitle">
+                Keep your resume up to date so you can use it
+                when applying for opportunities.
+            </p>
+        </div>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success border-0 shadow-sm mb-4">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    <div class="row g-4">
+
+        <div class="col-lg-8">
+
+            <div class="career-card">
+
+                <div class="career-card-header">
+
+                    <div>
+                        <span class="section-eyebrow">
+                            RESUME
+                        </span>
+
+                        <h2 class="h4 mb-1">
+                            Your professional resume
+                        </h2>
+
+                        <p class="text-muted mb-0">
+                            Upload a PDF or DOCX version of your
+                            current resume.
+                        </p>
+                    </div>
+
+                    <div class="resume-icon">
+                        <i class="bi bi-file-earmark-text"></i>
+                    </div>
+
+                </div>
+
+                @if (Model.HasResume)
+                {
+                    <div class="resume-file-card">
+
+                        <div class="resume-file-icon">
+                            <i class="bi bi-file-earmark-pdf"></i>
+                        </div>
+
+                        <div class="resume-file-info">
+
+                            <div class="resume-file-name">
+                                @Model.ExistingFileName
+                            </div>
+
+                            <div class="resume-file-status">
+                                Your current resume
+                            </div>
+
+                        </div>
+
+                        <div class="resume-file-actions">
+
+                            <a asp-controller="Resume"
+                               asp-action="Download"
+                               class="btn btn-outline-primary">
+
+                                <i class="bi bi-eye me-1"></i>
+                                View
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                    <hr class="my-4" />
+
+                    <h3 class="h6 mb-3">
+                        Replace your resume
+                    </h3>
+                }
+                else
+                {
+                    <div class="resume-empty-state mb-4">
+
+                        <div class="resume-empty-icon">
+                            <i class="bi bi-cloud-arrow-up"></i>
+                        </div>
+
+                        <h3 class="h5">
+                            No resume uploaded yet
+                        </h3>
+
+                        <p class="text-muted mb-0">
+                            Upload your resume to keep your
+                            professional profile complete.
+                        </p>
+
+                    </div>
+                }
+
+                <form asp-controller="Resume"
+                      asp-action="Upload"
+                      method="post"
+                      enctype="multipart/form-data">
+
+                    @Html.AntiForgeryToken()
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="text-danger mb-3">
+                    </div>
+
+                    <div class="upload-area">
+
+                        <label asp-for="ResumeFile"
+                               class="form-label fw-semibold">
+
+                            Choose resume
+
+                        </label>
+
+                        <input asp-for="ResumeFile"
+                               type="file"
+                               class="form-control"
+                               accept=".pdf,.docx" />
+
+                        <div class="form-text">
+                            Accepted formats: PDF or DOCX.
+                            Maximum file size: 5 MB.
+                        </div>
+
+                        <span asp-validation-for="ResumeFile"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                    <div class="d-flex gap-2 mt-4">
+
+                        <button type="submit"
+                                class="btn btn-primary">
+
+                            <i class="bi bi-cloud-upload me-1"></i>
+
+                            @(Model.HasResume
+                                ? "Replace Resume"
+                                : "Upload Resume")
+
+                        </button>
+
+                        <a asp-controller="JobSeeker"
+                           asp-action="Profile"
+                           class="btn btn-light">
+
+                            Back to Profile
+
+                        </a>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <div class="career-card resume-tips-card">
+
+                <span class="section-eyebrow">
+                    RESUME TIPS
+                </span>
+
+                <h2 class="h5 mt-2">
+                    Make your resume count
+                </h2>
+
+                <p class="text-muted">
+                    A strong resume makes it easier for employers
+                    to understand your skills and experience.
+                </p>
+
+                <ul class="resume-tips">
+
+                    <li>
+                        <i class="bi bi-check-circle"></i>
+                        Keep your information current.
+                    </li>
+
+                    <li>
+                        <i class="bi bi-check-circle"></i>
+                        Highlight relevant skills.
+                    </li>
+
+                    <li>
+                        <i class="bi bi-check-circle"></i>
+                        Keep your formatting professional.
+                    </li>
+
+                    <li>
+                        <i class="bi bi-check-circle"></i>
+                        Use a clear and readable filename.
+                    </li>
+
+                </ul>
+
+                <div class="resume-security-note">
+
+                    <i class="bi bi-shield-check"></i>
+
+                    <span>
+                        Your resume is stored securely and is
+                        only accessible through your account.
+                    </span>
+
+                </div>
+
+            </div>
+
+            @if (Model.HasResume)
+            {
+                <div class="career-card mt-4">
+
+                    <h2 class="h6">
+                        Manage resume
+                    </h2>
+
+                    <p class="small text-muted">
+                        Remove your current resume if you no
+                        longer want it associated with your profile.
+                    </p>
+
+                    <form asp-controller="Resume"
+                          asp-action="Delete"
+                          method="post"
+                          onsubmit="return confirm('Are you sure you want to remove your resume?');">
+
+                        @Html.AntiForgeryToken()
+
+                        <button type="submit"
+                                class="btn btn-outline-danger btn-sm">
+
+                            <i class="bi bi-trash me-1"></i>
+                            Remove Resume
+
+                        </button>
+
+                    </form>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

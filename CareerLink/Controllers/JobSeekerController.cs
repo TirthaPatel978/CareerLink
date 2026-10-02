@@ -21,7 +21,6 @@ namespace CareerLink.Controllers
             _context = context;
             _userManager = userManager;
         }
-        [Authorize(Roles = "JobSeeker")]
         [HttpGet]
         public async Task<IActionResult> Dashboard()
         {

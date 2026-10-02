@@ -1,0 +1,48 @@
+﻿@if (TempData["SuccessMessage"] != null)
+{
+    <div class="container cl-alert-container">
+
+        <div class="alert alert-success cl-alert"
+             role="alert">
+
+            <i class="bi bi-check-circle-fill"></i>
+
+            <span>
+                @TempData["SuccessMessage"]
+            </span>
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"
+                    aria-label="Close">
+            </button>
+
+        </div>
+
+    </div>
+}
+
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="container cl-alert-container">
+
+        <div class="alert alert-danger cl-alert"
+             role="alert">
+
+            <i class="bi bi-exclamation-circle-fill"></i>
+
+            <span>
+                @TempData["ErrorMessage"]
+            </span>
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"
+                    aria-label="Close">
+            </button>
+
+        </div>
+
+    </div>
+}

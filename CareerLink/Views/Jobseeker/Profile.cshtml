@@ -4,142 +4,504 @@
     ViewData["Title"] = "My Profile";
 }
 
-<div class="container py-4">
+<div class="cl-profile-page">
 
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
+    <!-- =====================================================
+         PROFILE HEADER
+         ===================================================== -->
 
-            <div class="mb-4">
-                <h1 class="fw-bold">My Profile</h1>
-                <p class="text-muted">
-                    Manage your professional information.
-                </p>
-            </div>
+    <section class="cl-profile-header">
 
-            @if (TempData["SuccessMessage"] != null)
-            {
-                <div class="alert alert-success alert-dismissible fade show">
-                    @TempData["SuccessMessage"]
-                    <button type="button"
-                            class="btn-close"
-                            data-bs-dismiss="alert"></button>
-                </div>
-            }
+        <div class="container">
 
-            <div asp-validation-summary="ModelOnly"
-                 class="alert alert-danger">
-            </div>
+            <div class="cl-profile-header-content">
 
-            <div class="card shadow-sm">
-                <div class="card-body p-4">
+                <div>
 
-                    <form asp-action="Profile"
-                          method="post">
+                    <div class="cl-dashboard-eyebrow">
 
-                        <div class="mb-3">
-                            <label asp-for="FullName"
-                                   class="form-label">
-                            </label>
+                        <i class="bi bi-person"></i>
 
-                            <input asp-for="FullName"
-                                   class="form-control" />
+                        Professional Profile
 
-                            <span asp-validation-for="FullName"
-                                  class="text-danger">
-                            </span>
-                        </div>
+                    </div>
 
-                        <div class="mb-3">
-                            <label asp-for="Email"
-                                   class="form-label">
-                            </label>
+                    <h1>
+                        My Profile
+                    </h1>
 
-                            <input asp-for="Email"
-                                   class="form-control"
-                                   readonly />
-
-                            <div class="form-text">
-                                Your email is managed by your Identity account.
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="ProfessionalTitle"
-                                   class="form-label">
-                            </label>
-
-                            <input asp-for="ProfessionalTitle"
-                                   class="form-control"
-                                   placeholder="e.g. Software Developer" />
-
-                            <span asp-validation-for="ProfessionalTitle"
-                                  class="text-danger">
-                            </span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="Summary"
-                                   class="form-label">
-                            </label>
-
-                            <textarea asp-for="Summary"
-                                      class="form-control"
-                                      rows="5"
-                                      placeholder="Tell employers about yourself...">
-                            </textarea>
-
-                            <span asp-validation-for="Summary"
-                                  class="text-danger">
-                            </span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="Phone"
-                                   class="form-label">
-                            </label>
-
-                            <input asp-for="Phone"
-                                   class="form-control"
-                                   placeholder="Enter your phone number" />
-
-                            <span asp-validation-for="Phone"
-                                  class="text-danger">
-                            </span>
-                        </div>
-
-                        <div class="mb-4">
-                            <label asp-for="Location"
-                                   class="form-label">
-                            </label>
-
-                            <input asp-for="Location"
-                                   class="form-control"
-                                   placeholder="e.g. Ahmedabad, Gujarat" />
-
-                            <span asp-validation-for="Location"
-                                  class="text-danger">
-                            </span>
-                        </div>
-
-                        <div class="d-flex justify-content-end">
-
-                            <button type="submit"
-                                    class="btn btn-primary px-4">
-                                Save Changes
-                            </button>
-
-                        </div>
-
-                    </form>
+                    <p>
+                        Keep your professional information
+                        accurate and ready for your next opportunity.
+                    </p>
 
                 </div>
+
+
+                <a asp-controller="JobSeeker"
+                   asp-action="Dashboard"
+                   class="cl-profile-back">
+
+                    <i class="bi bi-arrow-left"></i>
+
+                    Back to Dashboard
+
+                </a>
+
             </div>
 
         </div>
-    </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         PROFILE CONTENT
+         ===================================================== -->
+
+    <section class="cl-profile-main">
+
+        <div class="container">
+
+            <div class="row g-4">
+
+
+                <!-- =================================================
+                     MAIN FORM
+                     ================================================= -->
+
+                <div class="col-lg-8">
+
+
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="cl-profile-success">
+
+                            <div class="cl-success-icon">
+
+                                <i class="bi bi-check-lg"></i>
+
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Profile updated
+                                </strong>
+
+                                <span>
+                                    @TempData["SuccessMessage"]
+                                </span>
+
+                            </div>
+
+                            <button type="button"
+                                    class="btn-close ms-auto"
+                                    data-bs-dismiss="alert">
+                            </button>
+
+                        </div>
+                    }
+
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="cl-validation-summary">
+                    </div>
+
+
+                    <div class="cl-profile-form-card">
+
+                        <div class="cl-card-heading">
+
+                            <div>
+
+                                <div class="cl-small-label">
+                                    PERSONAL INFORMATION
+                                </div>
+
+                                <h2>
+                                    Your information
+                                </h2>
+
+                                <p>
+                                    This information helps employers
+                                    understand who you are.
+                                </p>
+
+                            </div>
+
+                            <div class="cl-card-heading-icon">
+
+                                <i class="bi bi-person-vcard"></i>
+
+                            </div>
+
+                        </div>
+
+
+                        <form asp-action="Profile"
+                              method="post">
+
+                            <div class="row g-4">
+
+
+                                <!-- FULL NAME -->
+
+                                <div class="col-md-6">
+
+                                    <label asp-for="FullName"
+                                           class="cl-form-label">
+                                    </label>
+
+                                    <input asp-for="FullName"
+                                           class="cl-form-control"
+                                           placeholder="Your full name" />
+
+                                    <span asp-validation-for="FullName"
+                                          class="cl-form-error">
+                                    </span>
+
+                                </div>
+
+
+                                <!-- EMAIL -->
+
+                                <div class="col-md-6">
+
+                                    <label asp-for="Email"
+                                           class="cl-form-label">
+                                    </label>
+
+                                    <input asp-for="Email"
+                                           class="cl-form-control"
+                                           readonly />
+
+                                    <div class="cl-form-help">
+
+                                        <i class="bi bi-lock"></i>
+
+                                        Managed by your CareerLink account.
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- PROFESSIONAL TITLE -->
+
+                                <div class="col-12">
+
+                                    <label asp-for="ProfessionalTitle"
+                                           class="cl-form-label">
+                                    </label>
+
+                                    <input asp-for="ProfessionalTitle"
+                                           class="cl-form-control"
+                                           placeholder="e.g. Software Developer, UI Designer, Data Analyst" />
+
+                                    <span asp-validation-for="ProfessionalTitle"
+                                          class="cl-form-error">
+                                    </span>
+
+                                    <div class="cl-form-help">
+
+                                        Use a professional title that
+                                        clearly describes your role.
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- PHONE -->
+
+                                <div class="col-md-6">
+
+                                    <label asp-for="Phone"
+                                           class="cl-form-label">
+                                    </label>
+
+                                    <input asp-for="Phone"
+                                           class="cl-form-control"
+                                           placeholder="Enter your phone number" />
+
+                                    <span asp-validation-for="Phone"
+                                          class="cl-form-error">
+                                    </span>
+
+                                </div>
+
+
+                                <!-- LOCATION -->
+
+                                <div class="col-md-6">
+
+                                    <label asp-for="Location"
+                                           class="cl-form-label">
+                                    </label>
+
+                                    <input asp-for="Location"
+                                           class="cl-form-control"
+                                           placeholder="e.g. Ahmedabad, Gujarat" />
+
+                                    <span asp-validation-for="Location"
+                                          class="cl-form-error">
+                                    </span>
+
+                                </div>
+
+
+                                <!-- SUMMARY -->
+
+                                <div class="col-12">
+
+                                    <label asp-for="Summary"
+                                           class="cl-form-label">
+                                    </label>
+
+                                    <textarea asp-for="Summary"
+                                              class="cl-form-control cl-form-textarea"
+                                              rows="6"
+                                              placeholder="Tell employers about your professional background, strengths, experience and career interests..."></textarea>
+
+                                    <span asp-validation-for="Summary"
+                                          class="cl-form-error">
+                                    </span>
+
+                                    <div class="cl-form-help">
+
+                                        A concise professional summary
+                                        helps employers understand your
+                                        background quickly.
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="cl-form-footer">
+
+                                <a asp-controller="JobSeeker"
+                                   asp-action="Dashboard"
+                                   class="cl-form-cancel">
+
+                                    Cancel
+
+                                </a>
+
+
+                                <button type="submit"
+                                        class="cl-form-save">
+
+                                    <i class="bi bi-check2"></i>
+
+                                    Save Changes
+
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     RIGHT SIDEBAR
+                     ================================================= -->
+
+                <div class="col-lg-4">
+
+
+                    <!-- RESUME -->
+
+                    <div class="cl-profile-side-card cl-resume-card">
+
+                        <div class="cl-profile-side-icon">
+
+                            <i class="bi bi-file-earmark-person"></i>
+
+                        </div>
+
+                        <div class="cl-small-label">
+                            RESUME
+                        </div>
+
+                        <h3>
+                            Your professional resume
+                        </h3>
+
+                        <p>
+                            Keep your latest resume ready for
+                            employers when applying for opportunities.
+                        </p>
+
+
+                        <a asp-controller="Resume"
+                           asp-action="Index"
+                           class="cl-side-action">
+
+                            Manage Resume
+
+                            <i class="bi bi-arrow-right"></i>
+
+                        </a>
+
+                    </div>
+
+
+
+                    <!-- CAREER PROFILE -->
+
+                    <div class="cl-profile-side-card">
+
+                        <div class="cl-small-label">
+                            BUILD YOUR PROFILE
+                        </div>
+
+                        <h3>
+                            Strengthen your profile
+                        </h3>
+
+                        <p>
+                            Add more information to give employers
+                            a clearer picture of your professional
+                            background.
+                        </p>
+
+
+                        <div class="cl-profile-links">
+
+                            <a asp-controller="Skills"
+                               asp-action="Index">
+
+                                <span>
+
+                                    <i class="bi bi-tools"></i>
+
+                                    Skills
+
+                                </span>
+
+                                <i class="bi bi-arrow-up-right"></i>
+
+                            </a>
+
+
+                            <a asp-controller="Education"
+                               asp-action="Index">
+
+                                <span>
+
+                                    <i class="bi bi-mortarboard"></i>
+
+                                    Education
+
+                                </span>
+
+                                <i class="bi bi-arrow-up-right"></i>
+
+                            </a>
+
+
+                            <a asp-controller="Experience"
+                               asp-action="Index">
+
+                                <span>
+
+                                    <i class="bi bi-briefcase"></i>
+
+                                    Experience
+
+                                </span>
+
+                                <i class="bi bi-arrow-up-right"></i>
+
+                            </a>
+
+
+                            <a asp-controller="Projects"
+                               asp-action="Index">
+
+                                <span>
+
+                                    <i class="bi bi-kanban"></i>
+
+                                    Projects
+
+                                </span>
+
+                                <i class="bi bi-arrow-up-right"></i>
+
+                            </a>
+
+
+                            <a asp-controller="Certification"
+                               asp-action="Index">
+
+                                <span>
+
+                                    <i class="bi bi-award"></i>
+
+                                    Certifications
+
+                                </span>
+
+                                <i class="bi bi-arrow-up-right"></i>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- PROFILE TIP -->
+
+                    <div class="cl-profile-tip">
+
+                        <div class="cl-profile-tip-icon">
+
+                            <i class="bi bi-lightbulb"></i>
+
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Profile tip
+                            </strong>
+
+                            <p>
+                                Keep your profile information
+                                updated as your skills and experience
+                                grow.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
 
 </div>
 
+
 @section Scripts {
+
     <partial name="_ValidationScriptsPartial" />
+
 }

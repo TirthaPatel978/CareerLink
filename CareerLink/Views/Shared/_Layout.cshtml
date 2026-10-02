@@ -1,162 +1,358 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0" />
+
+    <meta name="theme-color"
+          content="#6D4AFF" />
 
     <title>
-        @ViewData["Title"] - CareerLink
+        @(ViewData["Title"] != null
+            ? $"{ViewData["Title"]} · CareerLink"
+            : "CareerLink · Careers and talent, connected")
     </title>
+
+    <meta name="description"
+          content="CareerLink connects job seekers with employers through a professional platform for discovering opportunities, building careers and finding talent." />
+
+
+    <!-- =====================================================
+         GOOGLE FONT
+         ===================================================== -->
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com" />
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin />
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+          rel="stylesheet" />
+
+
+    <!-- =====================================================
+         BOOTSTRAP
+         ===================================================== -->
 
     <link rel="stylesheet"
           href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+
+    <!-- =====================================================
+         BOOTSTRAP ICONS
+         ===================================================== -->
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+
+    <!-- =====================================================
+         CAREERLINK CSS
+         ===================================================== -->
 
     <link rel="stylesheet"
           href="~/css/site.css"
           asp-append-version="true" />
 
-    <link rel="stylesheet"
-          href="~/CareerLink.styles.css"
-          asp-append-version="true" />
 </head>
+
 
 <body>
 
-    <header>
 
-        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <!-- =====================================================
+         NAVIGATION
+         ===================================================== -->
 
-            <div class="container-fluid">
+    <header class="cl-navbar-wrapper">
 
-                <!-- Brand -->
-                <a class="navbar-brand fw-bold"
-                   asp-area=""
+        <nav class="navbar navbar-expand-lg cl-navbar">
+
+            <div class="container cl-navbar-container">
+
+
+                <!-- BRAND -->
+
+                <a class="cl-brand"
                    asp-controller="Home"
                    asp-action="Index">
-                    CareerLink
+
+                    <span class="cl-brand-mark">
+                        <i class="bi bi-stars"></i>
+                    </span>
+
+                    <span class="cl-brand-text">
+                        Career<span>Link</span>
+                    </span>
+
                 </a>
 
-                <!-- Mobile menu button -->
-                <button class="navbar-toggler"
+
+                <!-- MOBILE MENU BUTTON -->
+
+                <button class="navbar-toggler cl-navbar-toggler"
                         type="button"
                         data-bs-toggle="collapse"
-                        data-bs-target=".navbar-collapse"
-                        aria-controls="navbarSupportedContent"
+                        data-bs-target="#careerLinkNavbar"
+                        aria-controls="careerLinkNavbar"
                         aria-expanded="false"
                         aria-label="Toggle navigation">
 
-                    <span class="navbar-toggler-icon"></span>
+                    <i class="bi bi-list"></i>
 
                 </button>
 
-                <!-- Navigation -->
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
 
-                    <ul class="navbar-nav flex-grow-1">
+                <!-- NAVIGATION -->
 
-                        <!-- Home -->
-                        <li class="nav-item">
+                <div class="collapse navbar-collapse"
+                     id="careerLinkNavbar">
 
-                            <a class="nav-link text-dark"
-                               asp-area=""
-                               asp-controller="Home"
-                               asp-action="Index">
-                                Home
-                            </a>
 
-                        </li>
+                    <ul class="navbar-nav mx-auto cl-main-nav">
 
-                        <!-- Job Seeker Navigation -->
-                        @if (User.IsInRole("JobSeeker"))
+
+                        @if (User.Identity?.IsAuthenticated == true)
                         {
+
+                            <!-- =================================
+                                 JOB SEEKER NAVIGATION
+                                 ================================= -->
+
+                            @if (User.IsInRole("JobSeeker"))
+                            {
+
+                                <li class="nav-item">
+
+                                    <a class="nav-link"
+                                       asp-controller="JobSeeker"
+                                       asp-action="Dashboard">
+
+                                        Dashboard
+
+                                    </a>
+
+                                </li>
+
+
+                                <li class="nav-item">
+
+                                    <a class="nav-link"
+                                       asp-controller="Jobs"
+                                       asp-action="Index">
+
+                                        Find Jobs
+
+                                    </a>
+
+                                </li>
+
+
+                                <li class="nav-item">
+
+                                    <a class="nav-link"
+                                       asp-controller="SavedJobs"
+                                       asp-action="Index">
+
+                                        Saved Jobs
+
+                                    </a>
+
+                                </li>
+
+
+                                <li class="nav-item">
+
+                                    <a class="nav-link"
+                                       asp-controller="JobSeeker"
+                                       asp-action="Profile">
+
+                                        Profile
+
+                                    </a>
+
+                                </li>
+
+                            }
+
+
+                            <!-- =================================
+                                 RECRUITER NAVIGATION
+                                 ================================= -->
+
+                            @if (User.IsInRole("Recruiter"))
+                            {
+
+                                <li class="nav-item">
+
+                                    <a class="nav-link"
+                                       href="#">
+
+                                        Dashboard
+
+                                    </a>
+
+                                </li>
+
+
+                                <li class="nav-item">
+
+                                    <a class="nav-link"
+                                       href="#">
+
+                                        My Jobs
+
+                                    </a>
+
+                                </li>
+
+
+                                <li class="nav-item">
+
+                                    <a class="nav-link"
+                                       href="#">
+
+                                        Applicants
+
+                                    </a>
+
+                                </li>
+
+
+                                <li class="nav-item">
+
+                                    <a class="nav-link"
+                                       href="#">
+
+                                        Company
+
+                                    </a>
+
+                                </li>
+
+                            }
+
+
+                            <!-- =================================
+                                 ADMIN NAVIGATION
+                                 ================================= -->
+
+                            @if (User.IsInRole("Admin"))
+                            {
+
+                                <li class="nav-item">
+
+                                    <a class="nav-link"
+                                       href="#">
+
+                                        Dashboard
+
+                                    </a>
+
+                                </li>
+
+
+                                <li class="nav-item">
+
+                                    <a class="nav-link"
+                                       href="#">
+
+                                        Users
+
+                                    </a>
+
+                                </li>
+
+
+                                <li class="nav-item">
+
+                                    <a class="nav-link"
+                                       href="#">
+
+                                        Companies
+
+                                    </a>
+
+                                </li>
+
+
+                                <li class="nav-item">
+
+                                    <a class="nav-link"
+                                       href="#">
+
+                                        Jobs
+
+                                    </a>
+
+                                </li>
+
+                            }
+
+                        }
+                        else
+                        {
+
+                            <!-- =================================
+                                 PUBLIC NAVIGATION
+                                 ================================= -->
+
                             <li class="nav-item">
 
-                                <a class="nav-link text-dark"
-                                   asp-area=""
-                                   asp-controller="JobSeeker"
-                                   asp-action="Dashboard">
-                                    Dashboard
-                                </a>
-
-                            </li>
-                            <li class="nav-item">
-
-                                <a class="nav-link text-dark"
-                                   asp-area=""
+                                <a class="nav-link"
                                    asp-controller="Jobs"
                                    asp-action="Index">
-                                    Jobs
+
+                                    Find Jobs
+
                                 </a>
 
                             </li>
+
 
                             <li class="nav-item">
 
-                                <a class="nav-link text-dark"
-                                   asp-area=""
-                                   asp-controller="SavedJobs"
-                                   asp-action="Index">
-                                    Saved Jobs
+                                <a class="nav-link"
+                                   href="#for-employers">
+
+                                    For Employers
+
                                 </a>
 
                             </li>
-                            <li class="nav-item">
 
-                                <a class="nav-link text-dark"
-                                   asp-area=""
-                                   asp-controller="Applications"
-                                   asp-action="Index">
-                                    My Applications
-                                </a>
-
-                            </li>
 
                             <li class="nav-item">
 
-                                <a class="nav-link text-dark"
-                                   asp-area=""
-                                   asp-controller="JobSeeker"
-                                   asp-action="Profile">
-                                    Profile
+                                <a class="nav-link"
+                                   href="#how-it-works">
+
+                                    How It Works
+
                                 </a>
 
                             </li>
-                        }
 
-                        <!-- Recruiter Navigation -->
-                        @if (User.IsInRole("Recruiter"))
-                        {
-                            <li class="nav-item">
-
-                                <a class="nav-link text-dark"
-                                   asp-area=""
-                                   asp-controller="Recruiter"
-                                   asp-action="Index">
-                                    Recruiter Dashboard
-                                </a>
-
-                            </li>
-                        }
-
-                        <!-- Admin Navigation -->
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <li class="nav-item">
-
-                                <a class="nav-link text-dark"
-                                   asp-area=""
-                                   asp-controller="Admin"
-                                   asp-action="Index">
-                                    Admin Dashboard
-                                </a>
-
-                            </li>
                         }
 
                     </ul>
 
-                    <!-- Login / Logout -->
-                    <partial name="_LoginPartial" />
+
+                    <!-- =========================================
+                         ACCOUNT AREA
+                         ========================================= -->
+
+                    <ul class="navbar-nav cl-account-nav">
+
+                        <partial name="_LoginPartial" />
+
+                    </ul>
 
                 </div>
 
@@ -166,36 +362,177 @@
 
     </header>
 
-    <!-- Main Content -->
-    <div class="container">
 
-        <main role="main" class="pb-3">
+    <!-- =====================================================
+         ALERTS
+         ===================================================== -->
 
-            @RenderBody()
+    <partial name="_Alerts" />
 
-        </main>
 
-    </div>
+    <!-- =====================================================
+         PAGE CONTENT
+         ===================================================== -->
 
-    <!-- Footer -->
-    <footer class="border-top footer text-muted">
+    <main>
+
+        @RenderBody()
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
+    <footer class="cl-footer">
 
         <div class="container">
 
-            &copy; @DateTime.Now.Year - CareerLink
+            <div class="row gy-5">
 
-            <a asp-area=""
-               asp-controller="Home"
-               asp-action="Privacy"
-               class="ms-2">
-                Privacy
-            </a>
+
+                <!-- BRAND -->
+
+                <div class="col-lg-5">
+
+                    <a class="cl-footer-brand"
+                       asp-controller="Home"
+                       asp-action="Index">
+
+                        <span class="cl-brand-mark">
+                            <i class="bi bi-stars"></i>
+                        </span>
+
+                        <span class="cl-brand-text">
+                            Career<span>Link</span>
+                        </span>
+
+                    </a>
+
+
+                    <p class="cl-footer-description">
+
+                        A professional platform connecting
+                        people with opportunities and employers
+                        with talent.
+
+                    </p>
+
+                </div>
+
+
+                <!-- PLATFORM -->
+
+                <div class="col-6 col-lg-2">
+
+                    <h6 class="cl-footer-heading">
+                        Platform
+                    </h6>
+
+
+                    <a asp-controller="Jobs"
+                       asp-action="Index"
+                       class="cl-footer-link">
+
+                        Find Jobs
+
+                    </a>
+
+
+                    <a href="#for-employers"
+                       class="cl-footer-link">
+
+                        For Employers
+
+                    </a>
+
+                </div>
+
+
+                <!-- CAREERLINK -->
+
+                <div class="col-6 col-lg-2">
+
+                    <h6 class="cl-footer-heading">
+                        CareerLink
+                    </h6>
+
+
+                    <a href="#how-it-works"
+                       class="cl-footer-link">
+
+                        How It Works
+
+                    </a>
+
+
+                    <a asp-controller="Home"
+                       asp-action="Index"
+                       class="cl-footer-link">
+
+                        Home
+
+                    </a>
+
+                </div>
+
+
+                <!-- GET STARTED -->
+
+                <div class="col-12 col-lg-3">
+
+                    <h6 class="cl-footer-heading">
+                        Get started
+                    </h6>
+
+
+                    <p class="cl-footer-small">
+
+                        Create your profile or start
+                        building your team.
+
+                    </p>
+
+
+                    <a asp-area="Identity"
+                       asp-page="/Account/Register"
+                       class="cl-footer-button">
+
+                        Create an account
+
+                        <i class="bi bi-arrow-right"></i>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- FOOTER BOTTOM -->
+
+            <div class="cl-footer-bottom">
+
+                <span>
+                    © @DateTime.Now.Year CareerLink
+                </span>
+
+                <span>
+                    Careers and talent, connected.
+                </span>
+
+            </div>
 
         </div>
 
     </footer>
 
-    <!-- Scripts -->
+
+    <!-- =====================================================
+         JAVASCRIPT
+         ===================================================== -->
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -203,9 +540,8 @@
     <script src="~/js/site.js"
             asp-append-version="true"></script>
 
-    @await RenderSectionAsync(
-        "Scripts",
-        required: false)
+    @await RenderSectionAsync("Scripts", required: false)
 
 </body>
+
 </html>

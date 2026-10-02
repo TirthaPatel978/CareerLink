@@ -15,7 +15,9 @@ namespace CareerLink.Models
         public string? Phone { get; set; }
 
         public string? Location { get; set; }
+        public string? ResumePath { get; set; }
 
+        public string? ResumeFileName { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public DateTime? UpdatedAt { get; set; }

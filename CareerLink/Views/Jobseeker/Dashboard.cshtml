@@ -1,397 +1,761 @@
 ﻿@model CareerLink.ViewModels.JobSeekerDashboardViewModel
 
 @{
-    ViewData["Title"] = "Job Seeker Dashboard";
+    ViewData["Title"] = "Dashboard";
 }
 
-<div class="container py-4">
+<div class="cl-dashboard">
 
-    <!-- Welcome -->
-    <div class="mb-4">
+    <!-- =========================================================
+         DASHBOARD HERO
+         ========================================================= -->
 
-        <h1 class="fw-bold">
-            Welcome, @Model.FullName
-        </h1>
+    <section class="cl-dashboard-hero">
 
-        @if (!string.IsNullOrWhiteSpace(Model.ProfessionalTitle))
-        {
-            <p class="lead text-muted mb-1">
-                @Model.ProfessionalTitle
-            </p>
-        }
+        <div class="container">
 
-        @if (!string.IsNullOrWhiteSpace(Model.Location))
-        {
-            <p class="text-muted">
-                📍 @Model.Location
-            </p>
-        }
+            <div class="cl-dashboard-hero-inner">
 
-    </div>
+                <div>
 
-    <!-- Profile Summary -->
-    <div class="card shadow-sm mb-4">
-
-        <div class="card-body">
-
-            <div class="d-flex justify-content-between
-                align-items-center mb-3">
-
-                <h4 class="fw-bold mb-0">
-                    Profile Summary
-                </h4>
-
-                <a asp-controller="JobSeeker"
-                   asp-action="Profile"
-                   class="btn btn-outline-primary btn-sm">
-                    View Profile
-                </a>
-
-            </div>
-
-            @if (!string.IsNullOrWhiteSpace(Model.Summary))
-            {
-                <p class="text-muted mb-0">
-                    @Model.Summary
-                </p>
-            }
-            else
-            {
-                <p class="text-muted mb-0">
-                    You haven't added a professional summary yet.
-                </p>
-            }
-
-        </div>
-
-    </div>
-
-    <!-- Statistics -->
-    <div class="row g-4 mb-4">
-
-        <div class="col-md-6 col-lg-3">
-
-            <div class="card shadow-sm h-100">
-
-                <div class="card-body text-center">
-
-                    <h2 class="fw-bold">
-                        @Model.SkillCount
-                    </h2>
-
-                    <p class="text-muted mb-0">
-                        Skills
-                    </p>
-
-                    <a asp-controller="Skills"
-                       asp-action="Index"
-                       class="small text-decoration-none">
-                        Manage Skills
-                    </a>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-6 col-lg-3">
-
-            <div class="card shadow-sm h-100">
-
-                <div class="card-body text-center">
-
-                    <h2 class="fw-bold">
-                        @Model.EducationCount
-                    </h2>
-
-                    <p class="text-muted mb-0">
-                        Education
-                    </p>
-
-                    <a asp-controller="Education"
-                       asp-action="Index"
-                       class="small text-decoration-none">
-                        Manage Education
-                    </a>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-6 col-lg-3">
-
-            <div class="card shadow-sm h-100">
-
-                <div class="card-body text-center">
-
-                    <h2 class="fw-bold">
-                        @Model.ExperienceCount
-                    </h2>
-
-                    <p class="text-muted mb-0">
-                        Experience
-                    </p>
-
-                    <a asp-controller="Experience"
-                       asp-action="Index"
-                       class="small text-decoration-none">
-                        Manage Experience
-                    </a>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-6 col-lg-3">
-
-            <div class="card shadow-sm h-100">
-
-                <div class="card-body text-center">
-
-                    <h2 class="fw-bold">
-                        @Model.ProjectCount
-                    </h2>
-
-                    <p class="text-muted mb-0">
-                        Projects
-                    </p>
-
-                    <a asp-controller="Project"
-                       asp-action="Index"
-                       class="small text-decoration-none">
-                        Manage Projects
-                    </a>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- Additional Statistics -->
-    <div class="row g-4 mb-4">
-
-        <div class="col-md-4">
-
-            <div class="card shadow-sm h-100">
-
-                <div class="card-body text-center">
-
-                    <h2 class="fw-bold">
-                        @Model.CertificationCount
-                    </h2>
-
-                    <p class="text-muted mb-2">
-                        Certifications
-                    </p>
-
-                    <a asp-controller="Certification"
-                       asp-action="Index"
-                       class="btn btn-outline-primary btn-sm">
-                        View Certifications
-                    </a>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-4">
-
-            <div class="card shadow-sm h-100">
-
-                <div class="card-body text-center">
-
-                    <h2 class="fw-bold">
-                        @Model.SavedJobCount
-                    </h2>
-
-                    <p class="text-muted mb-2">
-                        Saved Jobs
-                    </p>
-
-                    <a asp-controller="SavedJobs"
-                       asp-action="Index"
-                       class="btn btn-outline-primary btn-sm">
-                        View Saved Jobs
-                    </a>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-4">
-
-            <div class="card shadow-sm h-100">
-
-                <div class="card-body text-center">
-
-                    <h2 class="fw-bold">
-                        @Model.ApplicationCount
-                    </h2>
-
-                    <p class="text-muted mb-2">
-                        Applications
-                    </p>
-
-                    <span class="text-muted small">
-                        Application tracking will be available
-                        through the application module.
+                    <span class="cl-dashboard-eyebrow">
+                        <i class="bi bi-stars"></i>
+                        Your CareerLink dashboard
                     </span>
 
+                    <h1>
+                        Welcome back,
+                        <span>@Model.FullName</span>
+                    </h1>
+
+                    <p>
+                        Keep your profile up to date and discover
+                        opportunities that fit your career goals.
+                    </p>
+
+                </div>
+
+
+                <div class="cl-dashboard-hero-action">
+
+                    <a asp-controller="Jobs"
+                       asp-action="Index"
+                       class="cl-dashboard-primary-btn">
+
+                        <i class="bi bi-search"></i>
+
+                        Find Jobs
+
+                    </a>
+
                 </div>
 
             </div>
 
         </div>
 
-    </div>
+    </section>
 
-    <!-- Quick Actions -->
-    <div class="card shadow-sm mb-4">
 
-        <div class="card-body">
 
-            <h4 class="fw-bold mb-3">
-                Quick Actions
-            </h4>
+    <!-- =========================================================
+         PROFILE OVERVIEW
+         ========================================================= -->
 
-            <div class="d-flex flex-wrap gap-2">
+    <section class="cl-dashboard-section">
 
-                <a asp-controller="Jobs"
-                   asp-action="Index"
-                   class="btn btn-primary">
-                    Browse Jobs
-                </a>
+        <div class="container">
 
-                <a asp-controller="SavedJobs"
-                   asp-action="Index"
-                   class="btn btn-outline-primary">
-                    Saved Jobs
-                </a>
+            <div class="cl-dashboard-profile-card">
 
-                <a asp-controller="JobSeeker"
-                   asp-action="Profile"
-                   class="btn btn-outline-secondary">
-                    My Profile
-                </a>
+                <div class="cl-dashboard-profile-main">
 
-                <a asp-controller="Skills"
-                   asp-action="Index"
-                   class="btn btn-outline-secondary">
-                    Manage Skills
-                </a>
+                    <!-- PROFILE ICON -->
 
-            </div>
+                    <div class="cl-profile-avatar">
 
-        </div>
+                        <i class="bi bi-person"></i>
 
-    </div>
+                    </div>
 
-    <!-- Recent Jobs -->
-    <div class="card shadow-sm">
 
-        <div class="card-body">
+                    <!-- PROFILE INFORMATION -->
 
-            <div class="d-flex justify-content-between
-                align-items-center mb-3">
+                    <div class="cl-profile-information">
 
-                <h4 class="fw-bold mb-0">
-                    Recent Jobs
-                </h4>
+                        <span class="cl-dashboard-section-label">
+                            Your profile
+                        </span>
 
-                <a asp-controller="Jobs"
-                   asp-action="Index"
-                   class="btn btn-sm btn-outline-primary">
-                    View All Jobs
-                </a>
+                        <h2>
+                            @Model.FullName
+                        </h2>
 
-            </div>
+                        @if (!string.IsNullOrWhiteSpace(Model.ProfessionalTitle))
+                        {
+                            <p class="cl-profile-title">
+                                @Model.ProfessionalTitle
+                            </p>
+                        }
 
-            @if (!Model.RecentJobs.Any())
-            {
-                <p class="text-muted mb-0">
-                    No jobs are currently available.
-                </p>
-            }
-            else
-            {
-                <div class="row g-3">
+                        @if (!string.IsNullOrWhiteSpace(Model.Location))
+                        {
+                            <div class="cl-profile-location">
 
-                    @foreach (var job in Model.RecentJobs)
-                    {
-                        <div class="col-12">
+                                <i class="bi bi-geo-alt"></i>
 
-                            <div class="border rounded p-3">
-
-                                <div class="d-flex
-                                    justify-content-between
-                                    align-items-start">
-
-                                    <div>
-
-                                        <h5 class="mb-1">
-                                            @job.Title
-                                        </h5>
-
-                                        <p class="text-muted mb-2">
-                                            @job.CompanyName
-                                        </p>
-
-                                    </div>
-
-                                    @if (job.IsRemote)
-                                    {
-                                        <span class="badge bg-success">
-                                            Remote
-                                        </span>
-                                    }
-
-                                </div>
-
-                                <div class="mb-2">
-
-                                    <span class="badge bg-primary me-2">
-                                        @job.JobType
-                                    </span>
-
-                                    @if (!string.IsNullOrWhiteSpace(
-                                        job.Location))
-                                    {
-                                        <span class="text-muted">
-                                            📍 @job.Location
-                                        </span>
-                                    }
-
-                                </div>
-
-                                <a asp-controller="Jobs"
-                                   asp-action="Details"
-                                   asp-route-id="@job.Id"
-                                   class="btn btn-sm btn-outline-primary">
-                                    View Job
-                                </a>
+                                @Model.Location
 
                             </div>
+                        }
+
+                    </div>
+
+
+                    <!-- SINGLE PROFILE ACTION -->
+
+                    <div class="cl-profile-action">
+
+                        <a asp-controller="JobSeeker"
+                           asp-action="Profile"
+                           class="cl-dashboard-outline-btn">
+
+                            <i class="bi bi-pencil"></i>
+
+                            Edit Profile
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ABOUT YOU -->
+
+                <div class="cl-profile-about">
+
+                    <div class="cl-profile-about-heading">
+
+                        <span class="cl-dashboard-section-label">
+                            About you
+                        </span>
+
+                        <i class="bi bi-person-lines-fill"></i>
+
+                    </div>
+
+
+                    @if (!string.IsNullOrWhiteSpace(Model.Summary))
+                    {
+                        <p>
+                            @Model.Summary
+                        </p>
+                    }
+                    else
+                    {
+                        <div class="cl-profile-empty">
+
+                            <p>
+                                Add a professional summary to help employers
+                                understand your background and career goals.
+                            </p>
+
+                            <a asp-controller="JobSeeker"
+                               asp-action="Profile"
+                               class="cl-dashboard-link">
+
+                                Add your summary
+                                <i class="bi bi-arrow-right"></i>
+
+                            </a>
 
                         </div>
                     }
 
                 </div>
-            }
+
+            </div>
 
         </div>
 
-    </div>
+    </section>
+
+
+
+    <!-- =========================================================
+         PROFILE STATISTICS
+         ========================================================= -->
+
+    <section class="cl-dashboard-section cl-dashboard-stats-section">
+
+        <div class="container">
+
+            <div class="cl-dashboard-section-header">
+
+                <div>
+
+                    <span class="cl-dashboard-section-label">
+                        Profile overview
+                    </span>
+
+                    <h2>
+                        Your professional information
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="cl-dashboard-stat-grid">
+
+                <!-- SAVED JOBS -->
+
+                <div class="cl-dashboard-stat-card">
+
+                    <div class="cl-stat-icon cl-stat-purple">
+                        <i class="bi bi-bookmark"></i>
+                    </div>
+
+                    <div class="cl-stat-content">
+
+                        <span class="cl-stat-number">
+                            @Model.SavedJobCount
+                        </span>
+
+                        <span class="cl-stat-label">
+                            Saved Jobs
+                        </span>
+
+                    </div>
+
+                    <a asp-controller="SavedJobs"
+                       asp-action="Index"
+                       class="cl-stat-link">
+
+                        View saved jobs
+                        <i class="bi bi-arrow-right"></i>
+
+                    </a>
+
+                </div>
+
+
+
+                <!-- APPLICATIONS -->
+
+                <div class="cl-dashboard-stat-card">
+
+                    <div class="cl-stat-icon cl-stat-blue">
+                        <i class="bi bi-send"></i>
+                    </div>
+
+                    <div class="cl-stat-content">
+
+                        <span class="cl-stat-number">
+                            @Model.ApplicationCount
+                        </span>
+
+                        <span class="cl-stat-label">
+                            Applications
+                        </span>
+
+                    </div>
+
+                    <span class="cl-stat-muted">
+                        Applications you've submitted
+                    </span>
+
+                </div>
+
+
+
+                <!-- SKILLS -->
+
+                <div class="cl-dashboard-stat-card">
+
+                    <div class="cl-stat-icon cl-stat-violet">
+                        <i class="bi bi-stars"></i>
+                    </div>
+
+                    <div class="cl-stat-content">
+
+                        <span class="cl-stat-number">
+                            @Model.SkillCount
+                        </span>
+
+                        <span class="cl-stat-label">
+                            Skills
+                        </span>
+
+                    </div>
+
+                    <a asp-controller="Skills"
+                       asp-action="Index"
+                       class="cl-stat-link">
+
+                        Manage skills
+                        <i class="bi bi-arrow-right"></i>
+
+                    </a>
+
+                </div>
+
+
+
+                <!-- EXPERIENCE -->
+
+                <div class="cl-dashboard-stat-card">
+
+                    <div class="cl-stat-icon cl-stat-lilac">
+                        <i class="bi bi-briefcase"></i>
+                    </div>
+
+                    <div class="cl-stat-content">
+
+                        <span class="cl-stat-number">
+                            @Model.ExperienceCount
+                        </span>
+
+                        <span class="cl-stat-label">
+                            Experience
+                        </span>
+
+                    </div>
+
+                    <a asp-controller="Experience"
+                       asp-action="Index"
+                       class="cl-stat-link">
+
+                        Manage experience
+                        <i class="bi bi-arrow-right"></i>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================================================
+         MAIN DASHBOARD CONTENT
+         ========================================================= -->
+
+    <section class="cl-dashboard-section">
+
+        <div class="container">
+
+            <div class="row g-4 align-items-stretch">
+
+                <!-- =================================================
+                     RECENT OPPORTUNITIES
+                     ================================================= -->
+
+                <div class="col-lg-8">
+
+                    <div class="cl-dashboard-content-card">
+
+                        <div class="cl-content-card-header">
+
+                            <div>
+
+                                <span class="cl-dashboard-section-label">
+                                    Opportunities
+                                </span>
+
+                                <h2>
+                                    Recent opportunities
+                                </h2>
+
+                                <p>
+                                    Explore some of the latest jobs
+                                    available on CareerLink.
+                                </p>
+
+                            </div>
+
+                            <a asp-controller="Jobs"
+                               asp-action="Index"
+                               class="cl-dashboard-link">
+
+                                View all
+                                <i class="bi bi-arrow-right"></i>
+
+                            </a>
+
+                        </div>
+
+
+                        @if (Model.RecentJobs != null &&
+                             Model.RecentJobs.Any())
+                        {
+                            <div class="cl-dashboard-jobs">
+
+                                @foreach (var job in Model.RecentJobs)
+                                {
+                                    <div class="cl-dashboard-job">
+
+                                        <div class="cl-job-company-avatar">
+
+                                            <i class="bi bi-building"></i>
+
+                                        </div>
+
+
+                                        <div class="cl-dashboard-job-info">
+
+                                            <h3>
+                                                @job.Title
+                                            </h3>
+
+                                            <p>
+                                                @job.CompanyName
+                                            </p>
+
+                                            <div class="cl-dashboard-job-meta">
+
+                                                <span>
+                                                    <i class="bi bi-geo-alt"></i>
+
+                                                    @(job.IsRemote
+                                                        ? "Remote"
+                                                        : job.Location ?? "Location not specified")
+                                                </span>
+
+                                                <span>
+                                                    <i class="bi bi-clock"></i>
+
+                                                    @job.JobType
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="cl-dashboard-job-action">
+
+                                            <a asp-controller="Jobs"
+                                               asp-action="Details"
+                                               asp-route-id="@job.Id"
+                                               class="cl-dashboard-small-btn">
+
+                                                View Job
+
+                                            </a>
+
+                                        </div>
+
+                                    </div>
+                                }
+
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="cl-dashboard-empty">
+
+                                <div class="cl-empty-icon">
+                                    <i class="bi bi-briefcase"></i>
+                                </div>
+
+                                <h3>
+                                    No opportunities yet
+                                </h3>
+
+                                <p>
+                                    New opportunities will appear here
+                                    as employers begin posting jobs.
+                                </p>
+
+                                <a asp-controller="Jobs"
+                                   asp-action="Index"
+                                   class="cl-dashboard-link">
+
+                                    Browse Jobs
+                                    <i class="bi bi-arrow-right"></i>
+
+                                </a>
+
+                            </div>
+                        }
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     PROFILE CHECKLIST
+                     ================================================= -->
+
+                <div class="col-lg-4">
+
+                    <div class="cl-dashboard-content-card cl-profile-checklist">
+
+                        <div>
+
+                            <span class="cl-dashboard-section-label">
+                                Your profile
+                            </span>
+
+                            <h2>
+                                Build a stronger profile
+                            </h2>
+
+                            <p>
+                                Keep your professional information
+                                complete so employers can better
+                                understand your experience.
+                            </p>
+
+                        </div>
+
+
+                        <div class="cl-profile-check-items">
+
+                            <div class="cl-profile-check-item">
+
+                                <i class="bi bi-check-circle-fill"></i>
+
+                                <span>
+                                    Basic profile information
+                                </span>
+
+                            </div>
+
+
+                            <div class="cl-profile-check-item">
+
+                                <i class="bi bi-check-circle-fill"></i>
+
+                                <span>
+                                    Skills
+                                </span>
+
+                                <a asp-controller="Skills"
+                                   asp-action="Index">
+
+                                    Manage
+
+                                </a>
+
+                            </div>
+
+
+                            <div class="cl-profile-check-item">
+
+                                <i class="bi bi-check-circle-fill"></i>
+
+                                <span>
+                                    Education
+                                </span>
+
+                                <a asp-controller="Education"
+                                   asp-action="Index">
+
+                                    Manage
+
+                                </a>
+
+                            </div>
+
+
+                            <div class="cl-profile-check-item">
+
+                                <i class="bi bi-check-circle-fill"></i>
+
+                                <span>
+                                    Experience
+                                </span>
+
+                                <a asp-controller="Experience"
+                                   asp-action="Index">
+
+                                    Manage
+
+                                </a>
+
+                            </div>
+
+
+                            <div class="cl-profile-check-item">
+
+                                <i class="bi bi-check-circle-fill"></i>
+
+                                <span>
+                                    Projects
+                                </span>
+
+                                <a asp-controller="Project"
+                                   asp-action="Index">
+
+                                    Manage
+
+                                </a>
+
+                            </div>
+
+
+                            <div class="cl-profile-check-item">
+
+                                <i class="bi bi-check-circle-fill"></i>
+
+                                <span>
+                                    Certifications
+                                </span>
+
+                                <a asp-controller="Certification"
+                                   asp-action="Index">
+
+                                    Manage
+
+                                </a>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="cl-profile-check-footer">
+
+                            <a asp-controller="JobSeeker"
+                               asp-action="Profile"
+                               class="cl-dashboard-outline-btn cl-dashboard-full-btn">
+
+                                <i class="bi bi-pencil"></i>
+
+                                Edit Profile
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================================================
+         ADDITIONAL PROFILE INFORMATION
+         ========================================================= -->
+
+    <section class="cl-dashboard-section cl-dashboard-bottom-section">
+
+        <div class="container">
+
+            <div class="cl-dashboard-mini-grid">
+
+                <!-- EDUCATION -->
+
+                <div class="cl-dashboard-mini-card">
+
+                    <div class="cl-mini-card-icon">
+                        <i class="bi bi-mortarboard"></i>
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Education
+                        </span>
+
+                        <strong>
+                            @Model.EducationCount
+                        </strong>
+
+                    </div>
+
+                    <a asp-controller="Education"
+                       asp-action="Index"
+                       aria-label="Manage education">
+
+                        <i class="bi bi-arrow-up-right"></i>
+
+                    </a>
+
+                </div>
+
+
+                <!-- PROJECTS -->
+
+                <div class="cl-dashboard-mini-card">
+
+                    <div class="cl-mini-card-icon">
+                        <i class="bi bi-kanban"></i>
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Projects
+                        </span>
+
+                        <strong>
+                            @Model.ProjectCount
+                        </strong>
+
+                    </div>
+
+                    <a asp-controller="Project"
+                       asp-action="Index"
+                       aria-label="Manage projects">
+
+                        <i class="bi bi-arrow-up-right"></i>
+
+                    </a>
+
+                </div>
+
+
+                <!-- CERTIFICATIONS -->
+
+                <div class="cl-dashboard-mini-card">
+
+                    <div class="cl-mini-card-icon">
+                        <i class="bi bi-award"></i>
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Certifications
+                        </span>
+
+                        <strong>
+                            @Model.CertificationCount
+                        </strong>
+
+                    </div>
+
+                    <a asp-controller="Certification"
+                       asp-action="Index"
+                       aria-label="Manage certifications">
+
+                        <i class="bi bi-arrow-up-right"></i>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
 
 </div>
