@@ -4,300 +4,359 @@
     ViewData["Title"] = "Job Match";
 }
 
-<div class="container py-4">
+<div class="job-match-page">
 
-    <div class="mb-3">
+    <div class="container py-5">
 
-        <a asp-controller="Jobs"
-           asp-action="Details"
-           asp-route-id="@Model.JobId"
-           class="text-decoration-none">
-            ← Back to Job
-        </a>
+        <!-- ============================================= -->
+        <!-- HEADER -->
+        <!-- ============================================= -->
 
-    </div>
+        <div class="match-header">
 
-    <div class="row justify-content-center">
+            <a asp-action="Details"
+               asp-route-id="@Model.JobId"
+               class="back-link">
 
-        <div class="col-lg-9">
+                <i class="bi bi-arrow-left"></i>
 
-            <!-- Header -->
-            <div class="card shadow-sm mb-4">
+                Back to job
 
-                <div class="card-body text-center p-4">
+            </a>
 
-                    <h1 class="fw-bold mb-2">
-                        Your Job Match
-                    </h1>
 
-                    <h4 class="text-muted">
-                        @Model.JobTitle
-                    </h4>
+            <span class="section-eyebrow">
+                CAREERLINK MATCH
+            </span>
 
-                    <p class="text-muted">
-                        @Model.CompanyName
-                    </p>
+            <h1>
+                Your match for
+                <span class="text-gradient">
+                    @Model.JobTitle
+                </span>
+            </h1>
 
-                    <div class="my-4">
+            <p>
+                @Model.CompanyName
+            </p>
 
-                        <div class="display-3 fw-bold">
-                            @Model.TotalScore.ToString("0.##")
-                        </div>
+        </div>
 
-                        <div class="text-muted">
-                            out of 100
-                        </div>
 
-                    </div>
+        <!-- ============================================= -->
+        <!-- SCORE -->
+        <!-- ============================================= -->
 
-                    <p class="text-muted mb-0">
-                        This score is calculated using CareerLink's
-                        rule-based matching system.
-                    </p>
+        <div class="match-score-card">
+
+            <div class="match-score-circle"
+                 style="--score:@Model.TotalScore.ToString("0.##")">
+
+                <div>
+
+                    <strong>
+                        @Model.TotalScore.ToString("0")
+                    </strong>
+
+                    <span>
+                        %
+                    </span>
 
                 </div>
 
             </div>
 
-            <!-- Score Breakdown -->
-            <div class="card shadow-sm mb-4">
 
-                <div class="card-body p-4">
+            <div class="match-score-content">
 
-                    <h4 class="fw-bold mb-4">
-                        Match Breakdown
-                    </h4>
+                <span class="section-eyebrow">
+                    OVERALL MATCH
+                </span>
 
-                    <!-- Skills -->
-                    <div class="mb-4">
+                <h2>
 
-                        <div class="d-flex justify-content-between mb-2">
+                    @if (Model.TotalScore >= 80)
+                    {
+                        <text>Strong match</text>
+                    }
+                    else if (Model.TotalScore >= 60)
+                    {
+                        <text>Good match</text>
+                    }
+                    else if (Model.TotalScore >= 40)
+                    {
+                        <text>Moderate match</text>
+                    }
+                    else
+                    {
+                        <text>Low match</text>
+                    }
 
-                            <strong>
+                </h2>
+
+                <p>
+                    This score is calculated using CareerLink's
+                    rule-based matching system.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- ============================================= -->
+        <!-- BREAKDOWN -->
+        <!-- ============================================= -->
+
+        <div class="match-breakdown">
+
+            <div class="match-section-header">
+
+                <span class="section-eyebrow">
+                    SCORE BREAKDOWN
+                </span>
+
+                <h2>
+                    How your score was calculated
+                </h2>
+
+            </div>
+
+
+            <!-- Skills -->
+
+            <div class="match-factor-card">
+
+                <div class="match-factor-icon">
+
+                    <i class="bi bi-code-slash"></i>
+
+                </div>
+
+
+                <div class="match-factor-content">
+
+                    <div class="match-factor-heading">
+
+                        <div>
+
+                            <h3>
                                 Skills
-                            </strong>
+                            </h3>
 
-                            <span>
-                                @Model.SkillScore.ToString("0.##")
-                                /
-                                @Model.SkillWeight.ToString("0.##")
-                            </span>
-
-                        </div>
-
-                        <div class="progress"
-                             role="progressbar">
-
-                            @{
-                                var skillPercentage =
-                                    Model.SkillWeight > 0
-                                        ? (double)(
-                                            Model.SkillScore /
-                                            Model.SkillWeight * 100)
-                                        : 0;
-                            }
-
-                            <div class="progress-bar"
-                                 style="width: @skillPercentage%">
-                            </div>
+                            <p>
+                                @Model.MatchedSkills
+                                of
+                                @Model.TotalJobSkills
+                                required skills matched.
+                            </p>
 
                         </div>
 
-                        <small class="text-muted">
-                            @Model.MatchedSkills of
-                            @Model.TotalJobSkills
-                            job skills matched.
-                        </small>
+                        <strong>
+                            @Model.SkillScore.ToString("0.0")
+                            /
+                            @Model.SkillWeight.ToString("0.0")
+                        </strong>
 
                     </div>
 
-                    <!-- Education -->
-                    <div class="mb-4">
 
-                        <div class="d-flex justify-content-between mb-2">
+                    <div class="match-progress">
 
-                            <strong>
+                        @{
+                            decimal skillPercentage = 0;
+
+                            if (Model.SkillWeight > 0)
+                            {
+                                skillPercentage =
+                                    (Model.SkillScore /
+                                    Model.SkillWeight) * 100;
+                            }
+                        }
+
+                        <div class="match-progress-bar"
+                             style="width:@skillPercentage.ToString("0.##")%">
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Education -->
+
+            <div class="match-factor-card">
+
+                <div class="match-factor-icon">
+
+                    <i class="bi bi-mortarboard"></i>
+
+                </div>
+
+
+                <div class="match-factor-content">
+
+                    <div class="match-factor-heading">
+
+                        <div>
+
+                            <h3>
                                 Education
-                            </strong>
+                            </h3>
 
-                            <span>
-                                @Model.EducationScore.ToString("0.##")
-                                /
-                                @Model.EducationWeight.ToString("0.##")
-                            </span>
+                            <p>
+                                @Model.EducationExplanation
+                            </p>
 
                         </div>
 
-                        <div class="progress">
-
-                            @{
-                                var educationPercentage =
-                                    Model.EducationWeight > 0
-                                        ? (double)(
-                                            Model.EducationScore /
-                                            Model.EducationWeight * 100)
-                                        : 0;
-                            }
-
-                            <div class="progress-bar"
-                                 style="width: @educationPercentage%">
-                            </div>
-
-                        </div>
-
-                        <small class="text-muted">
-                            @Model.EducationExplanation
-                        </small>
+                        <strong>
+                            @Model.EducationScore.ToString("0.0")
+                            /
+                            @Model.EducationWeight.ToString("0.0")
+                        </strong>
 
                     </div>
 
-                    <!-- Experience -->
-                    <div class="mb-4">
 
-                        <div class="d-flex justify-content-between mb-2">
+                    <div class="match-progress">
 
-                            <strong>
+                        @{
+                            decimal educationPercentage = 0;
+
+                            if (Model.EducationWeight > 0)
+                            {
+                                educationPercentage =
+                                    (Model.EducationScore /
+                                    Model.EducationWeight) * 100;
+                            }
+                        }
+
+                        <div class="match-progress-bar"
+                             style="width:@educationPercentage.ToString("0.##")%">
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Experience -->
+
+            <div class="match-factor-card">
+
+                <div class="match-factor-icon">
+
+                    <i class="bi bi-briefcase"></i>
+
+                </div>
+
+
+                <div class="match-factor-content">
+
+                    <div class="match-factor-heading">
+
+                        <div>
+
+                            <h3>
                                 Experience
-                            </strong>
+                            </h3>
 
-                            <span>
-                                @Model.ExperienceScore.ToString("0.##")
-                                /
-                                @Model.ExperienceWeight.ToString("0.##")
-                            </span>
+                            <p>
+                                @Model.ExperienceExplanation
+                            </p>
 
                         </div>
 
-                        <div class="progress">
-
-                            @{
-                                var experiencePercentage =
-                                    Model.ExperienceWeight > 0
-                                        ? (double)(
-                                            Model.ExperienceScore /
-                                            Model.ExperienceWeight * 100)
-                                        : 0;
-                            }
-
-                            <div class="progress-bar"
-                                 style="width: @experiencePercentage%">
-                            </div>
-
-                        </div>
-
-                        <small class="text-muted">
-                            @Model.ExperienceExplanation
-                        </small>
+                        <strong>
+                            @Model.ExperienceScore.ToString("0.0")
+                            /
+                            @Model.ExperienceWeight.ToString("0.0")
+                        </strong>
 
                     </div>
 
-                    <!-- Location -->
-                    <div>
 
-                        <div class="d-flex justify-content-between mb-2">
+                    <div class="match-progress">
 
-                            <strong>
+                        @{
+                            decimal experiencePercentage = 0;
+
+                            if (Model.ExperienceWeight > 0)
+                            {
+                                experiencePercentage =
+                                    (Model.ExperienceScore /
+                                    Model.ExperienceWeight) * 100;
+                            }
+                        }
+
+                        <div class="match-progress-bar"
+                             style="width:@experiencePercentage.ToString("0.##")%">
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Location -->
+
+            <div class="match-factor-card">
+
+                <div class="match-factor-icon">
+
+                    <i class="bi bi-geo-alt"></i>
+
+                </div>
+
+
+                <div class="match-factor-content">
+
+                    <div class="match-factor-heading">
+
+                        <div>
+
+                            <h3>
                                 Location
-                            </strong>
+                            </h3>
 
-                            <span>
-                                @Model.LocationScore.ToString("0.##")
-                                /
-                                @Model.LocationWeight.ToString("0.##")
-                            </span>
+                            <p>
+                                @Model.LocationExplanation
+                            </p>
 
                         </div>
 
-                        <div class="progress">
-
-                            @{
-                                var locationPercentage =
-                                    Model.LocationWeight > 0
-                                        ? (double)(
-                                            Model.LocationScore /
-                                            Model.LocationWeight * 100)
-                                        : 0;
-                            }
-
-                            <div class="progress-bar"
-                                 style="width: @locationPercentage%">
-                            </div>
-
-                        </div>
-
-                        <small class="text-muted">
-                            @Model.LocationExplanation
-                        </small>
+                        <strong>
+                            @Model.LocationScore.ToString("0.0")
+                            /
+                            @Model.LocationWeight.ToString("0.0")
+                        </strong>
 
                     </div>
 
-                </div>
 
-            </div>
+                    <div class="match-progress">
 
-            <!-- Skills Details -->
-            <div class="row g-4">
+                        @{
+                            decimal locationPercentage = 0;
 
-                <div class="col-md-6">
-
-                    <div class="card shadow-sm h-100">
-
-                        <div class="card-body">
-
-                            <h5 class="fw-bold mb-3">
-                                Matched Skills
-                            </h5>
-
-                            @if (Model.MatchedSkillNames.Any())
+                            if (Model.LocationWeight > 0)
                             {
-                                @foreach (var skill in
-                                    Model.MatchedSkillNames)
-                                {
-                                    <span class="badge bg-success me-1 mb-2">
-                                        @skill
-                                    </span>
-                                }
+                                locationPercentage =
+                                    (Model.LocationScore /
+                                    Model.LocationWeight) * 100;
                             }
-                            else
-                            {
-                                <p class="text-muted mb-0">
-                                    No matching skills found.
-                                </p>
-                            }
+                        }
 
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="col-md-6">
-
-                    <div class="card shadow-sm h-100">
-
-                        <div class="card-body">
-
-                            <h5 class="fw-bold mb-3">
-                                Missing Skills
-                            </h5>
-
-                            @if (Model.MissingSkillNames.Any())
-                            {
-                                @foreach (var skill in
-                                    Model.MissingSkillNames)
-                                {
-                                    <span class="badge bg-danger me-1 mb-2">
-                                        @skill
-                                    </span>
-                                }
-                            }
-                            else
-                            {
-                                <p class="text-success mb-0">
-                                    You have all the listed skills.
-                                </p>
-                            }
-
+                        <div class="match-progress-bar"
+                             style="width:@locationPercentage.ToString("0.##")%">
                         </div>
 
                     </div>
@@ -306,16 +365,143 @@
 
             </div>
 
-            <div class="text-center mt-4">
+        </div>
 
-                <a asp-controller="Jobs"
-                   asp-action="Details"
-                   asp-route-id="@Model.JobId"
-                   class="btn btn-primary">
-                    Back to Job
-                </a>
+
+        <!-- ============================================= -->
+        <!-- SKILLS -->
+        <!-- ============================================= -->
+
+        <div class="row g-4 mt-2">
+
+            <!-- Matched -->
+
+            <div class="col-lg-6">
+
+                <div class="career-card h-100">
+
+                    <div class="career-card-header">
+
+                        <span class="section-eyebrow">
+                            STRENGTHS
+                        </span>
+
+                        <h2>
+                            Matched skills
+                        </h2>
+
+                    </div>
+
+
+                    @if (!Model.MatchedSkillNames.Any())
+                    {
+                        <p class="text-muted">
+                            No required skills were matched.
+                        </p>
+                    }
+                    else
+                    {
+                        <div class="match-skills-list">
+
+                            @foreach (var skill in
+                                Model.MatchedSkillNames)
+                            {
+                                <span class="match-skill matched">
+
+                                    <i class="bi bi-check-circle"></i>
+
+                                    @skill
+
+                                </span>
+                            }
+
+                        </div>
+                    }
+
+                </div>
 
             </div>
+
+
+            <!-- Missing -->
+
+            <div class="col-lg-6">
+
+                <div class="career-card h-100">
+
+                    <div class="career-card-header">
+
+                        <span class="section-eyebrow">
+                            AREAS TO IMPROVE
+                        </span>
+
+                        <h2>
+                            Missing skills
+                        </h2>
+
+                    </div>
+
+
+                    @if (!Model.MissingSkillNames.Any())
+                    {
+                        <p class="text-success">
+
+                            <i class="bi bi-check-circle me-1"></i>
+
+                            You match all listed skills.
+
+                        </p>
+                    }
+                    else
+                    {
+                        <div class="match-skills-list">
+
+                            @foreach (var skill in
+                                Model.MissingSkillNames)
+                            {
+                                <span class="match-skill missing">
+
+                                    <i class="bi bi-x-circle"></i>
+
+                                    @skill
+
+                                </span>
+                            }
+
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ============================================= -->
+        <!-- FOOTER ACTION -->
+        <!-- ============================================= -->
+
+        <div class="match-footer">
+
+            <a asp-action="Details"
+               asp-route-id="@Model.JobId"
+               class="btn btn-primary">
+
+                <i class="bi bi-arrow-left me-1"></i>
+
+                Back to Job
+
+            </a>
+
+            <a asp-action="Index"
+               class="btn btn-outline-primary">
+
+                Find More Jobs
+
+                <i class="bi bi-arrow-right ms-1"></i>
+
+            </a>
 
         </div>
 

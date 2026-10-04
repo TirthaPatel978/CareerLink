@@ -4,90 +4,155 @@
     ViewData["Title"] = "Delete Project";
 }
 
-<div class="container py-4">
+<div class="cl-projects-page">
 
-    <div class="row justify-content-center">
+    <!-- Header -->
+    <section class="cl-projects-header">
 
-        <div class="col-lg-7">
+        <div class="container">
 
-            <div class="card shadow-sm border-danger">
+            <div class="cl-projects-header-content">
 
-                <div class="card-body p-4">
+                <div>
+                    <div class="cl-dashboard-eyebrow">
+                        <i class="bi bi-kanban"></i>
+                        Professional Profile
+                    </div>
 
-                    <h1 class="fw-bold text-danger">
-                        Delete Project
-                    </h1>
+                    <h1>Delete Project</h1>
 
-                    <p class="text-muted">
-                        Are you sure you want to delete this project?
+                    <p>
+                        Review the project before removing it from
+                        your professional profile.
                     </p>
+                </div>
 
-                    <hr />
+                <a asp-action="Index"
+                   class="cl-projects-back-btn">
+                    <i class="bi bi-arrow-left"></i>
+                    Back to Projects
+                </a>
 
-                    <h4>
-                        @Model.Name
-                    </h4>
+            </div>
 
-                    @if (!string.IsNullOrWhiteSpace(Model.Technologies))
-                    {
-                        <p>
-                            <strong>Technologies:</strong>
-                            @Model.Technologies
+        </div>
+
+    </section>
+
+
+    <!-- Delete -->
+    <section class="cl-projects-form-section">
+
+        <div class="container">
+
+            <div class="row justify-content-center">
+
+                <div class="col-lg-7 col-xl-6">
+
+                    <div class="cl-projects-delete-card">
+
+                        <div class="cl-projects-delete-icon">
+                            <i class="bi bi-trash3"></i>
+                        </div>
+
+                        <div class="cl-small-label">
+                            REMOVE PROJECT
+                        </div>
+
+                        <h2>Are you sure?</h2>
+
+                        <p class="cl-projects-delete-description">
+                            This will remove the project from your
+                            professional profile. You can add it again
+                            later if needed.
                         </p>
-                    }
 
-                    @if (!string.IsNullOrWhiteSpace(Model.Description))
-                    {
-                        <p>
-                            @Model.Description
-                        </p>
-                    }
 
-                    @if (Model.StartDate.HasValue ||
-                         Model.EndDate.HasValue)
-                    {
-                        <p>
-                            <strong>Duration:</strong>
+                        <!-- Project Details -->
+                        <div class="cl-projects-delete-details">
 
-                            @if (Model.StartDate.HasValue)
+                            <div class="cl-projects-delete-detail">
+
+                                <span>Project</span>
+
+                                <strong>
+                                    @Model.Name
+                                </strong>
+
+                            </div>
+
+
+                            @if (!string.IsNullOrWhiteSpace(Model.Technologies))
                             {
-                                @Model.StartDate.Value.ToString("MMM yyyy")
+                                <div class="cl-projects-delete-detail">
+
+                                    <span>Technologies</span>
+
+                                    <strong>
+                                        @Model.Technologies
+                                    </strong>
+
+                                </div>
                             }
 
-                            @if (Model.StartDate.HasValue &&
+
+                            @if (Model.StartDate.HasValue ||
                                  Model.EndDate.HasValue)
                             {
-                                @: -
+                                <div class="cl-projects-delete-detail">
+
+                                    <span>Duration</span>
+
+                                    <strong>
+
+                                        @if (Model.StartDate.HasValue)
+                                        {
+                                            @Model.StartDate.Value.ToString("MMM yyyy")
+                                        }
+
+                                        @if (Model.StartDate.HasValue &&
+                                             Model.EndDate.HasValue)
+                                        {
+                                            @: -
+                                        }
+
+                                        @if (Model.EndDate.HasValue)
+                                        {
+                                            @Model.EndDate.Value.ToString("MMM yyyy")
+                                        }
+
+                                    </strong>
+
+                                </div>
                             }
-
-                            @if (Model.EndDate.HasValue)
-                            {
-                                @Model.EndDate.Value.ToString("MMM yyyy")
-                            }
-                        </p>
-                    }
-
-                    <form asp-action="DeleteConfirmed"
-                          method="post">
-
-                        <input type="hidden"
-                               asp-for="Id" />
-
-                        <div class="d-flex justify-content-between mt-4">
-
-                            <a asp-action="Index"
-                               class="btn btn-secondary">
-                                Cancel
-                            </a>
-
-                            <button type="submit"
-                                    class="btn btn-danger">
-                                Delete Project
-                            </button>
 
                         </div>
 
-                    </form>
+
+                        <form asp-action="DeleteConfirmed"
+                              method="post">
+
+                            <input type="hidden"
+                                   asp-for="Id" />
+
+                            <div class="cl-projects-delete-footer">
+
+                                <a asp-action="Index"
+                                   class="cl-projects-cancel-btn">
+                                    Cancel
+                                </a>
+
+                                <button type="submit"
+                                        class="cl-projects-delete-confirm-btn">
+                                    <i class="bi bi-trash3"></i>
+                                    Delete Project
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
 
                 </div>
 
@@ -95,6 +160,6 @@
 
         </div>
 
-    </div>
+    </section>
 
 </div>

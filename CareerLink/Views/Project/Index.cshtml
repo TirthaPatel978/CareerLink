@@ -4,172 +4,266 @@
     ViewData["Title"] = "My Projects";
 }
 
-<div class="container py-4">
+<div class="cl-projects-page">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <!-- Header -->
+    <section class="cl-projects-header">
+        <div class="container">
+            <div class="cl-projects-header-content">
 
-        <div>
+                <div>
+                    <div class="cl-dashboard-eyebrow">
+                        <i class="bi bi-kanban"></i>
+                        Professional Profile
+                    </div>
 
-            <h1 class="fw-bold">My Projects</h1>
+                    <h1>My Projects</h1>
 
-            <p class="text-muted mb-0">
-                Showcase projects you have worked on.
-            </p>
-
-        </div>
-
-        <a asp-action="Create"
-           class="btn btn-primary">
-            + Add Project
-        </a>
-
-    </div>
-
-    @if (TempData["SuccessMessage"] != null)
-    {
-        <div class="alert alert-success alert-dismissible fade show">
-
-            @TempData["SuccessMessage"]
-
-            <button type="button"
-                    class="btn-close"
-                    data-bs-dismiss="alert">
-            </button>
-
-        </div>
-    }
-
-    @if (!Model.Any())
-    {
-        <div class="card shadow-sm">
-
-            <div class="card-body text-center py-5">
-
-                <h4>No projects added yet</h4>
-
-                <p class="text-muted">
-                    Showcase your projects to strengthen your profile.
-                </p>
+                    <p>
+                        Showcase projects that demonstrate your skills,
+                        experience and practical work.
+                    </p>
+                </div>
 
                 <a asp-action="Create"
-                   class="btn btn-primary">
-                    Add Your First Project
+                   class="cl-projects-add-btn">
+                    <i class="bi bi-plus-lg"></i>
+                    Add Project
                 </a>
 
             </div>
-
         </div>
-    }
-    else
-    {
-        <div class="row g-4">
+    </section>
 
-            @foreach (var project in Model)
+
+    <!-- Main -->
+    <section class="cl-projects-main">
+        <div class="container">
+
+            @if (TempData["SuccessMessage"] != null)
             {
-                <div class="col-md-6">
+                <div class="cl-projects-success">
 
-                    <div class="card shadow-sm h-100">
+                    <div class="cl-projects-success-icon">
+                        <i class="bi bi-check-lg"></i>
+                    </div>
 
-                        <div class="card-body d-flex flex-column">
+                    <div>
+                        <strong>Project updated</strong>
+                        <span>@TempData["SuccessMessage"]</span>
+                    </div>
 
-                            <h4 class="card-title">
-                                @project.Name
-                            </h4>
+                    <button type="button"
+                            class="btn-close ms-auto"
+                            data-bs-dismiss="alert">
+                    </button>
 
-                            @if (!string.IsNullOrWhiteSpace(project.Technologies))
-                            {
-                                <p class="mb-2">
+                </div>
+            }
 
-                                    <strong>Technologies:</strong>
 
-                                    @project.Technologies
+            @if (!Model.Any())
+            {
+                <!-- Empty State -->
+                <div class="cl-projects-empty">
 
-                                </p>
-                            }
+                    <div class="cl-projects-empty-icon">
+                        <i class="bi bi-kanban"></i>
+                    </div>
 
-                            @if (!string.IsNullOrWhiteSpace(project.Description))
-                            {
-                                <p class="text-muted">
-                                    @project.Description
-                                </p>
-                            }
+                    <div class="cl-small-label">
+                        YOUR PROJECT PORTFOLIO
+                    </div>
 
-                            @if (project.StartDate.HasValue ||
-                                 project.EndDate.HasValue)
-                            {
-                                <p class="small text-muted">
+                    <h2>No projects added yet</h2>
 
-                                    @if (project.StartDate.HasValue)
+                    <p>
+                        Add projects you've worked on to help employers
+                        understand your practical skills and experience.
+                    </p>
+
+                    <a asp-action="Create"
+                       class="cl-projects-primary-btn">
+                        <i class="bi bi-plus-lg"></i>
+                        Add Your First Project
+                    </a>
+
+                </div>
+            }
+            else
+            {
+                <!-- Section Heading -->
+                <div class="cl-projects-section-heading">
+
+                    <div>
+                        <div class="cl-small-label">
+                            YOUR PROJECTS
+                        </div>
+
+                        <h2>Featured work</h2>
+
+                        <p>
+                            Keep your project portfolio current and
+                            relevant to your career goals.
+                        </p>
+                    </div>
+
+                    <div class="cl-projects-count">
+                        <strong>@Model.Count()</strong>
+                        <span>
+                            @(Model.Count() == 1 ? "Project" : "Projects")
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <!-- Project Cards -->
+                <div class="row g-4">
+
+                    @foreach (var project in Model)
+                    {
+                        <div class="col-md-6 col-xl-4">
+
+                            <article class="cl-project-card">
+
+                                <div class="cl-project-card-top">
+
+                                    <div class="cl-project-icon">
+                                        <i class="bi bi-kanban"></i>
+                                    </div>
+
+                                    <div class="cl-project-card-actions">
+
+                                        <a asp-action="Edit"
+                                           asp-route-id="@project.Id"
+                                           class="cl-project-icon-btn"
+                                           title="Edit project">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+
+                                        <a asp-action="Delete"
+                                           asp-route-id="@project.Id"
+                                           class="cl-project-icon-btn cl-project-delete-btn"
+                                           title="Delete project">
+                                            <i class="bi bi-trash3"></i>
+                                        </a>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="cl-project-card-content">
+
+                                    <h3>
+                                        @project.Name
+                                    </h3>
+
+
+                                    @if (!string.IsNullOrWhiteSpace(project.Technologies))
                                     {
-                                        @project.StartDate.Value.ToString("MMM yyyy")
+                                        <div class="cl-project-technologies">
+
+                                            <div class="cl-project-meta-label">
+                                                <i class="bi bi-code-slash"></i>
+                                                Technologies
+                                            </div>
+
+                                            <p>
+                                                @project.Technologies
+                                            </p>
+
+                                        </div>
                                     }
 
-                                    @if (project.StartDate.HasValue &&
+
+                                    @if (!string.IsNullOrWhiteSpace(project.Description))
+                                    {
+                                        <p class="cl-project-description">
+                                            @project.Description
+                                        </p>
+                                    }
+
+
+                                    @if (project.StartDate.HasValue ||
                                          project.EndDate.HasValue)
                                     {
-                                        @: -
-                                    }
+                                        <div class="cl-project-duration">
 
-                                    @if (project.EndDate.HasValue)
-                                    {
-                                        @project.EndDate.Value.ToString("MMM yyyy")
-                                    }
+                                            <i class="bi bi-calendar3"></i>
 
-                                </p>
-                            }
+                                            <span>
+                                                @if (project.StartDate.HasValue)
+                                                {
+                                                    @project.StartDate.Value.ToString("MMM yyyy")
+                                                }
 
-                            <div class="mt-auto">
+                                                @if (project.StartDate.HasValue &&
+                                                     project.EndDate.HasValue)
+                                                {
+                                                    @: -
+                                                }
 
-                                <div class="d-flex flex-wrap gap-2 mb-3">
+                                                @if (project.EndDate.HasValue)
+                                                {
+                                                    @project.EndDate.Value.ToString("MMM yyyy")
+                                                }
+                                            </span>
 
-                                    @if (!string.IsNullOrWhiteSpace(project.ProjectUrl))
-                                    {
-                                        <a href="@project.ProjectUrl"
-                                           target="_blank"
-                                           rel="noopener noreferrer"
-                                           class="btn btn-outline-primary btn-sm">
-                                            Project
-                                        </a>
-                                    }
-
-                                    @if (!string.IsNullOrWhiteSpace(project.GithubUrl))
-                                    {
-                                        <a href="@project.GithubUrl"
-                                           target="_blank"
-                                           rel="noopener noreferrer"
-                                           class="btn btn-outline-dark btn-sm">
-                                            GitHub
-                                        </a>
+                                        </div>
                                     }
 
                                 </div>
 
-                                <div class="d-flex gap-2">
+
+                                <div class="cl-project-card-footer">
+
+                                    <div class="cl-project-links">
+
+                                        @if (!string.IsNullOrWhiteSpace(project.ProjectUrl))
+                                        {
+                                            <a href="@project.ProjectUrl"
+                                               target="_blank"
+                                               rel="noopener noreferrer"
+                                               class="cl-project-link">
+                                                <i class="bi bi-box-arrow-up-right"></i>
+                                                Project
+                                            </a>
+                                        }
+
+                                        @if (!string.IsNullOrWhiteSpace(project.GithubUrl))
+                                        {
+                                            <a href="@project.GithubUrl"
+                                               target="_blank"
+                                               rel="noopener noreferrer"
+                                               class="cl-project-link cl-project-github-link">
+                                                <i class="bi bi-github"></i>
+                                                GitHub
+                                            </a>
+                                        }
+
+                                    </div>
+
 
                                     <a asp-action="Edit"
                                        asp-route-id="@project.Id"
-                                       class="btn btn-outline-primary btn-sm">
+                                       class="cl-project-edit-link">
                                         Edit
-                                    </a>
-
-                                    <a asp-action="Delete"
-                                       asp-route-id="@project.Id"
-                                       class="btn btn-outline-danger btn-sm">
-                                        Delete
+                                        <i class="bi bi-arrow-right"></i>
                                     </a>
 
                                 </div>
 
-                            </div>
+                            </article>
 
                         </div>
-
-                    </div>
+                    }
 
                 </div>
             }
 
         </div>
-    }
+    </section>
 
 </div>

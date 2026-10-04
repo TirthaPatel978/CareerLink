@@ -4,71 +4,154 @@
     ViewData["Title"] = "Delete Certification";
 }
 
-<div class="container py-4">
+<div class="cl-certifications-page">
 
-    <div class="row justify-content-center">
+    <section class="cl-certifications-header">
 
-        <div class="col-lg-7">
+        <div class="container">
 
-            <div class="card shadow-sm">
+            <div class="cl-certifications-header-content">
 
-                <div class="card-body p-4">
+                <div>
 
-                    <h2 class="fw-bold text-danger mb-3">
-                        Delete Certification
-                    </h2>
-
-                    <p>
-                        Are you sure you want to delete this
-                        certification?
-                    </p>
-
-                    <div class="border rounded p-3 mb-4">
-
-                        <h5 class="fw-bold">
-                            @Model.Name
-                        </h5>
-
-                        @if (!string.IsNullOrWhiteSpace(
-                            Model.IssuingOrganization))
-                        {
-                            <p class="mb-1">
-                                @Model.IssuingOrganization
-                            </p>
-                        }
-
-                        <p class="text-muted mb-0">
-
-                            Issued:
-
-                            @Model.IssueDate
-                            .ToString("dd MMM yyyy")
-
-                        </p>
-
+                    <div class="cl-dashboard-eyebrow">
+                        <i class="bi bi-award"></i>
+                        Professional Profile
                     </div>
 
-                    <form asp-action="DeleteConfirmed"
-                          method="post">
+                    <h1>Delete Certification</h1>
 
-                        <input type="hidden"
-                               asp-for="Id" />
+                    <p>
+                        Review this certification before removing it
+                        from your profile.
+                    </p>
 
-                        <div class="d-flex justify-content-between">
+                </div>
 
-                            <a asp-action="Index"
-                               class="btn btn-secondary">
-                                Cancel
-                            </a>
+                <a asp-action="Index"
+                   class="cl-certifications-back-btn">
 
-                            <button type="submit"
-                                    class="btn btn-danger">
-                                Delete Certification
-                            </button>
+                    <i class="bi bi-arrow-left"></i>
+                    Back to Certifications
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="cl-certifications-form-section">
+
+        <div class="container">
+
+            <div class="row justify-content-center">
+
+                <div class="col-lg-7 col-xl-6">
+
+                    <div class="cl-certifications-delete-card">
+
+                        <div class="cl-certifications-delete-icon">
+                            <i class="bi bi-trash3"></i>
+                        </div>
+
+                        <div class="cl-small-label">
+                            REMOVE CERTIFICATION
+                        </div>
+
+                        <h2>Are you sure?</h2>
+
+                        <p class="cl-certifications-delete-description">
+                            This will permanently remove this certification
+                            from your professional profile.
+                        </p>
+
+
+                        <div class="cl-certifications-delete-details">
+
+                            <div class="cl-certifications-delete-detail">
+
+                                <span>Certification</span>
+
+                                <strong>
+                                    @Model.Name
+                                </strong>
+
+                            </div>
+
+
+                            @if (!string.IsNullOrWhiteSpace(
+                                Model.IssuingOrganization))
+                            {
+                                <div class="cl-certifications-delete-detail">
+
+                                    <span>Issued By</span>
+
+                                    <strong>
+                                        @Model.IssuingOrganization
+                                    </strong>
+
+                                </div>
+                            }
+
+
+                            <div class="cl-certifications-delete-detail">
+
+                                <span>Issue Date</span>
+
+                                <strong>
+                                    @Model.IssueDate.ToString("dd MMM yyyy")
+                                </strong>
+
+                            </div>
+
+
+                            <div class="cl-certifications-delete-detail">
+
+                                <span>Expiry</span>
+
+                                <strong>
+
+                                    @(Model.ExpiryDate.HasValue
+                                        ? Model.ExpiryDate.Value.ToString("dd MMM yyyy")
+                                        : "No expiry")
+
+                                </strong>
+
+                            </div>
 
                         </div>
 
-                    </form>
+
+                        <form asp-action="DeleteConfirmed"
+                              method="post">
+
+                            <input type="hidden"
+                                   asp-for="Id" />
+
+
+                            <div class="cl-certifications-delete-footer">
+
+                                <a asp-action="Index"
+                                   class="cl-certifications-cancel-btn">
+                                    Cancel
+                                </a>
+
+                                <button type="submit"
+                                        class="cl-certifications-delete-confirm-btn">
+
+                                    <i class="bi bi-trash3"></i>
+                                    Delete Certification
+
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
 
                 </div>
 
@@ -76,6 +159,6 @@
 
         </div>
 
-    </div>
+    </section>
 
 </div>

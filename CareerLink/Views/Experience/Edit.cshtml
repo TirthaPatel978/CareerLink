@@ -4,160 +4,276 @@
     ViewData["Title"] = "Edit Experience";
 }
 
-<div class="container py-4">
+<div class="cl-experience-page">
 
-    <div class="row justify-content-center">
+    <!-- PAGE HEADER -->
+    <section class="cl-experience-header">
+        <div class="container">
 
-        <div class="col-lg-8">
+            <div class="cl-experience-header-content">
 
-            <div class="mb-4">
+                <div>
+                    <div class="cl-dashboard-eyebrow">
+                        <i class="bi bi-briefcase"></i>
+                        Professional Profile
+                    </div>
 
-                <h1 class="fw-bold">Edit Experience</h1>
+                    <h1>Edit Experience</h1>
 
-                <p class="text-muted">
-                    Update your professional experience.
-                </p>
+                    <p>
+                        Keep your professional experience accurate
+                        and up to date.
+                    </p>
+                </div>
+
+                <a asp-action="Index"
+                   class="cl-experience-back-btn">
+                    <i class="bi bi-arrow-left"></i>
+                    Back to Experience
+                </a>
 
             </div>
 
-            <div class="card shadow-sm">
+        </div>
+    </section>
 
-                <div class="card-body p-4">
 
-                    <form asp-action="Edit"
-                          method="post">
+    <!-- FORM -->
+    <section class="cl-experience-form-section">
 
-                        <input type="hidden"
-                               asp-for="Id" />
+        <div class="container">
 
-                        <div asp-validation-summary="ModelOnly"
-                             class="alert alert-danger">
-                        </div>
+            <div class="row justify-content-center">
 
-                        <div class="mb-3">
+                <div class="col-lg-9 col-xl-8">
 
-                            <label asp-for="JobTitle"
-                                   class="form-label">
-                            </label>
+                    <div class="cl-experience-form-card">
 
-                            <input asp-for="JobTitle"
-                                   class="form-control" />
+                        <div class="cl-experience-form-heading">
 
-                            <span asp-validation-for="JobTitle"
-                                  class="text-danger">
-                            </span>
-
-                        </div>
-
-                        <div class="mb-3">
-
-                            <label asp-for="CompanyName"
-                                   class="form-label">
-                            </label>
-
-                            <input asp-for="CompanyName"
-                                   class="form-control" />
-
-                            <span asp-validation-for="CompanyName"
-                                  class="text-danger">
-                            </span>
-
-                        </div>
-
-                        <div class="mb-3">
-
-                            <label asp-for="Location"
-                                   class="form-label">
-                            </label>
-
-                            <input asp-for="Location"
-                                   class="form-control" />
-
-                            <span asp-validation-for="Location"
-                                  class="text-danger">
-                            </span>
-
-                        </div>
-
-                        <div class="row">
-
-                            <div class="col-md-6 mb-3">
-
-                                <label asp-for="StartDate"
-                                       class="form-label">
-                                </label>
-
-                                <input asp-for="StartDate"
-                                       type="date"
-                                       class="form-control" />
-
-                                <span asp-validation-for="StartDate"
-                                      class="text-danger">
-                                </span>
-
+                            <div class="cl-experience-form-icon">
+                                <i class="bi bi-pencil"></i>
                             </div>
 
-                            <div class="col-md-6 mb-3">
+                            <div>
+                                <div class="cl-small-label">
+                                    UPDATE EXPERIENCE
+                                </div>
 
-                                <label asp-for="EndDate"
-                                       class="form-label">
-                                </label>
+                                <h2>Edit your work experience</h2>
 
-                                <input asp-for="EndDate"
-                                       type="date"
-                                       class="form-control" />
-
-                                <span asp-validation-for="EndDate"
-                                      class="text-danger">
-                                </span>
-
+                                <p>
+                                    Update the details below to keep
+                                    your career history current.
+                                </p>
                             </div>
 
                         </div>
 
-                        <div class="form-check mb-4">
 
-                            <input asp-for="IsCurrent"
-                                   class="form-check-input" />
+                        <form asp-action="Edit"
+                              method="post">
 
-                            <label asp-for="IsCurrent"
-                                   class="form-check-label">
-                            </label>
+                            <input type="hidden"
+                                   asp-for="Id" />
 
-                        </div>
+                            <div asp-validation-summary="ModelOnly"
+                                 class="cl-experience-validation">
+                            </div>
 
-                        <div class="mb-4">
 
-                            <label asp-for="Description"
-                                   class="form-label">
-                            </label>
+                            <!-- JOB DETAILS -->
+                            <div class="cl-experience-form-section-title">
+                                <i class="bi bi-person-workspace"></i>
+                                Position details
+                            </div>
 
-                            <textarea asp-for="Description"
-                                      class="form-control"
-                                      rows="5">
-                            </textarea>
+                            <div class="row g-4">
 
-                            <span asp-validation-for="Description"
-                                  class="text-danger">
-                            </span>
+                                <div class="col-md-6">
 
-                        </div>
+                                    <div class="cl-experience-field">
 
-                        <div class="d-flex justify-content-between">
+                                        <label asp-for="JobTitle"
+                                               class="cl-experience-label">
+                                        </label>
 
-                            <a asp-action="Index"
-                               class="btn btn-secondary">
-                                Cancel
-                            </a>
+                                        <input asp-for="JobTitle"
+                                               class="cl-experience-input" />
 
-                            <button type="submit"
-                                    class="btn btn-primary">
-                                Save Changes
-                            </button>
+                                        <span asp-validation-for="JobTitle"
+                                              class="cl-experience-error">
+                                        </span>
 
-                        </div>
+                                    </div>
 
-                    </form>
+                                </div>
+
+
+                                <div class="col-md-6">
+
+                                    <div class="cl-experience-field">
+
+                                        <label asp-for="CompanyName"
+                                               class="cl-experience-label">
+                                        </label>
+
+                                        <input asp-for="CompanyName"
+                                               class="cl-experience-input" />
+
+                                        <span asp-validation-for="CompanyName"
+                                              class="cl-experience-error">
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="col-12">
+
+                                    <div class="cl-experience-field">
+
+                                        <label asp-for="Location"
+                                               class="cl-experience-label">
+                                        </label>
+
+                                        <div class="cl-experience-input-wrapper">
+
+                                            <i class="bi bi-geo-alt"></i>
+
+                                            <input asp-for="Location"
+                                                   class="cl-experience-input cl-experience-input-with-icon" />
+
+                                        </div>
+
+                                        <span asp-validation-for="Location"
+                                              class="cl-experience-error">
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- DATES -->
+                            <div class="cl-experience-form-section-title cl-experience-section-spaced">
+                                <i class="bi bi-calendar3"></i>
+                                Employment period
+                            </div>
+
+                            <div class="row g-4">
+
+                                <div class="col-md-6">
+
+                                    <div class="cl-experience-field">
+
+                                        <label asp-for="StartDate"
+                                               class="cl-experience-label">
+                                        </label>
+
+                                        <input asp-for="StartDate"
+                                               type="date"
+                                               class="cl-experience-input" />
+
+                                        <span asp-validation-for="StartDate"
+                                              class="cl-experience-error">
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="col-md-6">
+
+                                    <div class="cl-experience-field">
+
+                                        <label asp-for="EndDate"
+                                               class="cl-experience-label">
+                                        </label>
+
+                                        <input asp-for="EndDate"
+                                               type="date"
+                                               class="cl-experience-input" />
+
+                                        <span asp-validation-for="EndDate"
+                                              class="cl-experience-error">
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="col-12">
+
+                                    <label class="cl-experience-current-toggle">
+
+                                        <input asp-for="IsCurrent" />
+
+                                        <span class="cl-experience-toggle-box">
+                                            <i class="bi bi-check"></i>
+                                        </span>
+
+                                        <span>
+                                            <strong>Currently working here</strong>
+                                            <small>
+                                                Mark this position as your current job.
+                                            </small>
+                                        </span>
+
+                                    </label>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- DESCRIPTION -->
+                            <div class="cl-experience-form-section-title cl-experience-section-spaced">
+                                <i class="bi bi-card-text"></i>
+                                Role description
+                            </div>
+
+                            <div class="cl-experience-field">
+
+                                <label asp-for="Description"
+                                       class="cl-experience-label">
+                                </label>
+
+                                <textarea asp-for="Description"
+                                          class="cl-experience-textarea"
+                                          rows="6"></textarea>
+
+                                <span asp-validation-for="Description"
+                                      class="cl-experience-error">
+                                </span>
+
+                            </div>
+
+
+                            <!-- FOOTER -->
+                            <div class="cl-experience-form-footer">
+
+                                <a asp-action="Index"
+                                   class="cl-experience-cancel-btn">
+                                    Cancel
+                                </a>
+
+                                <button type="submit"
+                                        class="cl-experience-save-btn">
+                                    <i class="bi bi-check2"></i>
+                                    Save Changes
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
 
                 </div>
 
@@ -165,7 +281,7 @@
 
         </div>
 
-    </div>
+    </section>
 
 </div>
 

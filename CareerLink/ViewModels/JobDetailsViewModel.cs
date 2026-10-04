@@ -12,7 +12,7 @@ namespace CareerLink.ViewModels
 
         public string CompanyName { get; set; } = string.Empty;
 
-        public string? CompanyDescription { get; set; }
+        public string CompanyDescription { get; set; } = string.Empty;
 
         public string? CompanyWebsite { get; set; }
 
@@ -36,12 +36,12 @@ namespace CareerLink.ViewModels
 
         public DateTime CreatedAt { get; set; }
 
-        public List<JobDetailsSkillViewModel> Skills { get; set; }
-            = new List<JobDetailsSkillViewModel>();
-
         public bool IsSaved { get; set; }
 
         public bool HasApplied { get; set; }
+
+        public List<JobDetailsSkillViewModel> Skills { get; set; }
+            = new List<JobDetailsSkillViewModel>();
     }
 
     public class JobDetailsSkillViewModel

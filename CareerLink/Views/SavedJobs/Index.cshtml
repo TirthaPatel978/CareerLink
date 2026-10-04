@@ -4,168 +4,257 @@
     ViewData["Title"] = "Saved Jobs";
 }
 
-<div class="container py-4">
+<div class="cl-saved-page">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h1 class="fw-bold">Saved Jobs</h1>
-            <p class="text-muted mb-0">
-                Jobs you saved for later.
-            </p>
+    <!-- Page Header -->
+    <div class="cl-saved-header">
+
+        <div class="cl-saved-heading">
+
+            <div class="cl-saved-icon">
+                ♡
+            </div>
+
+            <div>
+                <div class="cl-dashboard-eyebrow">
+                    JOB SEEKER
+                </div>
+
+                <h1>Saved Jobs</h1>
+
+                <p>
+                    Keep track of opportunities you want to explore later.
+                </p>
+            </div>
+
         </div>
 
         <a asp-controller="Jobs"
            asp-action="Index"
-           class="btn btn-primary">
+           class="cl-saved-browse-btn">
             Browse Jobs
         </a>
+
     </div>
+
 
     @if (!Model.Any())
     {
-        <div class="card shadow-sm">
-            <div class="card-body text-center py-5">
+        <!-- Empty State -->
+        <div class="cl-saved-empty">
 
-                <h4 class="mb-3">No saved jobs yet</h4>
-
-                <p class="text-muted mb-4">
-                    Save jobs you're interested in so you can easily
-                    come back to them later.
-                </p>
-
-                <a asp-controller="Jobs"
-                   asp-action="Index"
-                   class="btn btn-primary">
-                    Browse Jobs
-                </a>
-
+            <div class="cl-saved-empty-icon">
+                ♡
             </div>
+
+            <h2>No saved jobs yet</h2>
+
+            <p>
+                When you find a job you're interested in,
+                save it and it will appear here so you can
+                easily come back to it later.
+            </p>
+
+            <a asp-controller="Jobs"
+               asp-action="Index"
+               class="cl-saved-primary-btn">
+                Explore Jobs
+            </a>
+
         </div>
     }
     else
     {
-        <div class="row g-4">
+        <!-- Saved Jobs -->
+        <div class="cl-saved-list">
 
             @foreach (var job in Model)
             {
-                <div class="col-12">
+                <article class="cl-saved-card">
 
-                    <div class="card shadow-sm">
+                    <!-- Top Section -->
+                    <div class="cl-saved-card-top">
 
-                        <div class="card-body">
+                        <div class="cl-saved-job-main">
 
-                            <div class="d-flex justify-content-between
-                                align-items-start">
+                            <div class="cl-saved-company-icon">
+                                @if (!string.IsNullOrWhiteSpace(job.CompanyName))
+                                {
+                                    @job.CompanyName.Substring(
+                                        0,
+                                        1
+                                    ).ToUpper()
+                                }
+                                else
+                                {
+                                    <span>J</span>
+                                }
+                            </div>
 
-                                <div>
-                                    <h4 class="mb-1">
-                                        @job.Title
-                                    </h4>
+                            <div>
 
-                                    <h6 class="text-muted mb-3">
-                                        @job.CompanyName
-                                    </h6>
+                                <h2 class="cl-saved-job-title">
+                                    @job.Title
+                                </h2>
+
+                                <div class="cl-saved-company">
+                                    @job.CompanyName
                                 </div>
-
-                                @if (job.IsRemote)
-                                {
-                                    <span class="badge bg-success">
-                                        Remote
-                                    </span>
-                                }
-
-                            </div>
-
-                            <div class="mb-3">
-
-                                <span class="badge bg-primary me-2">
-                                    @job.JobType
-                                </span>
-
-                                @if (!string.IsNullOrWhiteSpace(job.Location))
-                                {
-                                    <span class="text-muted me-3">
-                                        📍 @job.Location
-                                    </span>
-                                }
-
-                                @if (job.SalaryMin.HasValue ||
-                                     job.SalaryMax.HasValue)
-                                {
-                                    <span class="text-muted">
-                                        💰
-
-                                        @if (job.SalaryMin.HasValue &&
-                                             job.SalaryMax.HasValue)
-                                        {
-                                            @($"{job.SalaryMin:N0} - {job.SalaryMax:N0}")
-                                        }
-                                        else if (job.SalaryMin.HasValue)
-                                        {
-                                            @($"From {job.SalaryMin:N0}")
-                                        }
-                                        else
-                                        {
-                                            @($"Up to {job.SalaryMax:N0}")
-                                        }
-                                    </span>
-                                }
-
-                            </div>
-
-                            <div class="small text-muted mb-3">
-
-                                <div>
-                                    Saved on:
-                                    @job.SavedAt.ToLocalTime()
-                                    .ToString("dd MMM yyyy")
-                                </div>
-
-                                @if (job.ApplicationDeadline.HasValue)
-                                {
-                                    <div>
-                                        Application deadline:
-                                        @job.ApplicationDeadline.Value
-                                        .ToLocalTime()
-                                        .ToString("dd MMM yyyy")
-                                    </div>
-                                }
-
-                            </div>
-
-                            <div class="d-flex gap-2">
-
-                                <a asp-controller="Jobs"
-                                   asp-action="Details"
-                                   asp-route-id="@job.JobId"
-                                   class="btn btn-primary">
-                                    View Job
-                                </a>
-
-                                <form asp-controller="SavedJobs"
-                                      asp-action="Remove"
-                                      method="post">
-
-                                    @Html.AntiForgeryToken()
-
-                                    <input type="hidden"
-                                           name="jobId"
-                                           value="@job.JobId" />
-
-                                    <button type="submit"
-                                            class="btn btn-outline-danger">
-                                        Remove
-                                    </button>
-
-                                </form>
 
                             </div>
 
                         </div>
 
+                        @if (job.IsRemote)
+                        {
+                            <span class="cl-saved-remote">
+                                Remote
+                            </span>
+                        }
+
                     </div>
 
-                </div>
+
+                    <!-- Job Information -->
+                    <div class="cl-saved-meta">
+
+                        <div class="cl-saved-meta-item">
+
+                            <span class="cl-saved-meta-icon">
+                                📍
+                            </span>
+
+                            <span>
+                                @if (!string.IsNullOrWhiteSpace(job.Location))
+                                {
+                                    @job.Location
+                                }
+                                else
+                                {
+                                    <span>Location not specified</span>
+                                }
+                            </span>
+
+                        </div>
+
+
+                        <div class="cl-saved-meta-item">
+
+                            <span class="cl-saved-meta-icon">
+                                💼
+                            </span>
+
+                            <span>
+                                @job.JobType
+                            </span>
+
+                        </div>
+
+
+                        @if (job.SalaryMin.HasValue ||
+                             job.SalaryMax.HasValue)
+                        {
+                            <div class="cl-saved-meta-item">
+
+                                <span class="cl-saved-meta-icon">
+                                    💰
+                                </span>
+
+                                <span>
+
+                                    @if (job.SalaryMin.HasValue &&
+                                         job.SalaryMax.HasValue)
+                                    {
+                                        @($"{job.SalaryMin:N0} - {job.SalaryMax:N0}")
+                                    }
+                                    else if (job.SalaryMin.HasValue)
+                                    {
+                                        @($"From {job.SalaryMin:N0}")
+                                    }
+                                    else
+                                    {
+                                        @($"Up to {job.SalaryMax:N0}")
+                                    }
+
+                                </span>
+
+                            </div>
+                        }
+
+                    </div>
+
+
+                    <!-- Additional Information -->
+                    <div class="cl-saved-details">
+
+                        <div class="cl-saved-detail">
+
+                            <span class="cl-saved-detail-label">
+                                Saved on
+                            </span>
+
+                            <span class="cl-saved-detail-value">
+                                @job.SavedAt
+                                .ToLocalTime()
+                                .ToString("dd MMM yyyy")
+                            </span>
+
+                        </div>
+
+
+                        @if (job.ApplicationDeadline.HasValue)
+                        {
+                            <div class="cl-saved-detail">
+
+                                <span class="cl-saved-detail-label">
+                                    Application deadline
+                                </span>
+
+                                <span class="cl-saved-detail-value cl-saved-deadline">
+
+                                    @job.ApplicationDeadline.Value
+                                    .ToLocalTime()
+                                    .ToString("dd MMM yyyy")
+
+                                </span>
+
+                            </div>
+                        }
+
+                    </div>
+
+
+                    <!-- Actions -->
+                    <div class="cl-saved-actions">
+
+                        <a asp-controller="Jobs"
+                           asp-action="Details"
+                           asp-route-id="@job.JobId"
+                           class="cl-saved-view-btn">
+                            View Job
+                        </a>
+
+                        <form asp-controller="SavedJobs"
+                              asp-action="Remove"
+                              method="post"
+                              class="cl-saved-remove-form">
+
+                            @Html.AntiForgeryToken()
+
+                            <input type="hidden"
+                                   name="jobId"
+                                   value="@job.JobId" />
+
+                            <button type="submit"
+                                    class="cl-saved-remove-btn">
+                                Remove
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </article>
             }
 
         </div>

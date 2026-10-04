@@ -4,115 +4,169 @@
     ViewData["Title"] = "Add Skill";
 }
 
-<div class="container py-4">
+<div class="cl-skills-page">
 
-    <div class="row justify-content-center">
+    <section class="cl-skills-header">
+        <div class="container">
 
-        <div class="col-lg-7">
+            <div class="cl-skills-header-content">
 
-            <div class="mb-4">
+                <div>
+                    <div class="cl-dashboard-eyebrow">
+                        <i class="bi bi-tools"></i>
+                        Professional Profile
+                    </div>
 
-                <h1 class="fw-bold">
-                    Add Skill
-                </h1>
+                    <h1>Add Skill</h1>
 
-                <p class="text-muted">
-                    Add a skill to your professional profile.
-                </p>
+                    <p>
+                        Add a professional skill and tell employers
+                        how confident you are with it.
+                    </p>
+                </div>
+
+                <a asp-action="Index"
+                   class="cl-skills-back-btn">
+                    <i class="bi bi-arrow-left"></i>
+                    Back to Skills
+                </a>
 
             </div>
 
-            <div class="card shadow-sm">
+        </div>
+    </section>
 
-                <div class="card-body p-4">
 
-                    <form asp-action="Add"
-                          method="post">
+    <section class="cl-skills-form-section">
+        <div class="container">
 
-                        <div asp-validation-summary="ModelOnly"
-                             class="alert alert-danger">
-                        </div>
+            <div class="row justify-content-center">
 
-                        <div class="mb-4">
+                <div class="col-lg-8 col-xl-7">
 
-                            <label asp-for="SkillName"
-                                   class="form-label">
-                            </label>
+                    <div class="cl-skills-form-card">
 
-                            <input asp-for="SkillName"
-                                   class="form-control"
-                                   placeholder="e.g. C#, React, Python, Docker..." />
+                        <div class="cl-skills-form-heading">
 
-                            <div class="form-text">
-                                Enter the name of your skill.
+                            <div class="cl-skills-form-icon">
+                                <i class="bi bi-plus-lg"></i>
                             </div>
 
-                            <span asp-validation-for="SkillName"
-                                  class="text-danger">
-                            </span>
+                            <div>
+                                <div class="cl-small-label">
+                                    NEW SKILL
+                                </div>
+
+                                <h2>Add a professional skill</h2>
+
+                                <p>
+                                    Add a skill that represents your
+                                    professional knowledge or abilities.
+                                </p>
+                            </div>
 
                         </div>
 
-                        <div class="mb-4">
 
-                            <label asp-for="ProficiencyLevel"
-                                   class="form-label">
-                            </label>
+                        <form asp-action="Add"
+                              method="post">
 
-                            <select asp-for="ProficiencyLevel"
-                                    class="form-select">
+                            <div asp-validation-summary="ModelOnly"
+                                 class="cl-skills-validation">
+                            </div>
 
-                                <option value="1">
-                                    1 - Beginner
-                                </option>
 
-                                <option value="2">
-                                    2 - Basic
-                                </option>
+                            <div class="cl-skills-field">
 
-                                <option value="3">
-                                    3 - Intermediate
-                                </option>
+                                <label asp-for="SkillName"
+                                       class="cl-skills-label">
+                                </label>
 
-                                <option value="4">
-                                    4 - Advanced
-                                </option>
+                                <input asp-for="SkillName"
+                                       class="cl-skills-input"
+                                       placeholder="e.g. C#, React, Python, Docker..." />
 
-                                <option value="5">
-                                    5 - Expert
-                                </option>
+                                <div class="cl-skills-help">
+                                    <i class="bi bi-info-circle"></i>
+                                    Enter the name of your skill.
+                                </div>
 
-                            </select>
+                                <span asp-validation-for="SkillName"
+                                      class="cl-skills-error">
+                                </span>
 
-                            <span asp-validation-for="ProficiencyLevel"
-                                  class="text-danger">
-                            </span>
+                            </div>
 
-                        </div>
 
-                        <div class="d-flex justify-content-between">
+                            <div class="cl-skills-field">
 
-                            <a asp-action="Index"
-                               class="btn btn-secondary">
-                                Cancel
-                            </a>
+                                <label asp-for="ProficiencyLevel"
+                                       class="cl-skills-label">
+                                </label>
 
-                            <button type="submit"
-                                    class="btn btn-primary">
-                                Add Skill
-                            </button>
+                                <select asp-for="ProficiencyLevel"
+                                        class="cl-skills-select">
 
-                        </div>
+                                    <option value="1">
+                                        1 - Beginner
+                                    </option>
 
-                    </form>
+                                    <option value="2">
+                                        2 - Basic
+                                    </option>
+
+                                    <option value="3">
+                                        3 - Intermediate
+                                    </option>
+
+                                    <option value="4">
+                                        4 - Advanced
+                                    </option>
+
+                                    <option value="5">
+                                        5 - Expert
+                                    </option>
+
+                                </select>
+
+                                <div class="cl-skills-help">
+                                    <i class="bi bi-bar-chart"></i>
+                                    Choose the level that best represents
+                                    your current ability.
+                                </div>
+
+                                <span asp-validation-for="ProficiencyLevel"
+                                      class="cl-skills-error">
+                                </span>
+
+                            </div>
+
+
+                            <div class="cl-skills-form-footer">
+
+                                <a asp-action="Index"
+                                   class="cl-skills-cancel-btn">
+                                    Cancel
+                                </a>
+
+                                <button type="submit"
+                                        class="cl-skills-save-btn">
+                                    <i class="bi bi-plus-lg"></i>
+                                    Add Skill
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
 
                 </div>
 
             </div>
 
         </div>
-
-    </div>
+    </section>
 
 </div>
 

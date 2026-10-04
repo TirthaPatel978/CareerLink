@@ -4,137 +4,218 @@
     ViewData["Title"] = "Add Certification";
 }
 
-<div class="container py-4">
+<div class="cl-certifications-page">
 
-    <div class="row justify-content-center">
+    <section class="cl-certifications-header">
+        <div class="container">
 
-        <div class="col-lg-8">
+            <div class="cl-certifications-header-content">
 
-            <div class="mb-4">
+                <div>
+                    <div class="cl-dashboard-eyebrow">
+                        <i class="bi bi-award"></i>
+                        Professional Profile
+                    </div>
 
-                <h1 class="fw-bold">
-                    Add Certification
-                </h1>
+                    <h1>Add Certification</h1>
 
-                <p class="text-muted">
-                    Add a professional certification to your profile.
-                </p>
+                    <p>
+                        Add a professional certification to strengthen
+                        your CareerLink profile.
+                    </p>
+                </div>
+
+                <a asp-action="Index"
+                   class="cl-certifications-back-btn">
+                    <i class="bi bi-arrow-left"></i>
+                    Back to Certifications
+                </a>
 
             </div>
 
-            <div class="card shadow-sm">
+        </div>
+    </section>
 
-                <div class="card-body p-4">
 
-                    <form asp-action="Create"
-                          method="post">
+    <section class="cl-certifications-form-section">
 
-                        <div asp-validation-summary="ModelOnly"
-                             class="alert alert-danger">
-                        </div>
+        <div class="container">
 
-                        <div class="mb-3">
+            <div class="row justify-content-center">
 
-                            <label asp-for="Name"
-                                   class="form-label">
-                            </label>
+                <div class="col-lg-8 col-xl-7">
 
-                            <input asp-for="Name"
-                                   class="form-control"
-                                   placeholder="e.g. AWS Certified Cloud Practitioner" />
+                    <div class="cl-certifications-form-card">
 
-                            <span asp-validation-for="Name"
-                                  class="text-danger">
-                            </span>
+                        <div class="cl-certifications-form-heading">
 
-                        </div>
+                            <div class="cl-certifications-form-icon">
+                                <i class="bi bi-plus-lg"></i>
+                            </div>
 
-                        <div class="mb-3">
+                            <div>
 
-                            <label asp-for="IssuingOrganization"
-                                   class="form-label">
-                            </label>
+                                <div class="cl-small-label">
+                                    NEW CERTIFICATION
+                                </div>
 
-                            <input asp-for="IssuingOrganization"
-                                   class="form-control"
-                                   placeholder="e.g. Amazon Web Services" />
+                                <h2>Add a professional credential</h2>
 
-                            <span asp-validation-for="IssuingOrganization"
-                                  class="text-danger">
-                            </span>
+                                <p>
+                                    Enter the details of a certification
+                                    you have earned.
+                                </p>
+
+                            </div>
 
                         </div>
 
-                        <div class="row">
 
-                            <div class="col-md-6 mb-3">
+                        <form asp-action="Create"
+                              method="post">
 
-                                <label asp-for="IssueDate"
-                                       class="form-label">
+                            <div asp-validation-summary="ModelOnly"
+                                 class="cl-certifications-validation">
+                            </div>
+
+
+                            <div class="cl-certifications-field">
+
+                                <label asp-for="Name"
+                                       class="cl-certifications-label">
                                 </label>
 
-                                <input asp-for="IssueDate"
-                                       class="form-control" />
+                                <input asp-for="Name"
+                                       class="cl-certifications-input"
+                                       placeholder="e.g. AWS Certified Cloud Practitioner" />
 
-                                <span asp-validation-for="IssueDate"
-                                      class="text-danger">
+                                <div class="cl-certifications-help">
+                                    <i class="bi bi-info-circle"></i>
+                                    Enter the official name of your certification.
+                                </div>
+
+                                <span asp-validation-for="Name"
+                                      class="cl-certifications-error">
                                 </span>
 
                             </div>
 
-                            <div class="col-md-6 mb-3">
 
-                                <label asp-for="ExpiryDate"
-                                       class="form-label">
+                            <div class="cl-certifications-field">
+
+                                <label asp-for="IssuingOrganization"
+                                       class="cl-certifications-label">
                                 </label>
 
-                                <input asp-for="ExpiryDate"
-                                       class="form-control" />
+                                <input asp-for="IssuingOrganization"
+                                       class="cl-certifications-input"
+                                       placeholder="e.g. Amazon Web Services" />
 
-                                <span asp-validation-for="ExpiryDate"
-                                      class="text-danger">
+                                <div class="cl-certifications-help">
+                                    <i class="bi bi-building"></i>
+                                    Add the organization that issued the certification.
+                                </div>
+
+                                <span asp-validation-for="IssuingOrganization"
+                                      class="cl-certifications-error">
                                 </span>
 
-                                <div class="form-text">
-                                    Leave blank if the certification
-                                    does not expire.
+                            </div>
+
+
+                            <div class="row g-3">
+
+                                <div class="col-md-6">
+
+                                    <div class="cl-certifications-field">
+
+                                        <label asp-for="IssueDate"
+                                               class="cl-certifications-label">
+                                        </label>
+
+                                        <input asp-for="IssueDate"
+                                               type="date"
+                                               class="cl-certifications-input" />
+
+                                        <span asp-validation-for="IssueDate"
+                                              class="cl-certifications-error">
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="col-md-6">
+
+                                    <div class="cl-certifications-field">
+
+                                        <label asp-for="ExpiryDate"
+                                               class="cl-certifications-label">
+                                        </label>
+
+                                        <input asp-for="ExpiryDate"
+                                               type="date"
+                                               class="cl-certifications-input" />
+
+                                        <div class="cl-certifications-help">
+                                            <i class="bi bi-calendar-check"></i>
+                                            Leave blank if the certification does not expire.
+                                        </div>
+
+                                        <span asp-validation-for="ExpiryDate"
+                                              class="cl-certifications-error">
+                                        </span>
+
+                                    </div>
+
                                 </div>
 
                             </div>
 
-                        </div>
 
-                        <div class="mb-4">
+                            <div class="cl-certifications-field">
 
-                            <label asp-for="CredentialUrl"
-                                   class="form-label">
-                            </label>
+                                <label asp-for="CredentialUrl"
+                                       class="cl-certifications-label">
+                                </label>
 
-                            <input asp-for="CredentialUrl"
-                                   class="form-control"
-                                   placeholder="https://..." />
+                                <input asp-for="CredentialUrl"
+                                       class="cl-certifications-input"
+                                       placeholder="https://..." />
 
-                            <span asp-validation-for="CredentialUrl"
-                                  class="text-danger">
-                            </span>
+                                <div class="cl-certifications-help">
+                                    <i class="bi bi-link-45deg"></i>
+                                    Optional link to verify your certification.
+                                </div>
 
-                        </div>
+                                <span asp-validation-for="CredentialUrl"
+                                      class="cl-certifications-error">
+                                </span>
 
-                        <div class="d-flex justify-content-between">
+                            </div>
 
-                            <a asp-action="Index"
-                               class="btn btn-secondary">
-                                Cancel
-                            </a>
 
-                            <button type="submit"
-                                    class="btn btn-primary">
-                                Add Certification
-                            </button>
+                            <div class="cl-certifications-form-footer">
 
-                        </div>
+                                <a asp-action="Index"
+                                   class="cl-certifications-cancel-btn">
+                                    Cancel
+                                </a>
 
-                    </form>
+                                <button type="submit"
+                                        class="cl-certifications-save-btn">
+
+                                    <i class="bi bi-plus-lg"></i>
+                                    Add Certification
+
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
 
                 </div>
 
@@ -142,9 +223,10 @@
 
         </div>
 
-    </div>
+    </section>
 
 </div>
+
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

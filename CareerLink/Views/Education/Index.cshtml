@@ -4,119 +4,248 @@
     ViewData["Title"] = "My Education";
 }
 
-<div class="container py-4">
+<div class="cl-education-page">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h1 class="fw-bold">My Education</h1>
-            <p class="text-muted mb-0">
-                Add and manage your educational qualifications.
-            </p>
-        </div>
+    <!-- PAGE HEADER -->
+    <section class="cl-education-header">
+        <div class="container">
+            <div class="cl-education-header-content">
 
-        <a asp-action="Create"
-           class="btn btn-primary">
-            + Add Education
-        </a>
-    </div>
+                <div>
+                    <div class="cl-dashboard-eyebrow">
+                        <i class="bi bi-mortarboard"></i>
+                        Professional Profile
+                    </div>
 
-    @if (TempData["SuccessMessage"] != null)
-    {
-        <div class="alert alert-success alert-dismissible fade show">
-            @TempData["SuccessMessage"]
+                    <h1>My Education</h1>
 
-            <button type="button"
-                    class="btn-close"
-                    data-bs-dismiss="alert">
-            </button>
-        </div>
-    }
-
-    @if (!Model.Any())
-    {
-        <div class="card shadow-sm">
-            <div class="card-body text-center py-5">
-
-                <h4>No education records yet</h4>
-
-                <p class="text-muted">
-                    Add your educational background to improve your profile.
-                </p>
+                    <p>
+                        Manage your educational qualifications
+                        and academic background.
+                    </p>
+                </div>
 
                 <a asp-action="Create"
-                   class="btn btn-primary">
-                    Add Your First Education
+                   class="cl-education-add-btn">
+                    <i class="bi bi-plus-lg"></i>
+                    Add Education
                 </a>
 
             </div>
         </div>
-    }
-    else
-    {
-        <div class="row g-4">
+    </section>
 
-            @foreach (var education in Model)
+
+    <!-- MAIN CONTENT -->
+    <section class="cl-education-main">
+        <div class="container">
+
+            @if (TempData["SuccessMessage"] != null)
             {
-                <div class="col-md-6">
+                <div class="cl-education-success">
 
-                    <div class="card shadow-sm h-100">
+                    <div class="cl-education-success-icon">
+                        <i class="bi bi-check-lg"></i>
+                    </div>
 
-                        <div class="card-body">
+                    <div>
+                        <strong>Education updated</strong>
+                        <span>@TempData["SuccessMessage"]</span>
+                    </div>
 
-                            <h4 class="card-title">
-                                @education.Degree
-                            </h4>
+                    <button type="button"
+                            class="btn-close ms-auto"
+                            data-bs-dismiss="alert">
+                    </button>
 
-                            <h6 class="text-primary mb-3">
-                                @education.FieldOfStudy
-                            </h6>
+                </div>
+            }
 
-                            <p class="mb-2">
-                                <strong>Institution:</strong>
-                                @education.Institution
-                            </p>
 
-                            <p class="mb-2">
-                                <strong>Duration:</strong>
-                                @education.StartDate.ToString("MMM yyyy")
-                                -
-                                @(education.EndDate.HasValue
-                                    ? education.EndDate.Value.ToString("MMM yyyy")
-                                    : "Present")
-                            </p>
+            @if (!Model.Any())
+            {
+                <!-- EMPTY STATE -->
 
-                            @if (!string.IsNullOrWhiteSpace(education.Grade))
-                            {
-                                <p class="mb-3">
-                                    <strong>Grade:</strong>
-                                    @education.Grade
-                                </p>
-                            }
+                <div class="cl-education-empty">
 
-                            <div class="d-flex gap-2">
+                    <div class="cl-education-empty-icon">
+                        <i class="bi bi-mortarboard"></i>
+                    </div>
 
-                                <a asp-action="Edit"
-                                   asp-route-id="@education.Id"
-                                   class="btn btn-outline-primary btn-sm">
-                                    Edit
-                                </a>
+                    <div class="cl-education-empty-label">
+                        YOUR EDUCATION
+                    </div>
 
-                                <a asp-action="Delete"
-                                   asp-route-id="@education.Id"
-                                   class="btn btn-outline-danger btn-sm">
-                                    Delete
-                                </a>
+                    <h2>No education records yet</h2>
 
-                            </div>
+                    <p>
+                        Add your educational background to give
+                        employers a clearer picture of your
+                        academic qualifications.
+                    </p>
 
+                    <a asp-action="Create"
+                       class="cl-education-primary-btn">
+                        <i class="bi bi-plus-lg"></i>
+                        Add Your First Education
+                    </a>
+
+                </div>
+            }
+            else
+            {
+                <!-- SECTION HEADING -->
+
+                <div class="cl-education-section-heading">
+
+                    <div>
+                        <div class="cl-small-label">
+                            YOUR EDUCATION
                         </div>
 
+                        <h2>Academic background</h2>
+
+                        <p>
+                            Keep your qualifications up to date.
+                        </p>
                     </div>
+
+                    <div class="cl-education-count">
+                        <span>@Model.Count()</span>
+
+                        <small>
+                            @(Model.Count() == 1
+                                ? "Qualification"
+                                : "Qualifications")
+                        </small>
+                    </div>
+
+                </div>
+
+
+                <!-- EDUCATION CARDS -->
+
+                <div class="row g-4">
+
+                    @foreach (var education in Model)
+                    {
+                        <div class="col-md-6">
+
+                            <article class="cl-education-card">
+
+                                <div class="cl-education-card-top">
+
+                                    <div class="cl-education-icon">
+                                        <i class="bi bi-mortarboard"></i>
+                                    </div>
+
+                                    <div class="cl-education-card-actions">
+
+                                        <a asp-action="Edit"
+                                           asp-route-id="@education.Id"
+                                           class="cl-education-icon-btn"
+                                           title="Edit education">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+
+                                        <a asp-action="Delete"
+                                           asp-route-id="@education.Id"
+                                           class="cl-education-icon-btn cl-education-delete-btn"
+                                           title="Delete education">
+                                            <i class="bi bi-trash3"></i>
+                                        </a>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="cl-education-card-content">
+
+                                    <div class="cl-education-degree-label">
+                                        DEGREE
+                                    </div>
+
+                                    <h3>
+                                        @education.Degree
+                                    </h3>
+
+                                    <div class="cl-education-field">
+                                        <i class="bi bi-bookmark"></i>
+
+                                        <span>
+                                            @education.FieldOfStudy
+                                        </span>
+                                    </div>
+
+                                    <div class="cl-education-institution">
+                                        <i class="bi bi-building"></i>
+
+                                        <span>
+                                            @education.Institution
+                                        </span>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="cl-education-card-meta">
+
+                                    <div class="cl-education-meta-item">
+
+                                        <span>Duration</span>
+
+                                        <strong>
+                                            @education.StartDate.ToString("MMM yyyy")
+                                            –
+                                            @(education.EndDate.HasValue
+                                                ? education.EndDate.Value.ToString("MMM yyyy")
+                                                : "Present")
+                                        </strong>
+
+                                    </div>
+
+                                    @if (!string.IsNullOrWhiteSpace(education.Grade))
+                                    {
+                                        <div class="cl-education-meta-item">
+
+                                            <span>Grade</span>
+
+                                            <strong>
+                                                @education.Grade
+                                            </strong>
+
+                                        </div>
+                                    }
+
+                                </div>
+
+
+                                <div class="cl-education-card-footer">
+
+                                    <span>
+                                        @(education.EndDate.HasValue
+                                            ? "Completed"
+                                            : "Currently studying")
+                                    </span>
+
+                                    <a asp-action="Edit"
+                                       asp-route-id="@education.Id">
+                                        Edit
+                                        <i class="bi bi-arrow-right"></i>
+                                    </a>
+
+                                </div>
+
+                            </article>
+
+                        </div>
+                    }
 
                 </div>
             }
 
         </div>
-    }
+    </section>
 
 </div>

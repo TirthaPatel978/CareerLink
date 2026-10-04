@@ -22,10 +22,13 @@ namespace CareerLink.Controllers
             _userManager = userManager;
         }
 
+        // =========================================================
+        // JOB SEARCH
         // GET: /Jobs
+        // =========================================================
+
         [HttpGet]
-        public async Task<IActionResult> Index(
-            JobSearchViewModel model)
+        public async Task<IActionResult> Index(JobSearchViewModel model)
         {
             var query = _context.Jobs
                 .Include(x => x.Company)
@@ -65,8 +68,7 @@ namespace CareerLink.Controllers
                 query = query.Where(x => x.IsRemote);
             }
 
-            // Do not display jobs whose application deadline
-            // has already passed.
+            // Do not show jobs whose deadline has passed.
             var today = DateTime.UtcNow.Date;
 
             query = query.Where(x =>
@@ -93,7 +95,11 @@ namespace CareerLink.Controllers
             return View(model);
         }
 
+        // =========================================================
+        // JOB DETAILS
         // GET: /Jobs/Details/5
+        // =========================================================
+
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
@@ -127,11 +133,13 @@ namespace CareerLink.Controllers
                 return NotFound();
             }
 
+            // Check whether this job is already saved.
             var isSaved = await _context.SavedJobs
                 .AnyAsync(x =>
                     x.JobId == id &&
                     x.JobSeekerId == jobSeeker.Id);
 
+            // Check whether the user has already applied.
             var hasApplied = await _context.Applications
                 .AnyAsync(x =>
                     x.JobId == id &&
@@ -140,22 +148,39 @@ namespace CareerLink.Controllers
             var model = new JobDetailsViewModel
             {
                 Id = job.Id,
+
                 Title = job.Title,
+
                 Description = job.Description,
+
                 CompanyName = job.Company.Name,
+
                 CompanyDescription = job.Company.Description,
+
                 CompanyWebsite = job.Company.Website,
+
                 CompanyLocation = job.Company.Location,
+
                 JobType = job.JobType,
+
                 Location = job.Location,
+
                 SalaryMin = job.SalaryMin,
+
                 SalaryMax = job.SalaryMax,
+
                 ExperienceRequired = job.ExperienceRequired,
+
                 EducationRequirement = job.EducationRequirement,
+
                 ApplicationDeadline = job.ApplicationDeadline,
+
                 IsRemote = job.IsRemote,
+
                 CreatedAt = job.CreatedAt,
+
                 IsSaved = isSaved,
+
                 HasApplied = hasApplied,
 
                 Skills = job.Skills
@@ -169,17 +194,32 @@ namespace CareerLink.Controllers
                     })
                     .ToList()
             };
+
             return View(model);
         }
+
+        // =========================================================
+        // JOB MATCHING
+        // GET: /Jobs/Match/5
+        // =========================================================
+
         [HttpGet]
         public async Task<IActionResult> Match(int id)
         {
+            // -----------------------------------------------------
+            // Get currently logged-in user
+            // -----------------------------------------------------
+
             var user = await _userManager.GetUserAsync(User);
 
             if (user == null)
             {
                 return Challenge();
             }
+
+            // -----------------------------------------------------
+            // Get Job Seeker profile
+            // -----------------------------------------------------
 
             var jobSeeker = await _context.JobSeekers
                 .Include(x => x.Skills)
@@ -195,6 +235,10 @@ namespace CareerLink.Controllers
                     "Job Seeker profile was not found.");
             }
 
+            // -----------------------------------------------------
+            // Get job
+            // -----------------------------------------------------
+
             var job = await _context.Jobs
                 .Include(x => x.Company)
                 .Include(x => x.Skills)
@@ -208,28 +252,35 @@ namespace CareerLink.Controllers
                 return NotFound("Job was not found.");
             }
 
-            // -----------------------------
-            // 1. Skills
-            // -----------------------------
+            // =====================================================
+            // 1. SKILLS
+            // =====================================================
 
-            var jobSkills = job.Skills
-                .ToList();
+            var jobSkills = job.Skills.ToList();
 
             var seekerSkillIds = jobSeeker.Skills
                 .Select(x => x.SkillId)
                 .ToHashSet();
 
             var matchedSkills = jobSkills
-                .Where(x => seekerSkillIds.Contains(x.SkillId))
+                .Where(x =>
+                    seekerSkillIds.Contains(x.SkillId))
                 .ToList();
 
             var missingSkills = jobSkills
-                .Where(x => !seekerSkillIds.Contains(x.SkillId))
+                .Where(x =>
+                    !seekerSkillIds.Contains(x.SkillId))
                 .ToList();
 
             decimal skillScore = 0;
 
-            if (jobSkills.Count > 0)
+            if (jobSkills.Count == 0)
+            {
+                // No skills specified by recruiter.
+                // Give full skill weight.
+                skillScore = job.SkillWeight;
+            }
+            else
             {
                 var totalSkillWeight = jobSkills
                     .Sum(x => x.Weight);
@@ -244,14 +295,10 @@ namespace CareerLink.Controllers
                         * job.SkillWeight;
                 }
             }
-            else
-            {
-                skillScore = job.SkillWeight;
-            }
 
-            // -----------------------------
-            // 2. Education
-            // -----------------------------
+            // =====================================================
+            // 2. EDUCATION
+            // =====================================================
 
             decimal educationScore = 0;
 
@@ -260,7 +307,8 @@ namespace CareerLink.Controllers
             if (string.IsNullOrWhiteSpace(
                 job.EducationRequirement))
             {
-                educationScore = job.EducationWeight;
+                educationScore =
+                    job.EducationWeight;
 
                 educationExplanation =
                     "No specific education requirement was provided.";
@@ -272,16 +320,24 @@ namespace CareerLink.Controllers
 
                 var educationMatch =
                     jobSeeker.Educations.Any(x =>
-                        x.Degree.Contains(
-                            requirement,
-                            StringComparison.OrdinalIgnoreCase) ||
-                        x.FieldOfStudy.Contains(
-                            requirement,
-                            StringComparison.OrdinalIgnoreCase));
+                        (
+                            x.Degree != null &&
+                            x.Degree.Contains(
+                                requirement,
+                                StringComparison.OrdinalIgnoreCase)
+                        )
+                        ||
+                        (
+                            x.FieldOfStudy != null &&
+                            x.FieldOfStudy.Contains(
+                                requirement,
+                                StringComparison.OrdinalIgnoreCase)
+                        ));
 
                 if (educationMatch)
                 {
-                    educationScore = job.EducationWeight;
+                    educationScore =
+                        job.EducationWeight;
 
                     educationExplanation =
                         "Your education matches the job requirement.";
@@ -295,9 +351,9 @@ namespace CareerLink.Controllers
                 }
             }
 
-            // -----------------------------
-            // 3. Experience
-            // -----------------------------
+            // =====================================================
+            // 3. EXPERIENCE
+            // =====================================================
 
             decimal totalExperienceYears = 0;
 
@@ -309,10 +365,11 @@ namespace CareerLink.Controllers
 
                 if (endDate > experience.StartDate)
                 {
+                    var duration =
+                        endDate - experience.StartDate;
+
                     totalExperienceYears +=
-                        (decimal)(
-                            endDate - experience.StartDate)
-                            .TotalDays / 365.25m;
+                        (decimal)duration.TotalDays / 365.25m;
                 }
             }
 
@@ -320,7 +377,8 @@ namespace CareerLink.Controllers
 
             if (job.ExperienceRequired <= 0)
             {
-                experienceScore = job.ExperienceWeight;
+                experienceScore =
+                    job.ExperienceWeight;
             }
             else
             {
@@ -329,7 +387,11 @@ namespace CareerLink.Controllers
                     job.ExperienceRequired;
 
                 experienceRatio =
-                    Math.Min(1m, Math.Max(0m, experienceRatio));
+                    Math.Min(
+                        1m,
+                        Math.Max(
+                            0m,
+                            experienceRatio));
 
                 experienceScore =
                     experienceRatio *
@@ -352,9 +414,9 @@ namespace CareerLink.Controllers
                     $"{job.ExperienceRequired:0.0} years.";
             }
 
-            // -----------------------------
-            // 4. Location
-            // -----------------------------
+            // =====================================================
+            // 4. LOCATION
+            // =====================================================
 
             decimal locationScore;
 
@@ -362,7 +424,8 @@ namespace CareerLink.Controllers
 
             if (job.IsRemote)
             {
-                locationScore = job.LocationWeight;
+                locationScore =
+                    job.LocationWeight;
 
                 locationExplanation =
                     "This is a remote job, so the location requirement is satisfied.";
@@ -384,14 +447,17 @@ namespace CareerLink.Controllers
                 var seekerLocation =
                     jobSeeker.Location.Trim();
 
-                if (jobLocation.Contains(
+                if (
+                    jobLocation.Contains(
                         seekerLocation,
-                        StringComparison.OrdinalIgnoreCase) ||
+                        StringComparison.OrdinalIgnoreCase)
+                    ||
                     seekerLocation.Contains(
                         jobLocation,
                         StringComparison.OrdinalIgnoreCase))
                 {
-                    locationScore = job.LocationWeight;
+                    locationScore =
+                        job.LocationWeight;
 
                     locationExplanation =
                         "Your profile location matches the job location.";
@@ -406,9 +472,9 @@ namespace CareerLink.Controllers
                 }
             }
 
-            // -----------------------------
-            // 5. Total
-            // -----------------------------
+            // =====================================================
+            // 5. TOTAL MATCH SCORE
+            // =====================================================
 
             var totalScore =
                 skillScore +
@@ -416,45 +482,79 @@ namespace CareerLink.Controllers
                 experienceScore +
                 locationScore;
 
+            // Make absolutely sure score stays between 0 and 100.
             totalScore =
-                Math.Min(100m, Math.Max(0m, totalScore));
+                Math.Min(
+                    100m,
+                    Math.Max(
+                        0m,
+                        totalScore));
+
+            // =====================================================
+            // 6. CREATE MATCH VIEW MODEL
+            // =====================================================
 
             var model = new JobMatchViewModel
             {
                 JobId = job.Id,
+
                 JobTitle = job.Title,
+
                 CompanyName = job.Company.Name,
 
-                TotalScore = Math.Round(totalScore, 2),
+                TotalScore =
+                    Math.Round(totalScore, 2),
 
-                SkillScore = Math.Round(skillScore, 2),
-                EducationScore = Math.Round(educationScore, 2),
-                ExperienceScore = Math.Round(experienceScore, 2),
-                LocationScore = Math.Round(locationScore, 2),
+                SkillScore =
+                    Math.Round(skillScore, 2),
 
-                SkillWeight = job.SkillWeight,
-                EducationWeight = job.EducationWeight,
-                ExperienceWeight = job.ExperienceWeight,
-                LocationWeight = job.LocationWeight,
+                EducationScore =
+                    Math.Round(educationScore, 2),
 
-                MatchedSkills = matchedSkills.Count,
-                TotalJobSkills = jobSkills.Count,
+                ExperienceScore =
+                    Math.Round(experienceScore, 2),
 
-                MatchedSkillNames = matchedSkills
-                    .Select(x => x.Skill.Name)
-                    .OrderBy(x => x)
-                    .ToList(),
+                LocationScore =
+                    Math.Round(locationScore, 2),
 
-                MissingSkillNames = missingSkills
-                    .Select(x => x.Skill.Name)
-                    .OrderBy(x => x)
-                    .ToList(),
+                SkillWeight =
+                    job.SkillWeight,
 
-                EducationExplanation = educationExplanation,
+                EducationWeight =
+                    job.EducationWeight,
 
-                ExperienceExplanation = experienceExplanation,
+                ExperienceWeight =
+                    job.ExperienceWeight,
 
-                LocationExplanation = locationExplanation
+                LocationWeight =
+                    job.LocationWeight,
+
+                MatchedSkills =
+                    matchedSkills.Count,
+
+                TotalJobSkills =
+                    jobSkills.Count,
+
+                MatchedSkillNames =
+                    matchedSkills
+                        .Select(x => x.Skill.Name)
+                        .OrderBy(x => x)
+                        .ToList(),
+
+                MissingSkillNames =
+                    missingSkills
+                        .Select(x => x.Skill.Name)
+                        .OrderBy(x => x)
+                        .ToList(),
+
+                EducationExplanation =
+                    educationExplanation,
+
+                ExperienceExplanation =
+                    experienceExplanation,
+
+                LocationExplanation =
+                    locationExplanation
             };
 
             return View(model);

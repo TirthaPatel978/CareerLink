@@ -1,21 +1,77 @@
 @page
 @model LogoutModel
+
 @{
     ViewData["Title"] = "Log out";
 }
 
-<header>
-    <h1>@ViewData["Title"]</h1>
-    @{
-        if (User.Identity?.IsAuthenticated ?? false)
+<div class="cl-auth-page">
+    <div class="cl-auth-card cl-auth-logout-card">
+
+        <div class="cl-auth-brand">
+            <div class="cl-auth-logo">
+                <span>CL</span>
+            </div>
+
+            <div>
+                <div class="cl-auth-brand-name">CareerLink</div>
+                <div class="cl-auth-brand-tagline">
+                    Connect. Discover. Grow.
+                </div>
+            </div>
+        </div>
+
+        @if (User.Identity?.IsAuthenticated ?? false)
         {
-            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
-                <button type="submit" class="nav-link btn btn-link text-dark">Click here to Logout</button>
+            <div class="cl-auth-heading">
+                <h1>Ready to log out?</h1>
+
+                <p>
+                    Are you sure you want to log out of your CareerLink account?
+                </p>
+            </div>
+
+            <form class="cl-auth-logout-form"
+                  asp-area="Identity"
+                  asp-page="/Account/Logout"
+                  asp-route-returnUrl="@Url.Page("/", new { area = "" })"
+                  method="post">
+
+                <button type="submit"
+                        class="cl-auth-submit">
+                    Log out
+                </button>
+
+                <a asp-area=""
+                   asp-controller="Home"
+                   asp-action="Index"
+                   class="cl-auth-secondary-button">
+                    Cancel
+                </a>
+
             </form>
         }
         else
         {
-            <p>You have successfully logged out of the application.</p>
+            <div class="cl-auth-heading">
+                <div class="cl-auth-success-icon">
+                    ✓
+                </div>
+
+                <h1>You are logged out</h1>
+
+                <p>
+                    You have successfully logged out of CareerLink.
+                </p>
+            </div>
+
+            <a asp-area=""
+               asp-controller="Home"
+               asp-action="Index"
+               class="cl-auth-submit cl-auth-home-button">
+                Back to CareerLink
+            </a>
         }
-    }
-</header>
+
+    </div>
+</div>

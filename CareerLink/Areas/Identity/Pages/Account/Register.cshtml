@@ -1,71 +1,167 @@
 @page
 @model RegisterModel
+
 @{
     ViewData["Title"] = "Register";
 }
 
-<h1>@ViewData["Title"]</h1>
+<div class="cl-auth-page">
+    <div class="cl-auth-card cl-auth-card-register">
 
-<div class="row">
-    <div class="col-md-4">
-        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h2>Create a new account.</h2>
-            <hr />
-            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                <label asp-for="Input.Email">Email</label>
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
+        <div class="cl-auth-brand">
+            <div class="cl-auth-logo">
+                <span>CL</span>
             </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+
+            <div>
+                <div class="cl-auth-brand-name">CareerLink</div>
+                <div class="cl-auth-brand-tagline">Connect. Discover. Grow.</div>
+            </div>
+        </div>
+
+        <div class="cl-auth-heading">
+            <h1>Create your account</h1>
+            <p>Join CareerLink and take the next step in your career.</p>
+        </div>
+
+        <form id="registerForm"
+              asp-route-returnUrl="@Model.ReturnUrl"
+              method="post">
+
+            <div asp-validation-summary="ModelOnly"
+                 class="cl-auth-validation"
+                 role="alert">
+            </div>
+
+            <div class="cl-auth-field">
+                <label asp-for="Input.Email">Email address</label>
+
+                <input asp-for="Input.Email"
+                       class="cl-auth-input"
+                       autocomplete="username"
+                       aria-required="true"
+                       placeholder="name@example.com" />
+
+                <span asp-validation-for="Input.Email"
+                      class="cl-auth-error">
+                </span>
+            </div>
+
+            <div class="cl-auth-field">
                 <label asp-for="Input.Password">Password</label>
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
+
+                <input asp-for="Input.Password"
+                       class="cl-auth-input"
+                       autocomplete="new-password"
+                       aria-required="true"
+                       placeholder="Create a password" />
+
+                <span asp-validation-for="Input.Password"
+                      class="cl-auth-error">
+                </span>
             </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.ConfirmPassword">Confirm Password</label>
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+
+            <div class="cl-auth-field">
+                <label asp-for="Input.ConfirmPassword">
+                    Confirm password
+                </label>
+
+                <input asp-for="Input.ConfirmPassword"
+                       class="cl-auth-input"
+                       autocomplete="new-password"
+                       aria-required="true"
+                       placeholder="Re-enter your password" />
+
+                <span asp-validation-for="Input.ConfirmPassword"
+                      class="cl-auth-error">
+                </span>
             </div>
-            <div class="form-floating mb-3">
-                <select asp-for="AccountType" class="form-select">
-                    <option value="JobSeeker">Job Seeker</option>
-                    <option value="Recruiter">Recruiter</option>
+
+            <div class="cl-auth-field">
+                <label asp-for="AccountType">
+                    Account type
+                </label>
+
+                <select asp-for="AccountType"
+                        class="cl-auth-input cl-auth-select">
+
+                    <option value="JobSeeker">
+                        Job Seeker
+                    </option>
+
+                    <option value="Recruiter">
+                        Recruiter
+                    </option>
+
                 </select>
-                <label asp-for="AccountType">Account Type</label>
+
+                <span asp-validation-for="AccountType"
+                      class="cl-auth-error">
+                </span>
+
+                <small class="cl-auth-help">
+                    Choose the type of CareerLink account you want to create.
+                </small>
             </div>
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+
+            <button id="registerSubmit"
+                    type="submit"
+                    class="cl-auth-submit">
+                Create account
+            </button>
+
         </form>
-    </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h3>Use another service to register.</h3>
-            <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
-                            about setting up this ASP.NET application to support logging in via external services</a>.
-                        </p>
-                    </div>
-                }
-                else
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins!)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
-                        </div>
-                    </form>
-                }
+
+        <div class="cl-auth-divider">
+            <span>or</span>
+        </div>
+
+        @{
+            if ((Model.ExternalLogins?.Count ?? 0) == 0)
+            {
+                <div class="cl-auth-no-external">
+                    <p>
+                        You can create your account using your email address.
+                    </p>
+                </div>
             }
-        </section>
+            else
+            {
+                <form id="external-account"
+                      asp-page="./ExternalLogin"
+                      asp-route-returnUrl="@Model.ReturnUrl"
+                      method="post">
+
+                    <div class="cl-auth-external-buttons">
+
+                        @foreach (var provider in Model.ExternalLogins!)
+                        {
+                            <button type="submit"
+                                    class="cl-auth-external-button"
+                                    name="provider"
+                                    value="@provider.Name"
+                                    title="Register using your @provider.DisplayName account">
+
+                                Continue with @provider.DisplayName
+
+                            </button>
+                        }
+
+                    </div>
+
+                </form>
+            }
+        }
+
+        <div class="cl-auth-footer">
+            <span>Already have an account?</span>
+
+            <a asp-page="./Login"
+               asp-route-returnUrl="@Model.ReturnUrl">
+                Log in
+            </a>
+        </div>
+
     </div>
 </div>
 

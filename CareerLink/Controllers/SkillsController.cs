@@ -22,7 +22,11 @@ namespace CareerLink.Controllers
             _userManager = userManager;
         }
 
+        // =========================================================
+        // INDEX
         // GET: /Skills
+        // =========================================================
+
         [HttpGet]
         public async Task<IActionResult> Index()
         {
@@ -56,7 +60,13 @@ namespace CareerLink.Controllers
             return View(skills);
         }
 
+
+        // =========================================================
+        // ADD
+        // =========================================================
+
         // GET: /Skills/Add
+
         [HttpGet]
         public IActionResult Add()
         {
@@ -66,7 +76,9 @@ namespace CareerLink.Controllers
             });
         }
 
+
         // POST: /Skills/Add
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(
@@ -92,7 +104,6 @@ namespace CareerLink.Controllers
                 return NotFound("Job Seeker profile was not found.");
             }
 
-            // Remove extra spaces from the skill name.
             var skillName = model.SkillName.Trim();
 
             if (string.IsNullOrWhiteSpace(skillName))
@@ -104,13 +115,13 @@ namespace CareerLink.Controllers
                 return View(model);
             }
 
-            // Look for an existing skill without caring about
+            // Find an existing skill without caring about
             // uppercase/lowercase differences.
             var skill = await _context.Skills
                 .FirstOrDefaultAsync(x =>
                     x.Name.ToLower() == skillName.ToLower());
 
-            // If the skill does not exist, create it.
+            // Create the shared Skill record if it doesn't exist.
             if (skill == null)
             {
                 skill = new Skill
@@ -123,7 +134,8 @@ namespace CareerLink.Controllers
                 await _context.SaveChangesAsync();
             }
 
-            // Check whether this Job Seeker already has this skill.
+            // Prevent the same Job Seeker from adding
+            // the same skill more than once.
             var alreadyAdded = await _context.JobSeekerSkills
                 .AnyAsync(x =>
                     x.JobSeekerId == jobSeeker.Id &&
@@ -155,7 +167,13 @@ namespace CareerLink.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
+        // =========================================================
+        // EDIT
+        // =========================================================
+
         // GET: /Skills/Edit/5
+
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -195,7 +213,9 @@ namespace CareerLink.Controllers
             return View(model);
         }
 
+
         // POST: /Skills/Edit
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(
@@ -203,6 +223,25 @@ namespace CareerLink.Controllers
         {
             if (!ModelState.IsValid)
             {
+                return View(model);
+            }
+
+            if (model.SkillId <= 0)
+            {
+                ModelState.AddModelError(
+                    string.Empty,
+                    "The selected skill could not be identified.");
+
+                return View(model);
+            }
+
+            if (model.ProficiencyLevel < 1 ||
+                model.ProficiencyLevel > 5)
+            {
+                ModelState.AddModelError(
+                    nameof(model.ProficiencyLevel),
+                    "Please select a valid proficiency level.");
+
                 return View(model);
             }
 
@@ -221,17 +260,20 @@ namespace CareerLink.Controllers
                 return NotFound("Job Seeker profile was not found.");
             }
 
+            // Find the skill belonging specifically to
+            // the currently logged-in Job Seeker.
             var skill = await _context.JobSeekerSkills
-                .Include(x => x.Skill)
                 .FirstOrDefaultAsync(x =>
                     x.JobSeekerId == jobSeeker.Id &&
                     x.SkillId == model.SkillId);
 
             if (skill == null)
             {
-                return NotFound();
+                return NotFound("The selected skill was not found.");
             }
 
+            // Only update the proficiency level.
+            // The skill name itself cannot be changed here.
             skill.ProficiencyLevel = model.ProficiencyLevel;
 
             await _context.SaveChangesAsync();
@@ -242,7 +284,13 @@ namespace CareerLink.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
+        // =========================================================
+        // DELETE
+        // =========================================================
+
         // GET: /Skills/Delete/5
+
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
@@ -282,16 +330,24 @@ namespace CareerLink.Controllers
             return View(model);
         }
 
-        // POST: /Skills/Delete
+
+        // POST: /Skills/DeleteConfirmed
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(
+            int skillId)
         {
             var user = await _userManager.GetUserAsync(User);
 
             if (user == null)
             {
                 return Challenge();
+            }
+
+            if (skillId <= 0)
+            {
+                return NotFound("The selected skill could not be identified.");
             }
 
             var jobSeeker = await _context.JobSeekers
@@ -302,14 +358,16 @@ namespace CareerLink.Controllers
                 return NotFound("Job Seeker profile was not found.");
             }
 
+            // Find only the relationship between this Job Seeker
+            // and the selected Skill.
             var skill = await _context.JobSeekerSkills
                 .FirstOrDefaultAsync(x =>
                     x.JobSeekerId == jobSeeker.Id &&
-                    x.SkillId == id);
+                    x.SkillId == skillId);
 
             if (skill == null)
             {
-                return NotFound();
+                return NotFound("The selected skill was not found.");
             }
 
             _context.JobSeekerSkills.Remove(skill);

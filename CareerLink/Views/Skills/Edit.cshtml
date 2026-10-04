@@ -4,116 +4,173 @@
     ViewData["Title"] = "Edit Skill";
 }
 
-<div class="container py-4">
+<div class="cl-skills-page">
 
-    <div class="row justify-content-center">
+    <section class="cl-skills-header">
+        <div class="container">
 
-        <div class="col-lg-7">
+            <div class="cl-skills-header-content">
 
-            <div class="mb-4">
+                <div>
+                    <div class="cl-dashboard-eyebrow">
+                        <i class="bi bi-tools"></i>
+                        Professional Profile
+                    </div>
 
-                <h1 class="fw-bold">
-                    Edit Skill
-                </h1>
+                    <h1>Edit Skill</h1>
 
-                <p class="text-muted">
-                    Update your proficiency level.
-                </p>
+                    <p>
+                        Update the proficiency level for this skill.
+                    </p>
+                </div>
+
+                <a asp-action="Index"
+                   class="cl-skills-back-btn">
+                    <i class="bi bi-arrow-left"></i>
+                    Back to Skills
+                </a>
 
             </div>
 
-            <div class="card shadow-sm">
+        </div>
+    </section>
 
-                <div class="card-body p-4">
 
-                    <form asp-action="Edit"
-                          method="post">
+    <section class="cl-skills-form-section">
+        <div class="container">
 
-                        <input type="hidden"
-                               asp-for="SkillId" />
+            <div class="row justify-content-center">
 
-                        <div asp-validation-summary="ModelOnly"
-                             class="alert alert-danger">
-                        </div>
+                <div class="col-lg-8 col-xl-7">
 
-                        <div class="mb-4">
+                    <div class="cl-skills-form-card">
 
-                            <label class="form-label">
-                                Skill
-                            </label>
+                        <div class="cl-skills-form-heading">
 
-                            <input type="text"
-                                   class="form-control"
-                                   value="@Model.SkillName"
-                                   readonly />
+                            <div class="cl-skills-form-icon">
+                                <i class="bi bi-pencil"></i>
+                            </div>
 
-                            <div class="form-text">
-                                Skill names cannot be changed here.
-                                Remove the skill and add a new one if necessary.
+                            <div>
+                                <div class="cl-small-label">
+                                    UPDATE SKILL
+                                </div>
+
+                                <h2>Edit your proficiency</h2>
+
+                                <p>
+                                    Keep your skill level accurate so your
+                                    profile reflects your current abilities.
+                                </p>
                             </div>
 
                         </div>
 
-                        <div class="mb-4">
 
-                            <label asp-for="ProficiencyLevel"
-                                   class="form-label">
-                            </label>
+                        <form asp-action="Edit"
+                              method="post">
 
-                            <select asp-for="ProficiencyLevel"
-                                    class="form-select">
+                            <input type="hidden" asp-for="SkillId" />
+                            <input type="hidden" asp-for="SkillName" />
 
-                                <option value="1">
-                                    1 - Beginner
-                                </option>
 
-                                <option value="2">
-                                    2 - Basic
-                                </option>
+                            <div asp-validation-summary="ModelOnly"
+                                 class="cl-skills-validation">
+                            </div>
 
-                                <option value="3">
-                                    3 - Intermediate
-                                </option>
 
-                                <option value="4">
-                                    4 - Advanced
-                                </option>
+                            <div class="cl-skills-field">
 
-                                <option value="5">
-                                    5 - Expert
-                                </option>
+                                <label class="cl-skills-label">
+                                    Skill
+                                </label>
 
-                            </select>
+                                <div class="cl-skills-readonly">
 
-                            <span asp-validation-for="ProficiencyLevel"
-                                  class="text-danger">
-                            </span>
+                                    <div class="cl-skills-readonly-icon">
+                                        <i class="bi bi-tools"></i>
+                                    </div>
 
-                        </div>
+                                    <span>
+                                        @Model.SkillName
+                                    </span>
 
-                        <div class="d-flex justify-content-between">
+                                    <i class="bi bi-lock"></i>
 
-                            <a asp-action="Index"
-                               class="btn btn-secondary">
-                                Cancel
-                            </a>
+                                </div>
 
-                            <button type="submit"
-                                    class="btn btn-primary">
-                                Save Changes
-                            </button>
+                                <div class="cl-skills-help">
+                                    <i class="bi bi-info-circle"></i>
+                                    Skill names cannot be changed here.
+                                    Remove the skill and add a new one if necessary.
+                                </div>
 
-                        </div>
+                            </div>
 
-                    </form>
+
+                            <div class="cl-skills-field">
+
+                                <label asp-for="ProficiencyLevel"
+                                       class="cl-skills-label">
+                                </label>
+
+                                <select asp-for="ProficiencyLevel"
+                                        class="cl-skills-select">
+
+                                    <option value="1">
+                                        1 - Beginner
+                                    </option>
+
+                                    <option value="2">
+                                        2 - Basic
+                                    </option>
+
+                                    <option value="3">
+                                        3 - Intermediate
+                                    </option>
+
+                                    <option value="4">
+                                        4 - Advanced
+                                    </option>
+
+                                    <option value="5">
+                                        5 - Expert
+                                    </option>
+
+                                </select>
+
+                                <span asp-validation-for="ProficiencyLevel"
+                                      class="cl-skills-error">
+                                </span>
+
+                            </div>
+
+
+                            <div class="cl-skills-form-footer">
+
+                                <a asp-action="Index"
+                                   class="cl-skills-cancel-btn">
+                                    Cancel
+                                </a>
+
+                                <button type="submit"
+                                        class="cl-skills-save-btn">
+                                    <i class="bi bi-check2"></i>
+                                    Save Changes
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
 
                 </div>
 
             </div>
 
         </div>
-
-    </div>
+    </section>
 
 </div>
 

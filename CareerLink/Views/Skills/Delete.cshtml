@@ -4,86 +4,142 @@
     ViewData["Title"] = "Remove Skill";
 }
 
-<div class="container py-4">
+<div class="cl-skills-page">
 
-    <div class="row justify-content-center">
+    <section class="cl-skills-header">
+        <div class="container">
 
-        <div class="col-lg-6">
+            <div class="cl-skills-header-content">
 
-            <div class="card shadow-sm border-danger">
+                <div>
+                    <div class="cl-dashboard-eyebrow">
+                        <i class="bi bi-tools"></i>
+                        Professional Profile
+                    </div>
 
-                <div class="card-body p-4">
-
-                    <h1 class="fw-bold text-danger">
-                        Remove Skill
-                    </h1>
-
-                    <p class="text-muted">
-                        Are you sure you want to remove this skill?
-                    </p>
-
-                    <hr />
+                    <h1>Remove Skill</h1>
 
                     <p>
-                        <strong>Skill:</strong>
-                        @Model.SkillName
+                        Review the skill before removing it from your profile.
                     </p>
+                </div>
 
-                    <p>
-                        <strong>Proficiency Level:</strong>
+                <a asp-action="Index"
+                   class="cl-skills-back-btn">
+                    <i class="bi bi-arrow-left"></i>
+                    Back to Skills
+                </a>
 
-                        @switch (Model.ProficiencyLevel)
-                        {
-                            case 1:
-                                <span>Beginner</span>
-                                break;
+            </div>
 
-                            case 2:
-                                <span>Basic</span>
-                                break;
+        </div>
+    </section>
 
-                            case 3:
-                                <span>Intermediate</span>
-                                break;
 
-                            case 4:
-                                <span>Advanced</span>
-                                break;
+    <section class="cl-skills-form-section">
+        <div class="container">
 
-                            case 5:
-                                <span>Expert</span>
-                                break;
-                        }
-                    </p>
+            <div class="row justify-content-center">
 
-                    <form asp-action="DeleteConfirmed"
-                          method="post">
+                <div class="col-lg-7 col-xl-6">
 
-                        <input type="hidden"
-                               asp-for="SkillId" />
+                    <div class="cl-skills-delete-card">
 
-                        <div class="d-flex justify-content-between mt-4">
+                        <div class="cl-skills-delete-icon">
+                            <i class="bi bi-trash3"></i>
+                        </div>
 
-                            <a asp-action="Index"
-                               class="btn btn-secondary">
-                                Cancel
-                            </a>
+                        <div class="cl-small-label">
+                            REMOVE SKILL
+                        </div>
 
-                            <button type="submit"
-                                    class="btn btn-danger">
-                                Remove Skill
-                            </button>
+                        <h2>Are you sure?</h2>
+
+                        <p class="cl-skills-delete-description">
+                            This will remove the skill from your professional
+                            profile. You can add it again later if needed.
+                        </p>
+
+
+                        <div class="cl-skills-delete-details">
+
+                            <div class="cl-skills-delete-detail">
+
+                                <span>Skill</span>
+
+                                <strong>
+                                    @Model.SkillName
+                                </strong>
+
+                            </div>
+
+
+                            <div class="cl-skills-delete-detail">
+
+                                <span>Proficiency Level</span>
+
+                                <strong>
+                                    @switch (Model.ProficiencyLevel)
+                                    {
+                                        case 1:
+                                            <text>Beginner</text>
+                                            break;
+
+                                        case 2:
+                                            <text>Basic</text>
+                                            break;
+
+                                        case 3:
+                                            <text>Intermediate</text>
+                                            break;
+
+                                        case 4:
+                                            <text>Advanced</text>
+                                            break;
+
+                                        case 5:
+                                            <text>Expert</text>
+                                            break;
+                                    }
+                                </strong>
+
+                            </div>
 
                         </div>
 
-                    </form>
+
+                        <form asp-action="DeleteConfirmed"
+                              method="post">
+
+                            <input type="hidden"
+                               name="skillId"
+                               value="@Model.SkillId" />
+
+
+                            <div class="cl-skills-delete-footer">
+
+                                <a asp-action="Index"
+                                   class="cl-skills-cancel-btn">
+                                    Cancel
+                                </a>
+
+                                <button type="submit"
+                                        class="cl-skills-delete-confirm-btn">
+                                    <i class="bi bi-trash3"></i>
+                                    Remove Skill
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
 
                 </div>
 
             </div>
 
         </div>
-
-    </div>
+    </section>
 
 </div>

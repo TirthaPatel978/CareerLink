@@ -4,104 +4,163 @@
     ViewData["Title"] = "Delete Education";
 }
 
-<div class="container py-4">
+<div class="cl-education-page">
 
-    <div class="row justify-content-center">
+    <!-- PAGE HEADER -->
+    <section class="cl-education-header">
 
-        <div class="col-lg-7">
+        <div class="container">
 
-            <div class="card shadow-sm border-danger">
+            <div class="cl-education-header-content">
 
-                <div class="card-body p-4">
+                <div>
 
-                    <h1 class="fw-bold text-danger">
-                        Delete Education
-                    </h1>
+                    <div class="cl-dashboard-eyebrow">
+                        <i class="bi bi-mortarboard"></i>
+                        Professional Profile
+                    </div>
 
-                    <p class="text-muted">
-                        Are you sure you want to delete this education record?
+                    <h1>Delete Education</h1>
+
+                    <p>
+                        Review this qualification before
+                        removing it from your profile.
                     </p>
 
-                    <hr />
+                </div>
 
-                    <dl class="row">
+                <a asp-action="Index"
+                   class="cl-education-back-btn">
+                    <i class="bi bi-arrow-left"></i>
+                    Back to Education
+                </a>
 
-                        <dt class="col-sm-4">
-                            Degree
-                        </dt>
+            </div>
 
-                        <dd class="col-sm-8">
-                            @Model.Degree
-                        </dd>
+        </div>
 
-                        <dt class="col-sm-4">
-                            Field of Study
-                        </dt>
+    </section>
 
-                        <dd class="col-sm-8">
-                            @Model.FieldOfStudy
-                        </dd>
 
-                        <dt class="col-sm-4">
-                            Institution
-                        </dt>
+    <!-- DELETE CONFIRMATION -->
+    <section class="cl-education-form-section">
 
-                        <dd class="col-sm-8">
-                            @Model.Institution
-                        </dd>
+        <div class="container">
 
-                        <dt class="col-sm-4">
-                            Start Date
-                        </dt>
+            <div class="row justify-content-center">
 
-                        <dd class="col-sm-8">
-                            @Model.StartDate.ToString("dd MMM yyyy")
-                        </dd>
+                <div class="col-lg-7 col-xl-6">
 
-                        <dt class="col-sm-4">
-                            End Date
-                        </dt>
+                    <div class="cl-education-delete-card">
 
-                        <dd class="col-sm-8">
-                            @(Model.EndDate.HasValue
-                                ? Model.EndDate.Value.ToString("dd MMM yyyy")
-                                : "Present")
-                        </dd>
+                        <div class="cl-education-delete-icon">
+                            <i class="bi bi-trash3"></i>
+                        </div>
 
-                        @if (!string.IsNullOrWhiteSpace(Model.Grade))
-                        {
-                            <dt class="col-sm-4">
-                                Grade
-                            </dt>
+                        <div class="cl-small-label">
+                            REMOVE QUALIFICATION
+                        </div>
 
-                            <dd class="col-sm-8">
-                                @Model.Grade
-                            </dd>
-                        }
+                        <h2>Are you sure?</h2>
 
-                    </dl>
+                        <p class="cl-education-delete-description">
+                            This will remove the education record
+                            from your professional profile.
+                        </p>
 
-                    <form asp-action="DeleteConfirmed"
-                          method="post">
 
-                        <input type="hidden"
-                               asp-for="Id" />
+                        <!-- DETAILS -->
+                        <div class="cl-education-delete-details">
 
-                        <div class="d-flex justify-content-between mt-4">
+                            <div class="cl-education-delete-detail">
 
-                            <a asp-action="Index"
-                               class="btn btn-secondary">
-                                Cancel
-                            </a>
+                                <span>Degree</span>
 
-                            <button type="submit"
-                                    class="btn btn-danger">
-                                Delete Education
-                            </button>
+                                <strong>
+                                    @Model.Degree
+                                </strong>
+
+                            </div>
+
+
+                            <div class="cl-education-delete-detail">
+
+                                <span>Field of Study</span>
+
+                                <strong>
+                                    @Model.FieldOfStudy
+                                </strong>
+
+                            </div>
+
+
+                            <div class="cl-education-delete-detail">
+
+                                <span>Institution</span>
+
+                                <strong>
+                                    @Model.Institution
+                                </strong>
+
+                            </div>
+
+
+                            <div class="cl-education-delete-detail">
+
+                                <span>Duration</span>
+
+                                <strong>
+                                    @Model.StartDate.ToString("MMM yyyy")
+                                    –
+                                    @(Model.EndDate.HasValue
+                                        ? Model.EndDate.Value.ToString("MMM yyyy")
+                                        : "Present")
+                                </strong>
+
+                            </div>
+
+
+                            @if (!string.IsNullOrWhiteSpace(Model.Grade))
+                            {
+                                <div class="cl-education-delete-detail">
+
+                                    <span>Grade</span>
+
+                                    <strong>
+                                        @Model.Grade
+                                    </strong>
+
+                                </div>
+                            }
 
                         </div>
 
-                    </form>
+
+                        <form asp-action="DeleteConfirmed"
+                              method="post">
+
+                            <input type="hidden"
+                                   asp-for="Id" />
+
+
+                            <div class="cl-education-delete-footer">
+
+                                <a asp-action="Index"
+                                   class="cl-education-cancel-btn">
+                                    Cancel
+                                </a>
+
+                                <button type="submit"
+                                        class="cl-education-delete-confirm-btn">
+                                    <i class="bi bi-trash3"></i>
+                                    Delete Education
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
 
                 </div>
 
@@ -109,6 +168,6 @@
 
         </div>
 
-    </div>
+    </section>
 
 </div>

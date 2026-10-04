@@ -4,144 +4,239 @@
     ViewData["Title"] = "My Experience";
 }
 
-<div class="container py-4">
+<div class="cl-experience-page">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <!-- PAGE HEADER -->
+    <section class="cl-experience-header">
+        <div class="container">
+            <div class="cl-experience-header-content">
 
-        <div>
-            <h1 class="fw-bold">My Experience</h1>
+                <div>
+                    <div class="cl-dashboard-eyebrow">
+                        <i class="bi bi-briefcase"></i>
+                        Professional Profile
+                    </div>
 
-            <p class="text-muted mb-0">
-                Manage your professional work experience.
-            </p>
-        </div>
+                    <h1>My Experience</h1>
 
-        <a asp-action="Create"
-           class="btn btn-primary">
-            + Add Experience
-        </a>
-
-    </div>
-
-    @if (TempData["SuccessMessage"] != null)
-    {
-        <div class="alert alert-success alert-dismissible fade show">
-
-            @TempData["SuccessMessage"]
-
-            <button type="button"
-                    class="btn-close"
-                    data-bs-dismiss="alert">
-            </button>
-
-        </div>
-    }
-
-    @if (!Model.Any())
-    {
-        <div class="card shadow-sm">
-
-            <div class="card-body text-center py-5">
-
-                <h4>No experience added yet</h4>
-
-                <p class="text-muted">
-                    Add your professional experience to strengthen your profile.
-                </p>
+                    <p>
+                        Manage your professional work experience
+                        and highlight your career journey.
+                    </p>
+                </div>
 
                 <a asp-action="Create"
-                   class="btn btn-primary">
-                    Add Your First Experience
+                   class="cl-experience-add-btn">
+                    <i class="bi bi-plus-lg"></i>
+                    Add Experience
                 </a>
 
             </div>
-
         </div>
-    }
-    else
-    {
-        <div class="row g-4">
+    </section>
 
-            @foreach (var experience in Model)
+
+    <!-- MAIN CONTENT -->
+    <section class="cl-experience-main">
+        <div class="container">
+
+            @if (TempData["SuccessMessage"] != null)
             {
-                <div class="col-12">
+                <div class="cl-experience-success">
 
-                    <div class="card shadow-sm">
+                    <div class="cl-experience-success-icon">
+                        <i class="bi bi-check-lg"></i>
+                    </div>
 
-                        <div class="card-body">
+                    <div>
+                        <strong>Experience updated</strong>
+                        <span>@TempData["SuccessMessage"]</span>
+                    </div>
 
-                            <div class="d-flex justify-content-between">
+                    <button type="button"
+                            class="btn-close ms-auto"
+                            data-bs-dismiss="alert">
+                    </button>
 
-                                <div>
+                </div>
+            }
 
-                                    <h4 class="mb-1">
-                                        @experience.JobTitle
-                                    </h4>
 
-                                    <h6 class="text-primary">
-                                        @experience.CompanyName
-                                    </h6>
+            @if (!Model.Any())
+            {
+                <!-- EMPTY STATE -->
+                <div class="cl-experience-empty">
+
+                    <div class="cl-experience-empty-icon">
+                        <i class="bi bi-briefcase"></i>
+                    </div>
+
+                    <div class="cl-small-label">
+                        YOUR CAREER JOURNEY
+                    </div>
+
+                    <h2>No experience added yet</h2>
+
+                    <p>
+                        Add your professional experience to help employers
+                        understand your background and career journey.
+                    </p>
+
+                    <a asp-action="Create"
+                       class="cl-experience-primary-btn">
+                        <i class="bi bi-plus-lg"></i>
+                        Add Your First Experience
+                    </a>
+
+                </div>
+            }
+            else
+            {
+                <!-- SECTION HEADING -->
+                <div class="cl-experience-section-heading">
+
+                    <div>
+                        <div class="cl-small-label">
+                            WORK EXPERIENCE
+                        </div>
+
+                        <h2>Professional journey</h2>
+
+                        <p>
+                            Keep your work history accurate and up to date.
+                        </p>
+                    </div>
+
+                    <div class="cl-experience-count">
+                        <span>@Model.Count()</span>
+                        <small>
+                            @(Model.Count() == 1 ? "Position" : "Positions")
+                        </small>
+                    </div>
+
+                </div>
+
+
+                <!-- EXPERIENCE LIST -->
+                <div class="cl-experience-list">
+
+                    @foreach (var experience in Model)
+                    {
+                        <article class="cl-experience-card">
+
+                            <div class="cl-experience-card-accent"></div>
+
+                            <div class="cl-experience-card-content">
+
+                                <div class="cl-experience-card-top">
+
+                                    <div class="cl-experience-role">
+
+                                        <div class="cl-experience-company-icon">
+                                            <i class="bi bi-building"></i>
+                                        </div>
+
+                                        <div>
+                                            <h3>
+                                                @experience.JobTitle
+                                            </h3>
+
+                                            <div class="cl-experience-company">
+                                                @experience.CompanyName
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    @if (experience.IsCurrent)
+                                    {
+                                        <span class="cl-experience-current">
+                                            <span class="cl-experience-current-dot"></span>
+                                            Current
+                                        </span>
+                                    }
 
                                 </div>
 
-                                @if (experience.IsCurrent)
-                                {
-                                    <span class="badge bg-success align-self-start">
-                                        Current
-                                    </span>
-                                }
 
-                            </div>
+                                <div class="cl-experience-meta">
 
-                            <p class="text-muted mb-2">
+                                    @if (!string.IsNullOrWhiteSpace(experience.Location))
+                                    {
+                                        <span>
+                                            <i class="bi bi-geo-alt"></i>
+                                            @experience.Location
+                                        </span>
+                                    }
 
-                                @if (!string.IsNullOrWhiteSpace(experience.Location))
-                                {
                                     <span>
-                                        @experience.Location
-                                        &nbsp;•&nbsp;
+                                        <i class="bi bi-calendar3"></i>
+
+                                        @experience.StartDate.ToString("MMM yyyy")
+
+                                        <span class="cl-experience-meta-separator">
+                                            —
+                                        </span>
+
+                                        @(experience.IsCurrent
+                                            ? "Present"
+                                            : experience.EndDate?.ToString("MMM yyyy"))
                                     </span>
+
+                                </div>
+
+
+                                @if (!string.IsNullOrWhiteSpace(experience.Description))
+                                {
+                                    <div class="cl-experience-description">
+                                        <p>
+                                            @experience.Description
+                                        </p>
+                                    </div>
                                 }
 
-                                @experience.StartDate.ToString("MMM yyyy")
-                                -
-                                @(experience.IsCurrent
-                                    ? "Present"
-                                    : experience.EndDate?.ToString("MMM yyyy"))
 
-                            </p>
+                                <div class="cl-experience-card-footer">
 
-                            @if (!string.IsNullOrWhiteSpace(experience.Description))
-                            {
-                                <p>
-                                    @experience.Description
-                                </p>
-                            }
+                                    <div class="cl-experience-duration">
+                                        <i class="bi bi-clock"></i>
 
-                            <div class="d-flex gap-2">
+                                        @(experience.IsCurrent
+                                            ? "Currently working here"
+                                            : "Previous position")
+                                    </div>
 
-                                <a asp-action="Edit"
-                                   asp-route-id="@experience.Id"
-                                   class="btn btn-outline-primary btn-sm">
-                                    Edit
-                                </a>
 
-                                <a asp-action="Delete"
-                                   asp-route-id="@experience.Id"
-                                   class="btn btn-outline-danger btn-sm">
-                                    Delete
-                                </a>
+                                    <div class="cl-experience-actions">
+
+                                        <a asp-action="Edit"
+                                           asp-route-id="@experience.Id"
+                                           class="cl-experience-edit-btn">
+                                            <i class="bi bi-pencil"></i>
+                                            Edit
+                                        </a>
+
+                                        <a asp-action="Delete"
+                                           asp-route-id="@experience.Id"
+                                           class="cl-experience-delete-btn">
+                                            <i class="bi bi-trash3"></i>
+                                            Delete
+                                        </a>
+
+                                    </div>
+
+                                </div>
 
                             </div>
 
-                        </div>
-
-                    </div>
+                        </article>
+                    }
 
                 </div>
             }
 
         </div>
-    }
+    </section>
 
 </div>

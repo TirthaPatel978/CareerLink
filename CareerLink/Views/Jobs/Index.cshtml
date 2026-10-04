@@ -6,31 +6,58 @@
     ViewData["Title"] = "Find Jobs";
 }
 
-<div class="container py-4">
+<div class="container py-5">
 
-    <div class="mb-4">
+    <!-- Page Header -->
+    <div class="mb-5">
 
-        <h1 class="fw-bold">
-            Find Jobs
+        <span class="section-eyebrow">
+            OPPORTUNITIES
+        </span>
+
+        <h1 class="display-6 fw-bold mt-2 mb-2">
+            Find your next opportunity
         </h1>
 
-        <p class="text-muted">
-            Search and explore job opportunities.
+        <p class="text-muted mb-0">
+            Search and explore jobs that match your career goals.
         </p>
 
     </div>
 
+
     <!-- Search and Filters -->
+    <div class="career-card mb-5">
 
-    <div class="card shadow-sm mb-4">
+        <div class="career-card-body">
 
-        <div class="card-body p-4">
+            <div class="d-flex align-items-center gap-2 mb-4">
+
+                <div class="feature-icon">
+                    <i class="bi bi-search"></i>
+                </div>
+
+                <div>
+
+                    <h2 class="h5 mb-1">
+                        Search jobs
+                    </h2>
+
+                    <p class="text-muted small mb-0">
+                        Use the filters below to find relevant opportunities.
+                    </p>
+
+                </div>
+
+            </div>
+
 
             <form asp-action="Index"
                   method="get">
 
                 <div class="row g-3">
 
+                    <!-- Search -->
                     <div class="col-lg-5">
 
                         <label asp-for="Search"
@@ -43,6 +70,8 @@
 
                     </div>
 
+
+                    <!-- Location -->
                     <div class="col-lg-3">
 
                         <label asp-for="Location"
@@ -55,6 +84,8 @@
 
                     </div>
 
+
+                    <!-- Job Type -->
                     <div class="col-lg-2">
 
                         <label asp-for="JobType"
@@ -79,18 +110,26 @@
 
                     </div>
 
+
+                    <!-- Search Button -->
                     <div class="col-lg-2 d-flex align-items-end">
 
                         <button type="submit"
                                 class="btn btn-primary w-100">
+
+                            <i class="bi bi-search me-1"></i>
+
                             Search
+
                         </button>
 
                     </div>
 
                 </div>
 
-                <div class="form-check mt-3">
+
+                <!-- Remote Filter -->
+                <div class="form-check mt-4">
 
                     <input asp-for="RemoteOnly"
                            class="form-check-input" />
@@ -107,32 +146,52 @@
 
     </div>
 
-    <!-- Results -->
 
-    <div class="d-flex justify-content-between align-items-center mb-3">
+    <!-- Results Header -->
+    <div class="d-flex justify-content-between align-items-end mb-4">
 
-        <h4 class="mb-0">
-            Available Jobs
-        </h4>
+        <div>
 
-        <span class="text-muted">
-            @Model.Jobs.Count job(s) found
+            <span class="section-eyebrow">
+                RESULTS
+            </span>
+
+            <h2 class="h4 fw-bold mt-2 mb-0">
+                Available Jobs
+            </h2>
+
+        </div>
+
+        <span class="text-muted small">
+
+            @Model.Jobs.Count
+            @(Model.Jobs.Count == 1 ? "job" : "jobs")
+            found
+
         </span>
 
     </div>
 
+
+    <!-- No Results -->
     @if (!Model.Jobs.Any())
     {
-        <div class="card shadow-sm">
+        <div class="career-card">
 
-            <div class="card-body text-center py-5">
+            <div class="empty-state">
 
-                <h5>
+                <div class="empty-state-icon">
+
+                    <i class="bi bi-briefcase"></i>
+
+                </div>
+
+                <h3 class="h5 fw-bold mt-3">
                     No jobs found
-                </h5>
+                </h3>
 
                 <p class="text-muted mb-0">
-                    Try changing your search or filters.
+                    Try changing your search terms or filters.
                 </p>
 
             </div>
@@ -141,105 +200,138 @@
     }
     else
     {
+
+        <!-- Job Results -->
         <div class="row g-4">
 
             @foreach (var job in Model.Jobs)
             {
                 <div class="col-12">
 
-                    <div class="card shadow-sm">
+                    <div class="job-card">
 
-                        <div class="card-body p-4">
+                        <div class="job-card-body">
 
-                            <div class="row">
+                            <div class="row align-items-center">
 
-                                <div class="col-md-8">
-
-                                    <h4 class="fw-bold mb-1">
-                                        @job.Title
-                                    </h4>
-
-                                    <h6 class="text-primary mb-3">
-                                        @job.CompanyName
-                                    </h6>
+                                <!-- Job Information -->
+                                <div class="col-lg-8">
 
                                     <div class="d-flex flex-wrap gap-2 mb-3">
 
-                                        <span class="badge bg-secondary">
+                                        <span class="badge job-type-badge">
                                             @job.JobType
                                         </span>
 
                                         @if (job.IsRemote)
                                         {
-                                            <span class="badge bg-success">
+                                            <span class="badge remote-badge">
+                                                <i class="bi bi-globe2 me-1"></i>
                                                 Remote
-                                            </span>
-                                        }
-
-                                        @if (!string.IsNullOrWhiteSpace(
-                                            job.Location))
-                                        {
-                                            <span class="badge bg-light text-dark">
-                                                @job.Location
                                             </span>
                                         }
 
                                     </div>
 
-                                    @if (job.SalaryMin.HasValue ||
-                                        job.SalaryMax.HasValue)
-                                    {
-                                        <p class="mb-2">
 
-                                            <strong>
-                                                Salary:
-                                            </strong>
+                                    <h3 class="h5 fw-bold mb-2">
 
-                                            @if (job.SalaryMin.HasValue)
-                                            {
-                                                @job.SalaryMin.Value.ToString("N0")
-                                            }
+                                        <a asp-action="Details"
+                                           asp-route-id="@job.Id"
+                                           class="job-title-link">
 
-                                            @if (job.SalaryMin.HasValue &&
-                                                job.SalaryMax.HasValue)
-                                            {
-                                                <span> - </span>
-                                            }
+                                            @job.Title
 
-                                            @if (job.SalaryMax.HasValue)
-                                            {
-                                                @job.SalaryMax.Value.ToString("N0")
-                                            }
+                                        </a>
 
-                                        </p>
-                                    }
+                                    </h3>
 
-                                    @if (job.ApplicationDeadline.HasValue)
-                                    {
-                                        <p class="text-muted mb-0">
 
-                                            Application deadline:
+                                    <p class="job-company mb-3">
 
-                                            @job.ApplicationDeadline.Value
-                                            .ToString("dd MMM yyyy")
+                                        <i class="bi bi-building me-1"></i>
 
-                                        </p>
-                                    }
+                                        @job.CompanyName
+
+                                    </p>
+
+
+                                    <div class="job-meta">
+
+                                        @if (!string.IsNullOrWhiteSpace(job.Location))
+                                        {
+                                            <span>
+
+                                                <i class="bi bi-geo-alt me-1"></i>
+
+                                                @job.Location
+
+                                            </span>
+                                        }
+
+
+                                        @if (job.SalaryMin.HasValue ||
+                                            job.SalaryMax.HasValue)
+                                        {
+                                            <span>
+
+                                                <i class="bi bi-cash-stack me-1"></i>
+
+                                                @if (job.SalaryMin.HasValue)
+                                                {
+                                                    @job.SalaryMin.Value.ToString("N0")
+                                                }
+
+                                                @if (job.SalaryMin.HasValue &&
+                                                    job.SalaryMax.HasValue)
+                                                {
+                                                    <span>
+                                                        -
+                                                    </span>
+                                                }
+
+                                                @if (job.SalaryMax.HasValue)
+                                                {
+                                                    @job.SalaryMax.Value.ToString("N0")
+                                                }
+
+                                            </span>
+                                        }
+
+
+                                        @if (job.ApplicationDeadline.HasValue)
+                                        {
+                                            <span>
+
+                                                <i class="bi bi-calendar-event me-1"></i>
+
+                                                Apply by
+                                                @job.ApplicationDeadline.Value.ToString("dd MMM yyyy")
+
+                                            </span>
+                                        }
+
+                                    </div>
 
                                 </div>
 
-                                <div class="col-md-4
-                                    d-flex
-                                    align-items-center
-                                    justify-content-md-end
-                                    mt-3
-                                    mt-md-0">
 
-                                    <a asp-action="Details"
-                                       asp-route-id="@job.Id"
-                                       class="btn btn-primary">
-                                        View Details
-                                    </a>
+                                <!-- Action -->
+                                <div class="col-lg-4 mt-4 mt-lg-0">
+
+                                    <div class="d-flex justify-content-lg-end">
+
+                                        <a asp-action="Details"
+                                           asp-route-id="@job.Id"
+                                           class="btn btn-primary">
+
+                                            View Details
+
+                                            <i class="bi bi-arrow-right ms-1"></i>
+
+                                        </a>
+
+                                    </div>
 
                                 </div>
 
@@ -253,6 +345,7 @@
             }
 
         </div>
+
     }
 
 </div>

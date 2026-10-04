@@ -4,124 +4,225 @@
     ViewData["Title"] = "My Skills";
 }
 
-<div class="container py-4">
+<div class="cl-skills-page">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <!-- Page Header -->
+    <section class="cl-skills-header">
+        <div class="container">
 
-        <div>
-            <h1 class="fw-bold">My Skills</h1>
-            <p class="text-muted mb-0">
-                Manage your professional skills and proficiency levels.
-            </p>
-        </div>
+            <div class="cl-skills-header-content">
 
-        <a asp-action="Add"
-           class="btn btn-primary">
-            + Add Skill
-        </a>
+                <div>
+                    <div class="cl-dashboard-eyebrow">
+                        <i class="bi bi-tools"></i>
+                        Professional Profile
+                    </div>
 
-    </div>
+                    <h1>My Skills</h1>
 
-    @if (TempData["SuccessMessage"] != null)
-    {
-        <div class="alert alert-success alert-dismissible fade show">
-            @TempData["SuccessMessage"]
-
-            <button type="button"
-                    class="btn-close"
-                    data-bs-dismiss="alert">
-            </button>
-        </div>
-    }
-
-    @if (!Model.Any())
-    {
-        <div class="card shadow-sm">
-
-            <div class="card-body text-center py-5">
-
-                <h4>No skills added yet</h4>
-
-                <p class="text-muted">
-                    Add your skills to improve your professional profile.
-                </p>
+                    <p>
+                        Manage your professional skills and proficiency
+                        levels to strengthen your CareerLink profile.
+                    </p>
+                </div>
 
                 <a asp-action="Add"
-                   class="btn btn-primary">
-                    Add Your First Skill
+                   class="cl-skills-add-btn">
+                    <i class="bi bi-plus-lg"></i>
+                    Add Skill
                 </a>
 
             </div>
 
         </div>
-    }
-    else
-    {
-        <div class="row g-4">
+    </section>
 
-            @foreach (var skill in Model)
+
+    <!-- Skills Content -->
+    <section class="cl-skills-main">
+        <div class="container">
+
+            @if (TempData["SuccessMessage"] != null)
             {
-                <div class="col-md-6 col-lg-4">
+                <div class="cl-skills-success">
 
-                    <div class="card shadow-sm h-100">
+                    <div class="cl-skills-success-icon">
+                        <i class="bi bi-check-lg"></i>
+                    </div>
 
-                        <div class="card-body">
+                    <div>
+                        <strong>Skill updated</strong>
+                        <span>@TempData["SuccessMessage"]</span>
+                    </div>
 
-                            <h5 class="card-title">
-                                @skill.SkillName
-                            </h5>
+                    <button type="button"
+                            class="btn-close ms-auto"
+                            data-bs-dismiss="alert">
+                    </button>
 
-                            <p class="mb-3">
-                                <strong>Proficiency:</strong>
+                </div>
+            }
 
-                                @switch (skill.ProficiencyLevel)
-                                {
-                                    case 1:
-                                        <span>Beginner</span>
-                                        break;
 
-                                    case 2:
-                                        <span>Basic</span>
-                                        break;
+            @if (!Model.Any())
+            {
+                <!-- Empty State -->
+                <div class="cl-skills-empty">
 
-                                    case 3:
-                                        <span>Intermediate</span>
-                                        break;
+                    <div class="cl-skills-empty-icon">
+                        <i class="bi bi-tools"></i>
+                    </div>
 
-                                    case 4:
-                                        <span>Advanced</span>
-                                        break;
+                    <div class="cl-skills-empty-label">
+                        YOUR PROFESSIONAL SKILLS
+                    </div>
 
-                                    case 5:
-                                        <span>Expert</span>
-                                        break;
-                                }
-                            </p>
+                    <h2>No skills added yet</h2>
 
-                            <div class="d-flex gap-2">
+                    <p>
+                        Add your skills and proficiency levels to give
+                        employers a clearer picture of your professional
+                        strengths.
+                    </p>
 
-                                <a asp-action="Edit"
-                                   asp-route-id="@skill.SkillId"
-                                   class="btn btn-outline-primary btn-sm">
-                                    Edit
-                                </a>
+                    <a asp-action="Add"
+                       class="cl-skills-primary-btn">
+                        <i class="bi bi-plus-lg"></i>
+                        Add Your First Skill
+                    </a>
 
-                                <a asp-action="Delete"
-                                   asp-route-id="@skill.SkillId"
-                                   class="btn btn-outline-danger btn-sm">
-                                    Remove
-                                </a>
+                </div>
+            }
+            else
+            {
+                <div class="cl-skills-section-heading">
+
+                    <div>
+                        <div class="cl-small-label">
+                            YOUR SKILLS
+                        </div>
+
+                        <h2>Professional strengths</h2>
+
+                        <p>
+                            Keep your skills and proficiency levels
+                            up to date.
+                        </p>
+                    </div>
+
+                    <div class="cl-skills-count">
+                        <span>@Model.Count()</span>
+                        <small>
+                            @(Model.Count() == 1 ? "Skill" : "Skills")
+                        </small>
+                    </div>
+
+                </div>
+
+
+                <div class="row g-4">
+
+                    @foreach (var skill in Model)
+                    {
+                        var proficiencyText = skill.ProficiencyLevel switch
+                        {
+                            1 => "Beginner",
+                            2 => "Basic",
+                            3 => "Intermediate",
+                            4 => "Advanced",
+                            5 => "Expert",
+                            _ => "Not specified"
+                        };
+
+                        <div class="col-md-6 col-xl-4">
+
+                            <div class="cl-skill-card">
+
+                                <div class="cl-skill-card-top">
+
+                                    <div class="cl-skill-icon">
+                                        <i class="bi bi-tools"></i>
+                                    </div>
+
+                                    <div class="cl-skill-card-actions">
+
+                                        <a asp-action="Edit"
+                                           asp-route-id="@skill.SkillId"
+                                           class="cl-skill-icon-btn"
+                                           title="Edit skill">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+
+                                        <a asp-action="Delete"
+                                           asp-route-id="@skill.SkillId"
+                                           class="cl-skill-icon-btn cl-skill-delete-btn"
+                                           title="Remove skill">
+                                            <i class="bi bi-trash3"></i>
+                                        </a>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="cl-skill-card-content">
+
+                                    <h3>
+                                        @skill.SkillName
+                                    </h3>
+
+                                    <div class="cl-skill-proficiency">
+
+                                        <div class="cl-skill-proficiency-header">
+
+                                            <span>
+                                                Proficiency
+                                            </span>
+
+                                            <strong>
+                                                @proficiencyText
+                                            </strong>
+
+                                        </div>
+
+
+                                        <div class="cl-skill-levels">
+
+                                            @for (var level = 1; level <= 5; level++)
+                                            {
+                                                <span class="@(level <= skill.ProficiencyLevel ? "active" : "")"></span>
+                                            }
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="cl-skill-card-footer">
+
+                                    <span>
+                                        Level @skill.ProficiencyLevel of 5
+                                    </span>
+
+                                    <a asp-action="Edit"
+                                       asp-route-id="@skill.SkillId">
+                                        Edit
+                                        <i class="bi bi-arrow-right"></i>
+                                    </a>
+
+                                </div>
 
                             </div>
 
                         </div>
-
-                    </div>
+                    }
 
                 </div>
             }
 
         </div>
-    }
+    </section>
 
 </div>
