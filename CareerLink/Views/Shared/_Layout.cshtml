@@ -28,7 +28,6 @@
 
             <div class="container-fluid">
 
-                <!-- Brand -->
                 <a class="navbar-brand fw-bold"
                    asp-area=""
                    asp-controller="Home"
@@ -36,7 +35,6 @@
                     CareerLink
                 </a>
 
-                <!-- Mobile menu button -->
                 <button class="navbar-toggler"
                         type="button"
                         data-bs-toggle="collapse"
@@ -49,12 +47,10 @@
 
                 </button>
 
-                <!-- Navigation -->
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
 
                     <ul class="navbar-nav flex-grow-1">
 
-                        <!-- Home -->
                         <li class="nav-item">
 
                             <a class="nav-link text-dark"
@@ -66,7 +62,6 @@
 
                         </li>
 
-                        <!-- Job Seeker Navigation -->
                         @if (User.IsInRole("JobSeeker"))
                         {
                             <li class="nav-item">
@@ -125,7 +120,6 @@
                             </li>
                         }
 
-                        <!-- Recruiter Navigation -->
                         @if (User.IsInRole("Recruiter"))
                         {
                             <li class="nav-item">
@@ -160,9 +154,19 @@
                                 </a>
 
                             </li>
+
+                            <li class="nav-item">
+
+                                <a class="nav-link text-dark"
+                                   asp-area=""
+                                   asp-controller="RecruiterJobs"
+                                   asp-action="Index">
+                                    Manage Jobs
+                                </a>
+
+                            </li>
                         }
 
-                        <!-- Admin Navigation -->
                         @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
@@ -179,7 +183,6 @@
 
                     </ul>
 
-                    <!-- Login / Logout -->
                     <partial name="_LoginPartial" />
 
                 </div>
@@ -190,7 +193,6 @@
 
     </header>
 
-    <!-- Main Content -->
     <div class="container">
 
         <main role="main" class="pb-3">
@@ -201,7 +203,6 @@
 
     </div>
 
-    <!-- Footer -->
     <footer class="border-top footer text-muted">
 
         <div class="container">
@@ -219,7 +220,6 @@
 
     </footer>
 
-    <!-- Scripts -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -232,4 +232,4 @@
         required: false)
 
 </body>
-</html>okk
+</html>

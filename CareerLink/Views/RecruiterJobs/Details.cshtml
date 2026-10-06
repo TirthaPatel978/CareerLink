@@ -1,0 +1,255 @@
+﻿@model CareerLink.Models.Job
+
+@{
+    ViewData["Title"] = "Job Details";
+}
+
+<div class="container py-4">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-9">
+
+            <div class="card shadow-sm">
+
+                <div class="card-header d-flex justify-content-between align-items-center">
+
+                    <div>
+                        <h3 class="mb-1">
+                            @Model.Title
+                        </h3>
+
+                        <div class="text-muted">
+                            @Model.Company.Name
+                        </div>
+                    </div>
+
+                    @if (Model.IsActive)
+                    {
+                        <span class="badge bg-success">
+                            Active
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">
+                            Closed
+                        </span>
+                    }
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row mb-4">
+
+                        <div class="col-md-6">
+
+                            <strong>Job Type</strong>
+
+                            <p>
+                                @Model.JobType
+                            </p>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <strong>Location</strong>
+
+                            <p>
+                                @if (Model.IsRemote)
+                                {
+                                    <span>Remote</span>
+                                }
+                                else if (!string.IsNullOrWhiteSpace(Model.Location))
+                                {
+                                    @Model.Location
+                                }
+                                else
+                                {
+                                    <span>Not specified</span>
+                                }
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-4">
+
+                        <div class="col-md-6">
+
+                            <strong>Salary</strong>
+
+                            <p>
+                                @if (Model.SalaryMin.HasValue ||
+                                     Model.SalaryMax.HasValue)
+                                {
+                                    if (Model.SalaryMin.HasValue)
+                                    {
+                                        @Model.SalaryMin.Value.ToString("N2")
+                                    }
+
+                                    if (Model.SalaryMin.HasValue &&
+                                        Model.SalaryMax.HasValue)
+                                    {
+                                        <span> - </span>
+                                    }
+
+                                    if (Model.SalaryMax.HasValue)
+                                    {
+                                        @Model.SalaryMax.Value.ToString("N2")
+                                    }
+                                }
+                                else
+                                {
+                                    <span>Not specified</span>
+                                }
+                            </p>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <strong>Experience Required</strong>
+
+                            <p>
+                                @Model.ExperienceRequired years
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="mb-4">
+
+                        <h5>Description</h5>
+
+                        <p style="white-space: pre-line;">
+                            @Model.Description
+                        </p>
+
+                    </div>
+
+                    <div class="mb-4">
+
+                        <h5>Education Requirement</h5>
+
+                        @if (!string.IsNullOrWhiteSpace(Model.EducationRequirement))
+                        {
+                            <p>
+                                @Model.EducationRequirement
+                            </p>
+                        }
+                        else
+                        {
+                            <p class="text-muted">
+                                No specific education requirement.
+                            </p>
+                        }
+
+                    </div>
+
+                    <div class="mb-4">
+
+                        <h5>Application Deadline</h5>
+
+                        @if (Model.ApplicationDeadline.HasValue)
+                        {
+                            <p>
+                                @Model.ApplicationDeadline.Value.ToString("dd MMM yyyy")
+                            </p>
+                        }
+                        else
+                        {
+                            <p class="text-muted">
+                                No deadline.
+                            </p>
+                        }
+
+                    </div>
+
+                    <div class="mb-4">
+
+                        <h5>Matching Weights</h5>
+
+                        <div class="row">
+
+                            <div class="col-md-3">
+                                <strong>Skills</strong>
+                                <p>@Model.SkillWeight%</p>
+                            </div>
+
+                            <div class="col-md-3">
+                                <strong>Education</strong>
+                                <p>@Model.EducationWeight%</p>
+                            </div>
+
+                            <div class="col-md-3">
+                                <strong>Experience</strong>
+                                <p>@Model.ExperienceWeight%</p>
+                            </div>
+
+                            <div class="col-md-3">
+                                <strong>Location</strong>
+                                <p>@Model.LocationWeight%</p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="alert alert-light border">
+
+                        <strong>Applications received:</strong>
+
+                        @Model.Applications.Count
+
+                    </div>
+
+                    <div class="d-flex gap-2">
+
+                        <a asp-action="Edit"
+                           asp-route-id="@Model.Id"
+                           class="btn btn-primary">
+                            Edit Job
+                        </a>
+
+                        <form asp-action="ToggleStatus"
+                              asp-route-id="@Model.Id"
+                              method="post">
+
+                            @if (Model.IsActive)
+                            {
+                                <button type="submit"
+                                        class="btn btn-outline-danger">
+                                    Close Job
+                                </button>
+                            }
+                            else
+                            {
+                                <button type="submit"
+                                        class="btn btn-outline-success">
+                                    Reopen Job
+                                </button>
+                            }
+
+                        </form>
+
+                        <a asp-action="Index"
+                           class="btn btn-outline-secondary">
+                            Back to Jobs
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

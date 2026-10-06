@@ -1,0 +1,351 @@
+﻿@model CareerLink.ViewModels.RecruiterJobViewModel
+
+@{
+    ViewData["Title"] = "Create Job";
+}
+
+<div class="container py-4">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-9">
+
+            <div class="card shadow-sm">
+
+                <div class="card-header">
+                    <h3 class="mb-0">Create Job</h3>
+
+                    <small class="text-muted">
+                        Create a new job posting for your company.
+                    </small>
+                </div>
+
+                <div class="card-body">
+
+                    <form asp-action="Create"
+                          method="post">
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="text-danger mb-3">
+                        </div>
+
+                        <h5 class="mb-3">Job Information</h5>
+
+                        <div class="mb-3">
+
+                            <label asp-for="Title"
+                                   class="form-label">
+                            </label>
+
+                            <input asp-for="Title"
+                                   class="form-control"
+                                   placeholder="e.g. ASP.NET Core Developer" />
+
+                            <span asp-validation-for="Title"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="Description"
+                                   class="form-label">
+                            </label>
+
+                            <textarea asp-for="Description"
+                                      class="form-control"
+                                      rows="7"
+                                      placeholder="Describe the role, responsibilities, and expectations"></textarea>
+
+                            <span asp-validation-for="Description"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="JobType"
+                                       class="form-label">
+                                </label>
+
+                                <select asp-for="JobType"
+                                        class="form-select"
+                                        asp-items="Html.GetEnumSelectList<CareerLink.Models.Enums.JobType>()">
+                                </select>
+
+                                <span asp-validation-for="JobType"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="Location"
+                                       class="form-label">
+                                </label>
+
+                                <input asp-for="Location"
+                                       class="form-control"
+                                       placeholder="e.g. Ahmedabad, Gujarat" />
+
+                                <span asp-validation-for="Location"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="form-check mb-4">
+
+                            <input asp-for="IsRemote"
+                                   class="form-check-input" />
+
+                            <label asp-for="IsRemote"
+                                   class="form-check-label">
+                            </label>
+
+                        </div>
+
+                        <h5 class="mb-3">Salary & Requirements</h5>
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="SalaryMin"
+                                       class="form-label">
+                                </label>
+
+                                <input asp-for="SalaryMin"
+                                       class="form-control"
+                                       type="number"
+                                       step="0.01"
+                                       placeholder="e.g. 40000" />
+
+                                <span asp-validation-for="SalaryMin"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="SalaryMax"
+                                       class="form-label">
+                                </label>
+
+                                <input asp-for="SalaryMax"
+                                       class="form-control"
+                                       type="number"
+                                       step="0.01"
+                                       placeholder="e.g. 70000" />
+
+                                <span asp-validation-for="SalaryMax"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="ExperienceRequired"
+                                   class="form-label">
+                            </label>
+
+                            <input asp-for="ExperienceRequired"
+                                   class="form-control"
+                                   type="number"
+                                   step="0.1"
+                                   min="0" />
+
+                            <span asp-validation-for="ExperienceRequired"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="EducationRequirement"
+                                   class="form-label">
+                            </label>
+
+                            <input asp-for="EducationRequirement"
+                                   class="form-control"
+                                   placeholder="e.g. Bachelor's in Computer Science" />
+
+                            <span asp-validation-for="EducationRequirement"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label asp-for="ApplicationDeadline"
+                                   class="form-label">
+                            </label>
+
+                            <input asp-for="ApplicationDeadline"
+                                   class="form-control"
+                                   type="date" />
+
+                            <span asp-validation-for="ApplicationDeadline"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <h5 class="mb-3">Matching Weights</h5>
+
+                        <p class="text-muted">
+                            These weights control the rule-based job matching score.
+                            The total must equal 100%.
+                        </p>
+
+                        <div class="row">
+
+                            <div class="col-md-3 mb-3">
+
+                                <label asp-for="SkillWeight"
+                                       class="form-label">
+                                </label>
+
+                                <div class="input-group">
+
+                                    <input asp-for="SkillWeight"
+                                           class="form-control"
+                                           type="number"
+                                           step="0.01"
+                                           min="0"
+                                           max="100" />
+
+                                    <span class="input-group-text">%</span>
+
+                                </div>
+
+                                <span asp-validation-for="SkillWeight"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+
+                                <label asp-for="EducationWeight"
+                                       class="form-label">
+                                </label>
+
+                                <div class="input-group">
+
+                                    <input asp-for="EducationWeight"
+                                           class="form-control"
+                                           type="number"
+                                           step="0.01"
+                                           min="0"
+                                           max="100" />
+
+                                    <span class="input-group-text">%</span>
+
+                                </div>
+
+                                <span asp-validation-for="EducationWeight"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+
+                                <label asp-for="ExperienceWeight"
+                                       class="form-label">
+                                </label>
+
+                                <div class="input-group">
+
+                                    <input asp-for="ExperienceWeight"
+                                           class="form-control"
+                                           type="number"
+                                           step="0.01"
+                                           min="0"
+                                           max="100" />
+
+                                    <span class="input-group-text">%</span>
+
+                                </div>
+
+                                <span asp-validation-for="ExperienceWeight"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+
+                                <label asp-for="LocationWeight"
+                                       class="form-label">
+                                </label>
+
+                                <div class="input-group">
+
+                                    <input asp-for="LocationWeight"
+                                           class="form-control"
+                                           type="number"
+                                           step="0.01"
+                                           min="0"
+                                           max="100" />
+
+                                    <span class="input-group-text">%</span>
+
+                                </div>
+
+                                <span asp-validation-for="LocationWeight"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="alert alert-info">
+                            Default matching weights:
+                            <strong>Skills 50% + Education 20% + Experience 20% + Location 10%</strong>
+                        </div>
+
+                        <div class="d-flex gap-2 mt-4">
+
+                            <button type="submit"
+                                    class="btn btn-primary">
+                                Create Job
+                            </button>
+
+                            <a asp-action="Index"
+                               class="btn btn-outline-secondary">
+                                Cancel
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
