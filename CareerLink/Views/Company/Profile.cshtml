@@ -1,0 +1,133 @@
+@model CareerLink.ViewModels.CompanyProfileViewModel
+
+@{
+    ViewData["Title"] = "Company Profile";
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+
+            <div class="card shadow-sm">
+
+                <div class="card-header">
+                    <h3 class="mb-0">Company Profile</h3>
+                    <small class="text-muted">
+                        Create or update your company information.
+                    </small>
+                </div>
+
+                <div class="card-body">
+
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success">
+                            @TempData["SuccessMessage"]
+                        </div>
+                    }
+
+                    <form asp-action="Profile" method="post">
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="text-danger mb-3">
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Name" class="form-label"></label>
+
+                            <input asp-for="Name"
+                                   class="form-control"
+                                   placeholder="Enter company name" />
+
+                            <span asp-validation-for="Name"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Description"
+                                   class="form-label"></label>
+
+                            <textarea asp-for="Description"
+                                      class="form-control"
+                                      rows="5"
+                                      placeholder="Tell us about your company"></textarea>
+
+                            <span asp-validation-for="Description"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Website"
+                                   class="form-label"></label>
+
+                            <input asp-for="Website"
+                                   class="form-control"
+                                   placeholder="https://example.com" />
+
+                            <span asp-validation-for="Website"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Industry"
+                                   class="form-label"></label>
+
+                            <input asp-for="Industry"
+                                   class="form-control"
+                                   placeholder="e.g. Information Technology" />
+
+                            <span asp-validation-for="Industry"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Location"
+                                   class="form-label"></label>
+
+                            <input asp-for="Location"
+                                   class="form-control"
+                                   placeholder="e.g. Ahmedabad, Gujarat" />
+
+                            <span asp-validation-for="Location"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="LogoPath"
+                                   class="form-label"></label>
+
+                            <input asp-for="LogoPath"
+                                   class="form-control"
+                                   placeholder="Logo URL or path" />
+
+                            <span asp-validation-for="LogoPath"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <div class="d-flex gap-2">
+
+                            <button type="submit"
+                                    class="btn btn-primary">
+                                Save Company Profile
+                            </button>
+
+                            <a asp-controller="Recruiter"
+                               asp-action="Profile"
+                               class="btn btn-outline-secondary">
+                                Back to Recruiter Profile
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
