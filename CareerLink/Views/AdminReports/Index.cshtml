@@ -1,0 +1,288 @@
+﻿@model CareerLink.ViewModels.AdminReportsViewModel
+
+@{
+    ViewData["Title"] = "Reports & Statistics";
+}
+
+<div class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h1 class="mb-1">Reports & Statistics</h1>
+            <p class="text-muted mb-0">
+                Overview of CareerLink platform activity.
+            </p>
+        </div>
+
+        <a asp-controller="Admin"
+           asp-action="Index"
+           class="btn btn-outline-secondary">
+            Back to Dashboard
+        </a>
+
+    </div>
+
+    <!-- Users -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <h5 class="card-title mb-4">
+                User Statistics
+            </h5>
+
+            <div class="row g-3">
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="border rounded p-3 h-100">
+                        <small class="text-muted">Total Users</small>
+                        <h3 class="mb-0">@Model.TotalUsers</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="border rounded p-3 h-100">
+                        <small class="text-muted">Job Seekers</small>
+                        <h3 class="mb-0">@Model.JobSeekers</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="border rounded p-3 h-100">
+                        <small class="text-muted">Recruiters</small>
+                        <h3 class="mb-0">@Model.Recruiters</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="border rounded p-3 h-100">
+                        <small class="text-muted">Active Users</small>
+                        <h3 class="mb-0">@Model.ActiveUsers</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="border rounded p-3 h-100">
+                        <small class="text-muted">Inactive Users</small>
+                        <h3 class="mb-0">@Model.InactiveUsers</h3>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Companies and Jobs -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <h5 class="card-title mb-4">
+                Company & Job Statistics
+            </h5>
+
+            <div class="row g-3">
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="border rounded p-3 h-100">
+                        <small class="text-muted">Companies</small>
+                        <h3 class="mb-0">@Model.TotalCompanies</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="border rounded p-3 h-100">
+                        <small class="text-muted">Total Jobs</small>
+                        <h3 class="mb-0">@Model.TotalJobs</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="border rounded p-3 h-100">
+                        <small class="text-muted">Active Jobs</small>
+                        <h3 class="mb-0">@Model.ActiveJobs</h3>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="border rounded p-3 h-100">
+                        <small class="text-muted">Closed Jobs</small>
+                        <h3 class="mb-0">@Model.ClosedJobs</h3>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Applications -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <h5 class="card-title mb-4">
+                Application Statistics
+            </h5>
+
+            <div class="mb-4">
+                <span class="text-muted">
+                    Total Applications
+                </span>
+
+                <h3>
+                    @Model.TotalApplications
+                </h3>
+            </div>
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead>
+                        <tr>
+                            <th>Status</th>
+                            <th class="text-end">Applications</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td>Applied</td>
+                            <td class="text-end">
+                                @Model.AppliedApplications
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Under Review</td>
+                            <td class="text-end">
+                                @Model.UnderReviewApplications
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Shortlisted</td>
+                            <td class="text-end">
+                                @Model.ShortlistedApplications
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Interview</td>
+                            <td class="text-end">
+                                @Model.InterviewApplications
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Selected</td>
+                            <td class="text-end">
+                                @Model.SelectedApplications
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Rejected</td>
+                            <td class="text-end">
+                                @Model.RejectedApplications
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Withdrawn</td>
+                            <td class="text-end">
+                                @Model.WithdrawnApplications
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Interviews -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <h5 class="card-title mb-4">
+                Interview Statistics
+            </h5>
+
+            <div class="mb-4">
+                <span class="text-muted">
+                    Total Interviews
+                </span>
+
+                <h3>
+                    @Model.TotalInterviews
+                </h3>
+            </div>
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead>
+                        <tr>
+                            <th>Status</th>
+                            <th class="text-end">Interviews</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td>Scheduled</td>
+                            <td class="text-end">
+                                @Model.ScheduledInterviews
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Completed</td>
+                            <td class="text-end">
+                                @Model.CompletedInterviews
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Cancelled</td>
+                            <td class="text-end">
+                                @Model.CancelledInterviews
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Rescheduled</td>
+                            <td class="text-end">
+                                @Model.RescheduledInterviews
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

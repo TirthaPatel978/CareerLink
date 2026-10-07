@@ -20,7 +20,6 @@
     <meta name="description"
           content="CareerLink connects job seekers with employers through a professional platform for discovering opportunities, building careers and finding talent." />
 
-
     <!-- =====================================================
          GOOGLE FONT
          ===================================================== -->
@@ -35,7 +34,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
           rel="stylesheet" />
 
-
     <!-- =====================================================
          BOOTSTRAP
          ===================================================== -->
@@ -43,14 +41,12 @@
     <link rel="stylesheet"
           href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 
-
     <!-- =====================================================
          BOOTSTRAP ICONS
          ===================================================== -->
 
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
-
 
     <!-- =====================================================
          CAREERLINK CSS
@@ -65,7 +61,6 @@
 
 <body>
 
-
     <!-- =====================================================
          NAVIGATION
          ===================================================== -->
@@ -76,10 +71,10 @@
 
             <div class="container cl-navbar-container">
 
-
                 <!-- BRAND -->
 
                 <a class="cl-brand"
+                   asp-area=""
                    asp-controller="Home"
                    asp-action="Index">
 
@@ -114,9 +109,7 @@
                 <div class="collapse navbar-collapse"
                      id="careerLinkNavbar">
 
-
                     <ul class="navbar-nav mx-auto cl-main-nav">
-
 
                         @if (User.Identity?.IsAuthenticated == true)
                         {
@@ -170,6 +163,19 @@
                                 <li class="nav-item">
 
                                     <a class="nav-link"
+                                       asp-controller="JobSeekerInterviews"
+                                       asp-action="Index">
+
+                                        My Interviews
+
+                                    </a>
+
+                                </li>
+
+
+                                <li class="nav-item">
+
+                                    <a class="nav-link"
                                        asp-controller="JobSeeker"
                                        asp-action="Profile">
 
@@ -192,7 +198,8 @@
                                 <li class="nav-item">
 
                                     <a class="nav-link"
-                                       href="#">
+                                       asp-controller="Recruiter"
+                                       asp-action="Index">
 
                                         Dashboard
 
@@ -204,9 +211,10 @@
                                 <li class="nav-item">
 
                                     <a class="nav-link"
-                                       href="#">
+                                       asp-controller="Recruiter"
+                                       asp-action="Profile">
 
-                                        My Jobs
+                                        Recruiter Profile
 
                                     </a>
 
@@ -216,7 +224,34 @@
                                 <li class="nav-item">
 
                                     <a class="nav-link"
-                                       href="#">
+                                       asp-controller="Company"
+                                       asp-action="Profile">
+
+                                        Company
+
+                                    </a>
+
+                                </li>
+
+
+                                <li class="nav-item">
+
+                                    <a class="nav-link"
+                                       asp-controller="RecruiterJobs"
+                                       asp-action="Index">
+
+                                        Manage Jobs
+
+                                    </a>
+
+                                </li>
+
+
+                                <li class="nav-item">
+
+                                    <a class="nav-link"
+                                       asp-controller="RecruiterApplications"
+                                       asp-action="Index">
 
                                         Applicants
 
@@ -228,9 +263,10 @@
                                 <li class="nav-item">
 
                                     <a class="nav-link"
-                                       href="#">
+                                       asp-controller="RecruiterInterviews"
+                                       asp-action="Index">
 
-                                        Company
+                                        Interviews
 
                                     </a>
 
@@ -249,7 +285,8 @@
                                 <li class="nav-item">
 
                                     <a class="nav-link"
-                                       href="#">
+                                       asp-controller="Admin"
+                                       asp-action="Index">
 
                                         Dashboard
 
@@ -261,7 +298,8 @@
                                 <li class="nav-item">
 
                                     <a class="nav-link"
-                                       href="#">
+                                       asp-controller="AdminUsers"
+                                       asp-action="Index">
 
                                         Users
 
@@ -273,7 +311,8 @@
                                 <li class="nav-item">
 
                                     <a class="nav-link"
-                                       href="#">
+                                       asp-controller="AdminCompanies"
+                                       asp-action="Index">
 
                                         Companies
 
@@ -285,9 +324,36 @@
                                 <li class="nav-item">
 
                                     <a class="nav-link"
-                                       href="#">
+                                       asp-controller="AdminJobs"
+                                       asp-action="Index">
 
                                         Jobs
+
+                                    </a>
+
+                                </li>
+
+
+                                <li class="nav-item">
+
+                                    <a class="nav-link"
+                                       asp-controller="AdminSkills"
+                                       asp-action="Index">
+
+                                        Skills
+
+                                    </a>
+
+                                </li>
+
+
+                                <li class="nav-item">
+
+                                    <a class="nav-link"
+                                       asp-controller="AdminReports"
+                                       asp-action="Index">
+
+                                        Reports
 
                                     </a>
 
@@ -390,7 +456,6 @@
         <div class="container">
 
             <div class="row gy-5">
-
 
                 <!-- BRAND -->
 

@@ -1,0 +1,221 @@
+﻿@model IEnumerable<CareerLink.ViewModels.RecruiterJobListViewModel>
+
+@{
+    ViewData["Title"] = "Manage Jobs";
+}
+
+<div class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h1 class="mb-1">Manage Jobs</h1>
+
+            <p class="text-muted mb-0">
+                Create, edit, view, and close your company's job postings.
+            </p>
+        </div>
+
+        <div>
+            <a asp-controller="RecruiterJobs"
+               asp-action="Create"
+               class="btn btn-primary">
+                Create New Job
+            </a>
+        </div>
+
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    @if (TempData["WarningMessage"] != null)
+    {
+        <div class="alert alert-warning">
+            @TempData["WarningMessage"]
+        </div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="card shadow-sm">
+
+            <div class="card-body text-center py-5">
+
+                <h4>No jobs posted yet</h4>
+
+                <p class="text-muted">
+                    Create your first job posting to start receiving applications.
+                </p>
+
+                <a asp-controller="RecruiterJobs"
+                   asp-action="Create"
+                   class="btn btn-primary">
+                    Create Your First Job
+                </a>
+
+            </div>
+
+        </div>
+    }
+    else
+    {
+        <div class="card shadow-sm">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead class="table-light">
+
+                        <tr>
+                            <th>Job</th>
+                            <th>Type</th>
+                            <th>Location</th>
+                            <th>Status</th>
+                            <th>Applications</th>
+                            <th>Deadline</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var job in Model)
+                        {
+                            <tr>
+
+                                <td>
+                                    <strong>
+                                        @job.Title
+                                    </strong>
+
+                                    <div class="small text-muted">
+                                        Posted @job.CreatedAt.ToLocalTime().ToString("dd MMM yyyy")
+                                    </div>
+                                </td>
+
+                                <td>
+                                    @job.JobType
+                                </td>
+
+                                <td>
+                                    @if (job.IsRemote)
+                                    {
+                                        <span>Remote</span>
+                                    }
+                                    else if (!string.IsNullOrWhiteSpace(job.Location))
+                                    {
+                                        @job.Location
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">
+                                            Not specified
+                                        </span>
+                                    }
+                                </td>
+
+                                <td>
+                                    @if (job.IsActive)
+                                    {
+                                        <span class="badge bg-success">
+                                            Active
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">
+                                            Closed
+                                        </span>
+                                    }
+                                </td>
+
+                                <td>
+                                    @job.ApplicationCount
+                                </td>
+
+                                <td>
+                                    @if (job.ApplicationDeadline.HasValue)
+                                    {
+                                        @job.ApplicationDeadline.Value.ToString("dd MMM yyyy")
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">
+                                            No deadline
+                                        </span>
+                                    }
+                                </td>
+
+                                <td>
+
+                                    <div class="d-flex justify-content-end gap-2 flex-wrap">
+
+                                        <a asp-controller="RecruiterJobs"
+                                           asp-action="Details"
+                                           asp-route-id="@job.Id"
+                                           class="btn btn-sm btn-outline-secondary">
+                                            View
+                                        </a>
+
+                                        <a asp-controller="RecruiterApplications"
+                                           asp-action="Index"
+                                           asp-route-jobId="@job.Id"
+                                           class="btn btn-sm btn-outline-primary">
+                                            Applicants
+                                        </a>
+
+                                        <a asp-controller="RecruiterJobs"
+                                           asp-action="Edit"
+                                           asp-route-id="@job.Id"
+                                           class="btn btn-sm btn-outline-primary">
+                                            Edit
+                                        </a>
+
+                                        <form asp-controller="RecruiterJobs"
+                                              asp-action="ToggleStatus"
+                                              asp-route-id="@job.Id"
+                                              method="post">
+
+                                            @Html.AntiForgeryToken()
+
+                                            @if (job.IsActive)
+                                            {
+                                                <button type="submit"
+                                                        class="btn btn-sm btn-outline-danger">
+                                                    Close
+                                                </button>
+                                            }
+                                            else
+                                            {
+                                                <button type="submit"
+                                                        class="btn btn-sm btn-outline-success">
+                                                    Reopen
+                                                </button>
+                                            }
+
+                                        </form>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+    }
+
+</div>

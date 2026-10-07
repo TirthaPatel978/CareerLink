@@ -1,0 +1,172 @@
+﻿@model CareerLink.ViewModels.AdminDashboardViewModel
+
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="container py-4">
+
+    <div class="mb-4">
+        <h1 class="mb-1">Admin Dashboard</h1>
+        <p class="text-muted mb-0">
+            Manage users, companies, jobs, skills, and platform activity.
+        </p>
+    </div>
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">Total Users</h6>
+                    <h2>@Model.TotalUsers</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">Job Seekers</h6>
+                    <h2>@Model.JobSeekers</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">Recruiters</h6>
+                    <h2>@Model.Recruiters</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">Companies</h6>
+                    <h2>@Model.Companies</h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">Total Jobs</h6>
+                    <h2>@Model.Jobs</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">Active Jobs</h6>
+                    <h2>@Model.ActiveJobs</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">Applications</h6>
+                    <h2>@Model.Applications</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">Interviews</h6>
+                    <h2>@Model.Interviews</h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <h5 class="card-title mb-3">
+                Administration
+            </h5>
+
+            <div class="d-flex flex-wrap gap-2">
+
+                <a asp-controller="AdminUsers"
+                   asp-action="Index"
+                   class="btn btn-outline-primary">
+                    Manage Users
+                </a>
+
+                <a asp-controller="AdminCompanies"
+                   asp-action="Index"
+                   class="btn btn-outline-primary">
+                    Manage Companies
+                </a>
+
+                <a asp-controller="AdminJobs"
+                   asp-action="Index"
+                   class="btn btn-outline-primary">
+                    Manage Jobs
+                </a>
+
+                <a asp-controller="AdminSkills"
+                   asp-action="Index"
+                   class="btn btn-outline-primary">
+                    Manage Skills
+                </a>
+
+                <a asp-controller="AdminReports"
+                   asp-action="Index"
+                   class="btn btn-outline-primary">
+                    Reports & Statistics
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card shadow-sm mt-4">
+
+        <div class="card-body">
+
+            <h5 class="card-title mb-3">
+                User Status
+            </h5>
+
+            <div class="row">
+
+                <div class="col-md-6">
+                    <p class="mb-1">
+                        <strong>Active Users:</strong>
+                        @Model.ActiveUsers
+                    </p>
+                </div>
+
+                <div class="col-md-6">
+                    <p class="mb-1">
+                        <strong>Inactive Users:</strong>
+                        @Model.InactiveUsers
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,194 @@
+﻿@model IEnumerable<CareerLink.ViewModels.AdminUserViewModel>
+
+@{
+    ViewData["Title"] = "Manage Users";
+}
+
+<div class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="mb-1">Manage Users</h1>
+            <p class="text-muted mb-0">
+                View and manage CareerLink user accounts.
+            </p>
+        </div>
+
+        <a asp-controller="Admin"
+           asp-action="Index"
+           class="btn btn-outline-secondary">
+            Back to Dashboard
+        </a>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Created</th>
+                            <th>Status</th>
+                            <th class="text-end">Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var user in Model)
+                        {
+                            <tr>
+
+                                <td>
+                                    <strong>
+                                        @(string.IsNullOrWhiteSpace(user.FullName)
+                                            ? "Unnamed User"
+                                            : user.FullName)
+                                    </strong>
+
+                                    @if (user.IsCurrentUser)
+                                    {
+                                        <span class="badge bg-secondary ms-1">
+                                            You
+                                        </span>
+                                    }
+                                </td>
+
+                                <td>
+                                    @user.Email
+                                </td>
+
+                                <td>
+                                    @if (user.Role == "Admin")
+                                    {
+                                        <span class="badge bg-dark">
+                                            Admin
+                                        </span>
+                                    }
+                                    else if (user.Role == "Recruiter")
+                                    {
+                                        <span class="badge bg-primary">
+                                            Recruiter
+                                        </span>
+                                    }
+                                    else if (user.Role == "JobSeeker")
+                                    {
+                                        <span class="badge bg-info text-dark">
+                                            Job Seeker
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">
+                                            @user.Role
+                                        </span>
+                                    }
+                                </td>
+
+                                <td>
+                                    @user.CreatedAt.ToLocalTime()
+                                        .ToString("dd MMM yyyy")
+                                </td>
+
+                                <td>
+                                    @if (user.IsActive)
+                                    {
+                                        <span class="badge bg-success">
+                                            Active
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">
+                                            Inactive
+                                        </span>
+                                    }
+                                </td>
+
+                                <td class="text-end">
+
+                                    @if (user.IsCurrentUser)
+                                    {
+                                        <button type="button"
+                                                class="btn btn-sm btn-secondary"
+                                                disabled>
+                                            Current Account
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <form asp-controller="AdminUsers"
+                                              asp-action="ToggleStatus"
+                                              method="post"
+                                              class="d-inline">
+
+                                            <input type="hidden"
+                                                   name="id"
+                                                   value="@user.Id" />
+
+                                            @if (user.IsActive)
+                                            {
+                                                <button type="submit"
+                                                        class="btn btn-sm btn-outline-danger"
+                                                        onclick="return confirm('Are you sure you want to deactivate this account?');">
+                                                    Deactivate
+                                                </button>
+                                            }
+                                            else
+                                            {
+                                                <button type="submit"
+                                                        class="btn btn-sm btn-outline-success">
+                                                    Activate
+                                                </button>
+                                            }
+
+                                        </form>
+                                    }
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            @if (!Model.Any())
+            {
+                <div class="text-center py-5">
+                    <h5>No users found.</h5>
+                    <p class="text-muted mb-0">
+                        There are currently no registered users.
+                    </p>
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>

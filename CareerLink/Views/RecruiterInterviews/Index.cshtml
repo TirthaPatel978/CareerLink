@@ -1,0 +1,201 @@
+﻿@model IEnumerable<CareerLink.ViewModels.RecruiterInterviewViewModel>
+
+@{
+    ViewData["Title"] = "Interviews";
+}
+
+<div class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h1 class="mb-1">Interviews</h1>
+
+            <p class="text-muted mb-0">
+                Manage scheduled candidate interviews.
+            </p>
+        </div>
+
+        <a asp-controller="Recruiter"
+           asp-action="Index"
+           class="btn btn-outline-secondary">
+            Back to Dashboard
+        </a>
+
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            No interviews have been scheduled yet.
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+
+            <table class="table table-bordered table-hover align-middle">
+
+                <thead class="table-light">
+                    <tr>
+                        <th>Applicant</th>
+                        <th>Job</th>
+                        <th>Date &amp; Time</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th>Details</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (var interview in Model)
+                    {
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    @interview.ApplicantName
+                                </strong>
+
+                                <br />
+
+                                <small class="text-muted">
+                                    @interview.ApplicantEmail
+                                </small>
+                            </td>
+
+                            <td>
+                                @interview.JobTitle
+                            </td>
+
+                            <td>
+                                @(interview.ScheduledAt.ToLocalTime().ToString("dd MMM yyyy, hh:mm tt"))
+                            </td>
+
+                            <td>
+                                @interview.InterviewType
+                            </td>
+
+                            <td>
+                                @if (interview.Status == CareerLink.Models.Enums.InterviewStatus.Scheduled)
+                                {
+                                    <span class="badge bg-primary">
+                                        Scheduled
+                                    </span>
+                                }
+                                else if (interview.Status == CareerLink.Models.Enums.InterviewStatus.Completed)
+                                {
+                                    <span class="badge bg-success">
+                                        Completed
+                                    </span>
+                                }
+                                else if (interview.Status == CareerLink.Models.Enums.InterviewStatus.Cancelled)
+                                {
+                                    <span class="badge bg-danger">
+                                        Cancelled
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-warning text-dark">
+                                        Rescheduled
+                                    </span>
+                                }
+                            </td>
+
+                            <td>
+
+                                @if (!string.IsNullOrWhiteSpace(interview.MeetingLink))
+                                {
+                                    <a href="@interview.MeetingLink"
+                                       target="_blank"
+                                       class="btn btn-sm btn-outline-primary">
+                                        Meeting Link
+                                    </a>
+                                }
+
+                                @if (!string.IsNullOrWhiteSpace(interview.Location))
+                                {
+                                    <div class="mt-1">
+                                        <small>
+                                            @interview.Location
+                                        </small>
+                                    </div>
+                                }
+
+                            </td>
+
+                            <td>
+
+                                @if (interview.Status != CareerLink.Models.Enums.InterviewStatus.Cancelled)
+                                {
+                                    <a asp-controller="RecruiterInterviews"
+                                       asp-action="Edit"
+                                       asp-route-id="@interview.Id"
+                                       class="btn btn-sm btn-outline-primary mb-1">
+                                        Reschedule
+                                    </a>
+                                }
+
+                                <form asp-controller="RecruiterInterviews"
+                                      asp-action="UpdateStatus"
+                                      method="post"
+                                      class="d-inline">
+
+                                    @Html.AntiForgeryToken()
+
+                                    <input type="hidden"
+                                           name="id"
+                                           value="@interview.Id" />
+
+                                    <select name="status"
+                                            class="form-select form-select-sm d-inline-block"
+                                            style="width: 140px;"
+                                            onchange="this.form.submit()">
+
+                                        <option value="">
+                                            Update Status
+                                        </option>
+
+                                        <option value="0">
+                                            Scheduled
+                                        </option>
+
+                                        <option value="1">
+                                            Completed
+                                        </option>
+
+                                        <option value="2">
+                                            Cancelled
+                                        </option>
+
+                                        <option value="3">
+                                            Rescheduled
+                                        </option>
+
+                                    </select>
+
+                                </form>
+
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+    }
+
+</div>

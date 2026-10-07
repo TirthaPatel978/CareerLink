@@ -1,0 +1,207 @@
+﻿@model CareerLink.ViewModels.RecruiterInterviewViewModel
+
+@{
+    ViewData["Title"] = "Schedule Interview";
+}
+
+<div class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h1 class="mb-1">Schedule Interview</h1>
+
+            <p class="text-muted mb-0">
+                @Model.JobTitle - @Model.ApplicantName
+            </p>
+        </div>
+
+        <a asp-controller="RecruiterApplications"
+           asp-action="Details"
+           asp-route-id="@Model.ApplicationId"
+           class="btn btn-outline-secondary">
+            Back to Applicant
+        </a>
+
+    </div>
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <form asp-controller="RecruiterInterviews"
+                  asp-action="Create"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <input type="hidden"
+                       asp-for="ApplicationId" />
+
+                <div asp-validation-summary="ModelOnly"
+                     class="alert alert-danger">
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Applicant
+                    </label>
+
+                    <input type="text"
+                           class="form-control"
+                           value="@Model.ApplicantName (@Model.ApplicantEmail)"
+                           readonly />
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label asp-for="ScheduledAt"
+                           class="form-label">
+                    </label>
+
+                    <input asp-for="ScheduledAt"
+                           type="datetime-local"
+                           class="form-control"
+                           value="@Model.ScheduledAt.ToString("yyyy-MM-ddTHH:mm")" />
+
+                    <span asp-validation-for="ScheduledAt"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label asp-for="InterviewType"
+                           class="form-label">
+                    </label>
+
+                    <select asp-for="InterviewType"
+                            class="form-select"
+                            asp-items="Html.GetEnumSelectList<CareerLink.Models.Enums.InterviewType>()">
+                    </select>
+
+                    <span asp-validation-for="InterviewType"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <div class="mb-3"
+                     id="meetingLinkGroup">
+
+                    <label asp-for="MeetingLink"
+                           class="form-label">
+                    </label>
+
+                    <input asp-for="MeetingLink"
+                           class="form-control"
+                           placeholder="https://meet.google.com/..." />
+
+                    <span asp-validation-for="MeetingLink"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <div class="mb-3"
+                     id="locationGroup">
+
+                    <label asp-for="Location"
+                           class="form-label">
+                    </label>
+
+                    <input asp-for="Location"
+                           class="form-control"
+                           placeholder="Office address or interview location" />
+
+                    <span asp-validation-for="Location"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label asp-for="Notes"
+                           class="form-label">
+                    </label>
+
+                    <textarea asp-for="Notes"
+                              class="form-control"
+                              rows="4"
+                              placeholder="Interview instructions or additional notes">
+                    </textarea>
+
+                    <span asp-validation-for="Notes"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <div class="d-flex gap-2">
+
+                    <button type="submit"
+                            class="btn btn-primary">
+                        Schedule Interview
+                    </button>
+
+                    <a asp-controller="RecruiterApplications"
+                       asp-action="Details"
+                       asp-route-id="@Model.ApplicationId"
+                       class="btn btn-outline-secondary">
+                        Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        function updateInterviewFields() {
+
+            const type =
+                document.getElementById("InterviewType").value;
+
+            const meetingLinkGroup =
+                document.getElementById("meetingLinkGroup");
+
+            const locationGroup =
+                document.getElementById("locationGroup");
+
+            if (type === "0") {
+                // Online
+                meetingLinkGroup.style.display = "block";
+                locationGroup.style.display = "none";
+            }
+            else if (type === "1") {
+                // In Person
+                meetingLinkGroup.style.display = "none";
+                locationGroup.style.display = "block";
+            }
+            else {
+                // Phone
+                meetingLinkGroup.style.display = "none";
+                locationGroup.style.display = "none";
+            }
+        }
+
+        document
+            .getElementById("InterviewType")
+            .addEventListener("change", updateInterviewFields);
+
+        updateInterviewFields();
+    </script>
+}
