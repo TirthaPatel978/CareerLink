@@ -86,68 +86,98 @@
                 </div>
 
 
-                <!-- Actions -->
-                <div class="col-lg-4 mt-4 mt-lg-0">
+                <<!-- Actions -->
+<div class="col-lg-4 mt-4 mt-lg-0">
 
-                    <div class="d-flex flex-column gap-2">
+    <div class="d-flex flex-column gap-2">
 
-                        @if (Model.IsSaved)
-                        {
-                            <form asp-controller="SavedJobs"
-                                  asp-action="Remove"
-                                  method="post">
+        <!-- APPLY -->
+        @if (Model.HasApplied)
+        {
+            <a asp-controller="Applications"
+               asp-action="Index"
+               class="btn btn-success w-100">
 
-                                <input type="hidden"
-                                       name="jobId"
-                                       value="@Model.Id" />
+                <i class="bi bi-check-circle me-1"></i>
 
-                                <button type="submit"
-                                        class="btn btn-outline-primary w-100">
+                Application Submitted
 
-                                    <i class="bi bi-bookmark-fill me-1"></i>
+            </a>
+        }
+        else
+        {
+            <a asp-controller="Applications"
+               asp-action="Create"
+               asp-route-jobId="@Model.Id"
+               class="btn btn-primary w-100">
 
-                                    Remove Saved Job
+                <i class="bi bi-send me-1"></i>
 
-                                </button>
+                Apply Now
 
-                            </form>
-                        }
-                        else
-                        {
-                            <form asp-controller="SavedJobs"
-                                  asp-action="Save"
-                                  method="post">
-
-                                <input type="hidden"
-                                       name="jobId"
-                                       value="@Model.Id" />
-
-                                <button type="submit"
-                                        class="btn btn-outline-primary w-100">
-
-                                    <i class="bi bi-bookmark me-1"></i>
-
-                                    Save Job
-
-                                </button>
-
-                            </form>
-                        }
+            </a>
+        }
 
 
-                        <a asp-action="Match"
-                           asp-route-id="@Model.Id"
-                           class="btn btn-primary w-100">
+        <!-- SAVE JOB -->
+        @if (Model.IsSaved)
+        {
+            <form asp-controller="SavedJobs"
+                  asp-action="Remove"
+                  method="post">
 
-                            <i class="bi bi-stars me-1"></i>
+                <input type="hidden"
+                       name="jobId"
+                       value="@Model.Id" />
 
-                            Check My Match
+                <button type="submit"
+                        class="btn btn-outline-primary w-100">
 
-                        </a>
+                    <i class="bi bi-bookmark-fill me-1"></i>
 
-                    </div>
+                    Remove Saved Job
 
-                </div>
+                </button>
+
+            </form>
+        }
+        else
+        {
+            <form asp-controller="SavedJobs"
+                  asp-action="Save"
+                  method="post">
+
+                <input type="hidden"
+                       name="jobId"
+                       value="@Model.Id" />
+
+                <button type="submit"
+                        class="btn btn-outline-primary w-100">
+
+                    <i class="bi bi-bookmark me-1"></i>
+
+                    Save Job
+
+                </button>
+
+            </form>
+        }
+
+
+        <!-- MATCH -->
+        <a asp-action="Match"
+           asp-route-id="@Model.Id"
+           class="btn btn-outline-secondary w-100">
+
+            <i class="bi bi-stars me-1"></i>
+
+            Check My Match
+
+        </a>
+
+    </div>
+
+</div>
 
             </div>
 

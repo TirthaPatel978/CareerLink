@@ -1,0 +1,223 @@
+﻿@model CareerLink.ViewModels.ApplicationViewModel
+
+@{
+    ViewData["Title"] = "Edit Application";
+}
+
+<div class="container py-4">
+
+    <div class="mb-3">
+
+        <a asp-action="Details"
+           asp-route-id="@Context.Request.RouteValues["id"]"
+           class="text-decoration-none">
+            ← Back to Application
+        </a>
+
+    </div>
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body p-4">
+
+                    <h1 class="fw-bold mb-2">
+                        Edit Application
+                    </h1>
+
+                    <p class="text-muted mb-4">
+                        Update your resume or cover letter for this
+                        application.
+                    </p>
+
+                    <!-- Job Information -->
+                    <div class="card bg-light border-0 mb-4">
+
+                        <div class="card-body">
+
+                            <h4 class="mb-1">
+                                @Model.JobTitle
+                            </h4>
+
+                            <p class="text-muted mb-2">
+                                @Model.CompanyName
+                            </p>
+
+                            @if (!string.IsNullOrWhiteSpace(
+                                Model.JobLocation))
+                            {
+                                <div class="small text-muted">
+                                    📍 @Model.JobLocation
+                                </div>
+                            }
+
+                        </div>
+
+                    </div>
+
+                    <form asp-action="Edit"
+                          method="post"
+                          enctype="multipart/form-data">
+
+                        @Html.AntiForgeryToken()
+
+                        <input type="hidden"
+                               name="id"
+                               value="@Context.Request.RouteValues["id"]" />
+
+                        <input type="hidden"
+                               asp-for="JobId" />
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="text-danger mb-3">
+                        </div>
+
+                        <!-- Current Resume -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-bold">
+                                Current Resume
+                            </label>
+
+                            @if (!string.IsNullOrWhiteSpace(
+                                Model.ExistingResumePath))
+                            {
+                                <div class="card bg-light border-0">
+
+                                    <div class="card-body">
+
+                                        <div class="d-flex
+                                            align-items-center
+                                            justify-content-between
+                                            gap-3">
+
+                                            <div class="d-flex
+                                                align-items-center">
+
+                                                <i class="bi
+                                                    bi-file-earmark-person
+                                                    fs-2
+                                                    text-primary
+                                                    me-3"></i>
+
+                                                <div>
+                                                    <strong>
+                                                        Resume currently
+                                                        submitted
+                                                    </strong>
+
+                                                    <div class="small
+                                                        text-muted">
+                                                        Upload a new file
+                                                        below to replace it.
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <a href="@Model.ExistingResumePath"
+                                               target="_blank"
+                                               rel="noopener"
+                                               class="btn
+                                                   btn-outline-primary">
+                                                View
+                                            </a>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            }
+                            else
+                            {
+                                <p class="text-muted">
+                                    No resume is currently attached.
+                                </p>
+                            }
+
+                        </div>
+
+                        <!-- New Resume -->
+                        <div class="mb-4">
+
+                            <label asp-for="Resume"
+                                   class="form-label fw-bold">
+                                Replace Resume
+                            </label>
+
+                            <input asp-for="Resume"
+                                   type="file"
+                                   class="form-control"
+                                   accept=".pdf,.doc,.docx" />
+
+                            <div class="form-text">
+                                Optional. Leave this empty to keep your
+                                current resume.
+                                Accepted formats: PDF, DOC, DOCX.
+                                Maximum size: 5 MB.
+                            </div>
+
+                            <span asp-validation-for="Resume"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <!-- Cover Letter -->
+                        <div class="mb-4">
+
+                            <label asp-for="CoverLetter"
+                                   class="form-label fw-bold">
+                            </label>
+
+                            <textarea asp-for="CoverLetter"
+                                      class="form-control"
+                                      rows="10"
+                                      placeholder="Update your cover letter..."></textarea>
+
+                            <div class="form-text">
+                                Optional. Maximum 5000 characters.
+                            </div>
+
+                            <span asp-validation-for="CoverLetter"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="d-flex gap-2">
+
+                            <a asp-action="Details"
+                               asp-route-id="@Context.Request.RouteValues["id"]"
+                               class="btn btn-outline-secondary">
+                                Cancel
+                            </a>
+
+                            <button type="submit"
+                                    class="btn btn-primary">
+                                <i class="bi bi-check-circle me-1"></i>
+                                Save Changes
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

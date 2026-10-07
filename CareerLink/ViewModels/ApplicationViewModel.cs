@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
 namespace CareerLink.ViewModels
 {
@@ -19,5 +20,10 @@ namespace CareerLink.ViewModels
             5000,
             ErrorMessage = "Cover letter cannot exceed 5000 characters.")]
         public string? CoverLetter { get; set; }
+
+        [Display(Name = "Resume")]
+        public IFormFile? Resume { get; set; }
+
+        public string? ExistingResumePath { get; set; }
     }
 }

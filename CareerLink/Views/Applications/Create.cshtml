@@ -33,6 +33,7 @@
                         Submit your application for this position.
                     </p>
 
+                    <!-- Job Information -->
                     <div class="card bg-light border-0 mb-4">
 
                         <div class="card-body">
@@ -45,7 +46,8 @@
                                 @Model.CompanyName
                             </p>
 
-                            @if (!string.IsNullOrWhiteSpace(Model.JobLocation))
+                            @if (!string.IsNullOrWhiteSpace(
+                                Model.JobLocation))
                             {
                                 <div class="small text-muted">
                                     📍 @Model.JobLocation
@@ -68,8 +70,10 @@
 
                     </div>
 
+                    <!-- Application Form -->
                     <form asp-action="Create"
-                          method="post">
+                          method="post"
+                          enctype="multipart/form-data">
 
                         @Html.AntiForgeryToken()
 
@@ -80,6 +84,32 @@
                              class="text-danger mb-3">
                         </div>
 
+                        <!-- Resume -->
+                        <div class="mb-4">
+
+                            <label asp-for="Resume"
+                                   class="form-label fw-bold">
+                                Resume <span class="text-danger">*</span>
+                            </label>
+
+                            <input asp-for="Resume"
+                                   type="file"
+                                   class="form-control"
+                                   accept=".pdf,.doc,.docx" />
+
+                            <div class="form-text">
+                                Upload your latest resume.
+                                Accepted formats: PDF, DOC, DOCX.
+                                Maximum size: 5 MB.
+                            </div>
+
+                            <span asp-validation-for="Resume"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <!-- Cover Letter -->
                         <div class="mb-4">
 
                             <label asp-for="CoverLetter"
@@ -89,8 +119,7 @@
                             <textarea asp-for="CoverLetter"
                                       class="form-control"
                                       rows="10"
-                                      placeholder="Write a short cover letter explaining why you are interested in this position and why you would be a good fit.">
-                            </textarea>
+                                      placeholder="Write a short cover letter explaining why you are interested in this position and why you would be a good fit."></textarea>
 
                             <div class="form-text">
                                 Optional. Maximum 5000 characters.
@@ -102,6 +131,7 @@
 
                         </div>
 
+                        <!-- Buttons -->
                         <div class="d-flex gap-2">
 
                             <a asp-controller="Jobs"
@@ -113,6 +143,7 @@
 
                             <button type="submit"
                                     class="btn btn-primary">
+                                <i class="bi bi-send me-1"></i>
                                 Submit Application
                             </button>
 
