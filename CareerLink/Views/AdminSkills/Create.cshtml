@@ -4,67 +4,107 @@
     ViewData["Title"] = "Add Skill";
 }
 
-<div class="container py-4">
+<div class="cl-admin-page">
 
-    <div class="mb-4">
-        <h1 class="mb-1">Add Skill</h1>
-        <p class="text-muted mb-0">
-            Add a new skill to the CareerLink platform.
-        </p>
+    <div class="cl-admin-page-header">
+
+        <div>
+            <div class="cl-admin-eyebrow">
+                <i class="bi bi-stars"></i>
+                SKILL MANAGEMENT
+            </div>
+
+            <h1 class="cl-admin-title">
+                Add Skill
+            </h1>
+
+            <p class="cl-admin-subtitle">
+                Add a new skill to the CareerLink platform.
+            </p>
+        </div>
+
+        <a asp-controller="AdminSkills"
+           asp-action="Index"
+           class="cl-soft-button">
+            <i class="bi bi-arrow-left"></i>
+            Back to Skills
+        </a>
+
     </div>
 
-    <div class="row">
+    <div class="cl-admin-form-grid">
 
-        <div class="col-lg-6">
+        <div class="cl-admin-form-card">
 
-            <div class="card shadow-sm">
+            <div class="cl-admin-detail-card-header">
 
-                <div class="card-body">
+                <div class="cl-admin-detail-icon">
+                    <i class="bi bi-plus-lg"></i>
+                </div>
 
-                    <form asp-controller="AdminSkills"
-                          asp-action="Create"
-                          method="post">
-
-                        <div asp-validation-summary="ModelOnly"
-                             class="text-danger mb-3">
-                        </div>
-
-                        <div class="mb-3">
-
-                            <label asp-for="Name"
-                                   class="form-label">
-                            </label>
-
-                            <input asp-for="Name"
-                                   class="form-control"
-                                   placeholder="e.g. C#, SQL Server, React" />
-
-                            <span asp-validation-for="Name"
-                                  class="text-danger">
-                            </span>
-
-                        </div>
-
-                        <div class="d-flex gap-2">
-
-                            <button type="submit"
-                                    class="btn btn-primary">
-                                Add Skill
-                            </button>
-
-                            <a asp-controller="AdminSkills"
-                               asp-action="Index"
-                               class="btn btn-outline-secondary">
-                                Cancel
-                            </a>
-
-                        </div>
-
-                    </form>
-
+                <div>
+                    <h2>New Skill</h2>
+                    <p>Enter the name of the skill.</p>
                 </div>
 
             </div>
+
+            <form asp-controller="AdminSkills"
+                  asp-action="Create"
+                  method="post">
+
+                <div asp-validation-summary="ModelOnly"
+                     class="cl-profile-validation">
+                </div>
+
+                <div class="mb-4">
+
+                    <label asp-for="Name"
+                           class="form-label">
+                    </label>
+
+                    <input asp-for="Name"
+                           class="form-control"
+                           placeholder="e.g. C#, SQL Server, React" />
+
+                    <span asp-validation-for="Name"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <div class="cl-profile-form-footer">
+
+                    <a asp-controller="AdminSkills"
+                       asp-action="Index"
+                       class="cl-soft-button">
+                        Cancel
+                    </a>
+
+                    <button type="submit"
+                            class="cl-purple-button">
+                        <i class="bi bi-plus-circle"></i>
+                        Add Skill
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+        <div class="cl-admin-form-tip">
+
+            <div class="cl-admin-tip-icon">
+                <i class="bi bi-lightbulb"></i>
+            </div>
+
+            <h3>Skill Catalogue</h3>
+
+            <p>
+                Skills are shared across the CareerLink platform and can
+                be associated with jobs and job seeker profiles.
+            </p>
 
         </div>
 

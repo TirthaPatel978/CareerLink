@@ -4,63 +4,91 @@
     ViewData["Title"] = "Company Details";
 }
 
-<div class="container py-4">
+<div class="cl-admin-page">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="cl-admin-page-header">
+
         <div>
-            <h1 class="mb-1">@Model.Name</h1>
-            <p class="text-muted mb-0">
+            <div class="cl-admin-eyebrow">
+                <i class="bi bi-building"></i>
+                COMPANY DETAILS
+            </div>
+
+            <h1 class="cl-admin-title">
+                @Model.Name
+            </h1>
+
+            <p class="cl-admin-subtitle">
                 Company details and platform activity.
             </p>
         </div>
 
         <div class="d-flex gap-2">
+
             <a asp-controller="AdminCompanies"
                asp-action="Index"
-               class="btn btn-outline-secondary">
-                Back to Companies
+               class="cl-soft-button">
+                <i class="bi bi-arrow-left"></i>
+                Companies
             </a>
 
             <a asp-controller="Admin"
                asp-action="Index"
-               class="btn btn-outline-secondary">
+               class="cl-soft-button">
                 Dashboard
             </a>
+
         </div>
+
     </div>
 
-    <div class="row g-4">
+    <div class="cl-admin-details-grid">
 
-        <div class="col-lg-8">
+        <div>
 
-            <div class="card shadow-sm mb-4">
-                <div class="card-body">
+            <div class="cl-admin-detail-card">
 
-                    <h5 class="card-title">Company Information</h5>
+                <div class="cl-admin-detail-card-header">
 
-                    <dl class="row mb-0">
+                    <div class="cl-admin-detail-icon">
+                        <i class="bi bi-building"></i>
+                    </div>
 
-                        <dt class="col-sm-4">Company Name</dt>
-                        <dd class="col-sm-8">
-                            @Model.Name
-                        </dd>
+                    <div>
+                        <h2>Company Information</h2>
+                        <p>Registered company details.</p>
+                    </div>
 
-                        <dt class="col-sm-4">Industry</dt>
-                        <dd class="col-sm-8">
+                </div>
+
+                <div class="cl-admin-detail-list">
+
+                    <div>
+                        <span>Company Name</span>
+                        <strong>@Model.Name</strong>
+                    </div>
+
+                    <div>
+                        <span>Industry</span>
+                        <strong>
                             @(string.IsNullOrWhiteSpace(Model.Industry)
                                 ? "Not provided"
                                 : Model.Industry)
-                        </dd>
+                        </strong>
+                    </div>
 
-                        <dt class="col-sm-4">Location</dt>
-                        <dd class="col-sm-8">
+                    <div>
+                        <span>Location</span>
+                        <strong>
                             @(string.IsNullOrWhiteSpace(Model.Location)
                                 ? "Not provided"
                                 : Model.Location)
-                        </dd>
+                        </strong>
+                    </div>
 
-                        <dt class="col-sm-4">Website</dt>
-                        <dd class="col-sm-8">
+                    <div>
+                        <span>Website</span>
+                        <strong>
                             @if (!string.IsNullOrWhiteSpace(Model.Website))
                             {
                                 <a href="@Model.Website"
@@ -73,68 +101,82 @@
                             {
                                 <span>Not provided</span>
                             }
-                        </dd>
+                        </strong>
+                    </div>
 
-                        <dt class="col-sm-4">Created</dt>
-                        <dd class="col-sm-8">
-                            @(Model.CreatedAt.ToLocalTime().ToString("dd MMM yyyy, hh:mm tt"))
-                        </dd>
-
-                    </dl>
+                    <div>
+                        <span>Created</span>
+                        <strong>
+                            @Model.CreatedAt.ToLocalTime().ToString("dd MMM yyyy, hh:mm tt")
+                        </strong>
+                    </div>
 
                 </div>
+
             </div>
 
-            <div class="card shadow-sm">
+            <div class="cl-admin-detail-card mt-4">
 
-                <div class="card-body">
+                <div class="cl-admin-detail-card-header">
 
-                    <h5 class="card-title">Description</h5>
+                    <div class="cl-admin-detail-icon">
+                        <i class="bi bi-file-text"></i>
+                    </div>
 
-                    @if (string.IsNullOrWhiteSpace(Model.Description))
-                    {
-                        <p class="text-muted mb-0">
-                            No company description has been provided.
-                        </p>
-                    }
-                    else
-                    {
-                        <p class="mb-0">
-                            @Model.Description
-                        </p>
-                    }
+                    <div>
+                        <h2>Description</h2>
+                        <p>Company overview.</p>
+                    </div>
 
                 </div>
+
+                @if (string.IsNullOrWhiteSpace(Model.Description))
+                {
+                    <p class="cl-admin-empty-content">
+                        No company description has been provided.
+                    </p>
+                }
+                else
+                {
+                    <p class="cl-admin-description">
+                        @Model.Description
+                    </p>
+                }
 
             </div>
 
         </div>
 
-        <div class="col-lg-4">
+        <div>
 
-            <div class="card shadow-sm">
+            <div class="cl-admin-detail-card">
 
-                <div class="card-body">
+                <div class="cl-admin-detail-card-header">
 
-                    <h5 class="card-title mb-3">
-                        Platform Activity
-                    </h5>
-
-                    <div class="d-flex justify-content-between border-bottom py-2">
-                        <span>Recruiters</span>
-                        <strong>@Model.RecruiterCount</strong>
+                    <div class="cl-admin-detail-icon">
+                        <i class="bi bi-bar-chart"></i>
                     </div>
 
-                    <div class="d-flex justify-content-between border-bottom py-2">
-                        <span>Total Jobs</span>
-                        <strong>@Model.JobCount</strong>
+                    <div>
+                        <h2>Platform Activity</h2>
+                        <p>Company activity summary.</p>
                     </div>
 
-                    <div class="d-flex justify-content-between py-2">
-                        <span>Active Jobs</span>
-                        <strong>@Model.ActiveJobCount</strong>
-                    </div>
+                </div>
 
+                <div class="cl-admin-activity-stat">
+                    <span>Recruiters</span>
+                    <strong>@Model.RecruiterCount</strong>
+                </div>
+
+                <div class="cl-admin-activity-stat">
+                    <span>Total Jobs</span>
+                    <strong>@Model.JobCount</strong>
+                </div>
+
+                <div class="cl-admin-activity-stat">
+                    <span>Active Jobs</span>
+                    <strong>@Model.ActiveJobCount</strong>
                 </div>
 
             </div>

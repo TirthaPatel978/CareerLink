@@ -4,72 +4,74 @@
     ViewData["Title"] = "Reports & Statistics";
 }
 
-<div class="container py-4">
+<div class="cl-admin-page">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="cl-admin-page-header">
 
         <div>
-            <h1 class="mb-1">Reports & Statistics</h1>
-            <p class="text-muted mb-0">
+            <div class="cl-admin-eyebrow">
+                <i class="bi bi-bar-chart"></i>
+                PLATFORM ANALYTICS
+            </div>
+
+            <h1 class="cl-admin-title">
+                Reports &amp; Statistics
+            </h1>
+
+            <p class="cl-admin-subtitle">
                 Overview of CareerLink platform activity.
             </p>
         </div>
 
         <a asp-controller="Admin"
            asp-action="Index"
-           class="btn btn-outline-secondary">
-            Back to Dashboard
+           class="cl-soft-button">
+            <i class="bi bi-arrow-left"></i>
+            Dashboard
         </a>
 
     </div>
 
     <!-- Users -->
 
-    <div class="card shadow-sm mb-4">
+    <div class="cl-admin-report-card">
 
-        <div class="card-body">
+        <div class="cl-admin-report-header">
+            <div class="cl-admin-report-icon">
+                <i class="bi bi-people"></i>
+            </div>
 
-            <h5 class="card-title mb-4">
-                User Statistics
-            </h5>
+            <div>
+                <h2>User Statistics</h2>
+                <p>Accounts and user activity.</p>
+            </div>
+        </div>
 
-            <div class="row g-3">
+        <div class="cl-admin-report-grid">
 
-                <div class="col-md-6 col-lg-3">
-                    <div class="border rounded p-3 h-100">
-                        <small class="text-muted">Total Users</small>
-                        <h3 class="mb-0">@Model.TotalUsers</h3>
-                    </div>
-                </div>
+            <div class="cl-admin-report-stat">
+                <span>Total Users</span>
+                <strong>@Model.TotalUsers</strong>
+            </div>
 
-                <div class="col-md-6 col-lg-3">
-                    <div class="border rounded p-3 h-100">
-                        <small class="text-muted">Job Seekers</small>
-                        <h3 class="mb-0">@Model.JobSeekers</h3>
-                    </div>
-                </div>
+            <div class="cl-admin-report-stat">
+                <span>Job Seekers</span>
+                <strong>@Model.JobSeekers</strong>
+            </div>
 
-                <div class="col-md-6 col-lg-3">
-                    <div class="border rounded p-3 h-100">
-                        <small class="text-muted">Recruiters</small>
-                        <h3 class="mb-0">@Model.Recruiters</h3>
-                    </div>
-                </div>
+            <div class="cl-admin-report-stat">
+                <span>Recruiters</span>
+                <strong>@Model.Recruiters</strong>
+            </div>
 
-                <div class="col-md-6 col-lg-3">
-                    <div class="border rounded p-3 h-100">
-                        <small class="text-muted">Active Users</small>
-                        <h3 class="mb-0">@Model.ActiveUsers</h3>
-                    </div>
-                </div>
+            <div class="cl-admin-report-stat">
+                <span>Active Users</span>
+                <strong>@Model.ActiveUsers</strong>
+            </div>
 
-                <div class="col-md-6 col-lg-3">
-                    <div class="border rounded p-3 h-100">
-                        <small class="text-muted">Inactive Users</small>
-                        <h3 class="mb-0">@Model.InactiveUsers</h3>
-                    </div>
-                </div>
-
+            <div class="cl-admin-report-stat">
+                <span>Inactive Users</span>
+                <strong>@Model.InactiveUsers</strong>
             </div>
 
         </div>
@@ -78,44 +80,39 @@
 
     <!-- Companies and Jobs -->
 
-    <div class="card shadow-sm mb-4">
+    <div class="cl-admin-report-card">
 
-        <div class="card-body">
+        <div class="cl-admin-report-header">
+            <div class="cl-admin-report-icon">
+                <i class="bi bi-building"></i>
+            </div>
 
-            <h5 class="card-title mb-4">
-                Company & Job Statistics
-            </h5>
+            <div>
+                <h2>Company &amp; Job Statistics</h2>
+                <p>Companies and job posting activity.</p>
+            </div>
+        </div>
 
-            <div class="row g-3">
+        <div class="cl-admin-report-grid">
 
-                <div class="col-md-6 col-lg-3">
-                    <div class="border rounded p-3 h-100">
-                        <small class="text-muted">Companies</small>
-                        <h3 class="mb-0">@Model.TotalCompanies</h3>
-                    </div>
-                </div>
+            <div class="cl-admin-report-stat">
+                <span>Companies</span>
+                <strong>@Model.TotalCompanies</strong>
+            </div>
 
-                <div class="col-md-6 col-lg-3">
-                    <div class="border rounded p-3 h-100">
-                        <small class="text-muted">Total Jobs</small>
-                        <h3 class="mb-0">@Model.TotalJobs</h3>
-                    </div>
-                </div>
+            <div class="cl-admin-report-stat">
+                <span>Total Jobs</span>
+                <strong>@Model.TotalJobs</strong>
+            </div>
 
-                <div class="col-md-6 col-lg-3">
-                    <div class="border rounded p-3 h-100">
-                        <small class="text-muted">Active Jobs</small>
-                        <h3 class="mb-0">@Model.ActiveJobs</h3>
-                    </div>
-                </div>
+            <div class="cl-admin-report-stat">
+                <span>Active Jobs</span>
+                <strong>@Model.ActiveJobs</strong>
+            </div>
 
-                <div class="col-md-6 col-lg-3">
-                    <div class="border rounded p-3 h-100">
-                        <small class="text-muted">Closed Jobs</small>
-                        <h3 class="mb-0">@Model.ClosedJobs</h3>
-                    </div>
-                </div>
-
+            <div class="cl-admin-report-stat">
+                <span>Closed Jobs</span>
+                <strong>@Model.ClosedJobs</strong>
             </div>
 
         </div>
@@ -124,91 +121,73 @@
 
     <!-- Applications -->
 
-    <div class="card shadow-sm mb-4">
+    <div class="cl-admin-report-card">
 
-        <div class="card-body">
-
-            <h5 class="card-title mb-4">
-                Application Statistics
-            </h5>
-
-            <div class="mb-4">
-                <span class="text-muted">
-                    Total Applications
-                </span>
-
-                <h3>
-                    @Model.TotalApplications
-                </h3>
+        <div class="cl-admin-report-header">
+            <div class="cl-admin-report-icon">
+                <i class="bi bi-file-earmark-text"></i>
             </div>
 
-            <div class="table-responsive">
-
-                <table class="table table-hover align-middle mb-0">
-
-                    <thead>
-                        <tr>
-                            <th>Status</th>
-                            <th class="text-end">Applications</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-
-                        <tr>
-                            <td>Applied</td>
-                            <td class="text-end">
-                                @Model.AppliedApplications
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>Under Review</td>
-                            <td class="text-end">
-                                @Model.UnderReviewApplications
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>Shortlisted</td>
-                            <td class="text-end">
-                                @Model.ShortlistedApplications
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>Interview</td>
-                            <td class="text-end">
-                                @Model.InterviewApplications
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>Selected</td>
-                            <td class="text-end">
-                                @Model.SelectedApplications
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>Rejected</td>
-                            <td class="text-end">
-                                @Model.RejectedApplications
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>Withdrawn</td>
-                            <td class="text-end">
-                                @Model.WithdrawnApplications
-                            </td>
-                        </tr>
-
-                    </tbody>
-
-                </table>
-
+            <div>
+                <h2>Application Statistics</h2>
+                <p>Application pipeline by status.</p>
             </div>
+
+            <div class="cl-admin-report-total">
+                <span>Total Applications</span>
+                <strong>@Model.TotalApplications</strong>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table cl-admin-report-table align-middle mb-0">
+
+                <thead>
+                    <tr>
+                        <th>Status</th>
+                        <th class="text-end">Applications</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>Applied</td>
+                        <td>@Model.AppliedApplications</td>
+                    </tr>
+
+                    <tr>
+                        <td>Under Review</td>
+                        <td>@Model.UnderReviewApplications</td>
+                    </tr>
+
+                    <tr>
+                        <td>Shortlisted</td>
+                        <td>@Model.ShortlistedApplications</td>
+                    </tr>
+
+                    <tr>
+                        <td>Interview</td>
+                        <td>@Model.InterviewApplications</td>
+                    </tr>
+
+                    <tr>
+                        <td>Selected</td>
+                        <td>@Model.SelectedApplications</td>
+                    </tr>
+
+                    <tr>
+                        <td>Rejected</td>
+                        <td>@Model.RejectedApplications</td>
+                    </tr>
+
+                    <tr>
+                        <td>Withdrawn</td>
+                        <td>@Model.WithdrawnApplications</td>
+                    </tr>
+                </tbody>
+
+            </table>
 
         </div>
 
@@ -216,70 +195,58 @@
 
     <!-- Interviews -->
 
-    <div class="card shadow-sm mb-4">
+    <div class="cl-admin-report-card">
 
-        <div class="card-body">
-
-            <h5 class="card-title mb-4">
-                Interview Statistics
-            </h5>
-
-            <div class="mb-4">
-                <span class="text-muted">
-                    Total Interviews
-                </span>
-
-                <h3>
-                    @Model.TotalInterviews
-                </h3>
+        <div class="cl-admin-report-header">
+            <div class="cl-admin-report-icon">
+                <i class="bi bi-calendar2-event"></i>
             </div>
 
-            <div class="table-responsive">
-
-                <table class="table table-hover align-middle mb-0">
-
-                    <thead>
-                        <tr>
-                            <th>Status</th>
-                            <th class="text-end">Interviews</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-
-                        <tr>
-                            <td>Scheduled</td>
-                            <td class="text-end">
-                                @Model.ScheduledInterviews
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>Completed</td>
-                            <td class="text-end">
-                                @Model.CompletedInterviews
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>Cancelled</td>
-                            <td class="text-end">
-                                @Model.CancelledInterviews
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>Rescheduled</td>
-                            <td class="text-end">
-                                @Model.RescheduledInterviews
-                            </td>
-                        </tr>
-
-                    </tbody>
-
-                </table>
-
+            <div>
+                <h2>Interview Statistics</h2>
+                <p>Interview activity by status.</p>
             </div>
+
+            <div class="cl-admin-report-total">
+                <span>Total Interviews</span>
+                <strong>@Model.TotalInterviews</strong>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table cl-admin-report-table align-middle mb-0">
+
+                <thead>
+                    <tr>
+                        <th>Status</th>
+                        <th class="text-end">Interviews</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>Scheduled</td>
+                        <td>@Model.ScheduledInterviews</td>
+                    </tr>
+
+                    <tr>
+                        <td>Completed</td>
+                        <td>@Model.CompletedInterviews</td>
+                    </tr>
+
+                    <tr>
+                        <td>Cancelled</td>
+                        <td>@Model.CancelledInterviews</td>
+                    </tr>
+
+                    <tr>
+                        <td>Rescheduled</td>
+                        <td>@Model.RescheduledInterviews</td>
+                    </tr>
+                </tbody>
+
+            </table>
 
         </div>
 

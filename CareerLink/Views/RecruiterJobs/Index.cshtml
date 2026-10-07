@@ -4,74 +4,97 @@
     ViewData["Title"] = "Manage Jobs";
 }
 
-<div class="container py-4">
+<div class="cl-recruiter-page cl-job-management-page">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-
+    <div class="cl-profile-page-header">
         <div>
-            <h1 class="mb-1">Manage Jobs</h1>
+            <div class="cl-recruiter-eyebrow">
+                <i class="bi bi-briefcase"></i>
+                JOB MANAGEMENT
+            </div>
 
-            <p class="text-muted mb-0">
-                Create, edit, view, and close your company's job postings.
+            <h1 class="cl-profile-page-title">
+                Manage Jobs
+            </h1>
+
+            <p class="cl-profile-page-subtitle">
+                Create, edit, view, and manage your company's job postings.
             </p>
         </div>
 
-        <div>
-            <a asp-controller="RecruiterJobs"
-               asp-action="Create"
-               class="btn btn-primary">
-                Create New Job
-            </a>
-        </div>
-
+        <a asp-controller="RecruiterJobs"
+           asp-action="Create"
+           class="cl-purple-button">
+            <i class="bi bi-plus-lg"></i>
+            Create New Job
+        </a>
     </div>
 
     @if (TempData["SuccessMessage"] != null)
     {
-        <div class="alert alert-success">
-            @TempData["SuccessMessage"]
+        <div class="cl-profile-success">
+            <i class="bi bi-check-circle-fill"></i>
+            <span>@TempData["SuccessMessage"]</span>
         </div>
     }
 
     @if (TempData["WarningMessage"] != null)
     {
-        <div class="alert alert-warning">
-            @TempData["WarningMessage"]
+        <div class="cl-job-warning">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+            <span>@TempData["WarningMessage"]</span>
         </div>
     }
 
     @if (!Model.Any())
     {
-        <div class="card shadow-sm">
+        <div class="cl-profile-card cl-job-empty-state">
 
-            <div class="card-body text-center py-5">
-
-                <h4>No jobs posted yet</h4>
-
-                <p class="text-muted">
-                    Create your first job posting to start receiving applications.
-                </p>
-
-                <a asp-controller="RecruiterJobs"
-                   asp-action="Create"
-                   class="btn btn-primary">
-                    Create Your First Job
-                </a>
-
+            <div class="cl-job-empty-icon">
+                <i class="bi bi-briefcase"></i>
             </div>
+
+            <h2>No jobs posted yet</h2>
+
+            <p>
+                Create your first job posting to start receiving applications
+                from candidates.
+            </p>
+
+            <a asp-controller="RecruiterJobs"
+               asp-action="Create"
+               class="cl-purple-button">
+                <i class="bi bi-plus-lg"></i>
+                Create Your First Job
+            </a>
 
         </div>
     }
     else
     {
-        <div class="card shadow-sm">
+        <div class="cl-profile-card cl-jobs-table-card">
+
+            <div class="cl-jobs-table-header">
+
+                <div>
+                    <h2>Your Job Postings</h2>
+                    <p>
+                        @Model.Count() job posting@(Model.Count() == 1 ? "" : "s") in your company.
+                    </p>
+                </div>
+
+                <div class="cl-job-count-badge">
+                    <i class="bi bi-briefcase"></i>
+                    @Model.Count()
+                </div>
+
+            </div>
 
             <div class="table-responsive">
 
-                <table class="table table-hover align-middle mb-0">
+                <table class="table cl-jobs-table align-middle mb-0">
 
-                    <thead class="table-light">
-
+                    <thead>
                         <tr>
                             <th>Job</th>
                             <th>Type</th>
@@ -81,7 +104,6 @@
                             <th>Deadline</th>
                             <th class="text-end">Actions</th>
                         </tr>
-
                     </thead>
 
                     <tbody>
@@ -91,27 +113,42 @@
                             <tr>
 
                                 <td>
-                                    <strong>
-                                        @job.Title
-                                    </strong>
+                                    <div class="cl-job-title-cell">
+                                        <div class="cl-job-icon">
+                                            <i class="bi bi-briefcase"></i>
+                                        </div>
 
-                                    <div class="small text-muted">
-                                        Posted @job.CreatedAt.ToLocalTime().ToString("dd MMM yyyy")
+                                        <div>
+                                            <strong>@job.Title</strong>
+
+                                            <span>
+                                                Posted
+                                                @job.CreatedAt.ToLocalTime().ToString("dd MMM yyyy")
+                                            </span>
+                                        </div>
                                     </div>
                                 </td>
 
                                 <td>
-                                    @job.JobType
+                                    <span class="cl-job-type-badge">
+                                        @job.JobType
+                                    </span>
                                 </td>
 
                                 <td>
                                     @if (job.IsRemote)
                                     {
-                                        <span>Remote</span>
+                                        <span class="cl-location-badge">
+                                            <i class="bi bi-globe2"></i>
+                                            Remote
+                                        </span>
                                     }
                                     else if (!string.IsNullOrWhiteSpace(job.Location))
                                     {
-                                        @job.Location
+                                        <span class="cl-location-text">
+                                            <i class="bi bi-geo-alt"></i>
+                                            @job.Location
+                                        </span>
                                     }
                                     else
                                     {
@@ -124,26 +161,33 @@
                                 <td>
                                     @if (job.IsActive)
                                     {
-                                        <span class="badge bg-success">
+                                        <span class="cl-status-badge cl-status-active">
+                                            <span></span>
                                             Active
                                         </span>
                                     }
                                     else
                                     {
-                                        <span class="badge bg-secondary">
+                                        <span class="cl-status-badge cl-status-closed">
+                                            <span></span>
                                             Closed
                                         </span>
                                     }
                                 </td>
 
                                 <td>
-                                    @job.ApplicationCount
+                                    <span class="cl-application-count">
+                                        <i class="bi bi-people"></i>
+                                        @job.ApplicationCount
+                                    </span>
                                 </td>
 
                                 <td>
                                     @if (job.ApplicationDeadline.HasValue)
                                     {
-                                        @job.ApplicationDeadline.Value.ToString("dd MMM yyyy")
+                                        <span class="cl-deadline">
+                                            @job.ApplicationDeadline.Value.ToString("dd MMM yyyy")
+                                        </span>
                                     }
                                     else
                                     {
@@ -154,28 +198,30 @@
                                 </td>
 
                                 <td>
-
-                                    <div class="d-flex justify-content-end gap-2 flex-wrap">
+                                    <div class="cl-job-actions">
 
                                         <a asp-controller="RecruiterJobs"
                                            asp-action="Details"
                                            asp-route-id="@job.Id"
-                                           class="btn btn-sm btn-outline-secondary">
-                                            View
+                                           class="cl-job-action-button"
+                                           title="View job">
+                                            <i class="bi bi-eye"></i>
                                         </a>
 
                                         <a asp-controller="RecruiterApplications"
                                            asp-action="Index"
                                            asp-route-jobId="@job.Id"
-                                           class="btn btn-sm btn-outline-primary">
-                                            Applicants
+                                           class="cl-job-action-button"
+                                           title="View applicants">
+                                            <i class="bi bi-people"></i>
                                         </a>
 
                                         <a asp-controller="RecruiterJobs"
                                            asp-action="Edit"
                                            asp-route-id="@job.Id"
-                                           class="btn btn-sm btn-outline-primary">
-                                            Edit
+                                           class="cl-job-action-button"
+                                           title="Edit job">
+                                            <i class="bi bi-pencil"></i>
                                         </a>
 
                                         <form asp-controller="RecruiterJobs"
@@ -188,22 +234,23 @@
                                             @if (job.IsActive)
                                             {
                                                 <button type="submit"
-                                                        class="btn btn-sm btn-outline-danger">
-                                                    Close
+                                                        class="cl-job-action-button cl-job-action-danger"
+                                                        title="Close job">
+                                                    <i class="bi bi-x-circle"></i>
                                                 </button>
                                             }
                                             else
                                             {
                                                 <button type="submit"
-                                                        class="btn btn-sm btn-outline-success">
-                                                    Reopen
+                                                        class="cl-job-action-button cl-job-action-success"
+                                                        title="Reopen job">
+                                                    <i class="bi bi-arrow-clockwise"></i>
                                                 </button>
                                             }
 
                                         </form>
 
                                     </div>
-
                                 </td>
 
                             </tr>
@@ -214,7 +261,6 @@
                 </table>
 
             </div>
-
         </div>
     }
 

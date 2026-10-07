@@ -7,27 +7,27 @@
         Model.Status switch
         {
             CareerLink.Models.Enums.ApplicationStatus.Applied
-                => "bg-secondary",
+                => "cl-status-applied",
 
             CareerLink.Models.Enums.ApplicationStatus.UnderReview
-                => "bg-info text-dark",
+                => "cl-status-review",
 
             CareerLink.Models.Enums.ApplicationStatus.Shortlisted
-                => "bg-success",
+                => "cl-status-shortlisted",
 
             CareerLink.Models.Enums.ApplicationStatus.Interview
-                => "bg-primary",
+                => "cl-status-interview",
 
             CareerLink.Models.Enums.ApplicationStatus.Selected
-                => "bg-success",
+                => "cl-status-selected",
 
             CareerLink.Models.Enums.ApplicationStatus.Rejected
-                => "bg-danger",
+                => "cl-status-rejected",
 
             CareerLink.Models.Enums.ApplicationStatus.Withdrawn
-                => "bg-dark",
+                => "cl-status-withdrawn",
 
-            _ => "bg-secondary"
+            _ => "cl-status-applied"
         };
 
     var statusText =
@@ -40,13 +40,21 @@
         };
 }
 
-<div class="container py-4">
+<div class="cl-recruiter-page">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="cl-profile-page-header">
+
         <div>
-            <h1 class="mb-1">Applicant Details</h1>
+            <div class="cl-recruiter-eyebrow">
+                <i class="bi bi-person-vcard"></i>
+                CANDIDATE REVIEW
+            </div>
 
-            <p class="text-muted mb-0">
+            <h1 class="cl-profile-page-title">
+                Applicant Details
+            </h1>
+
+            <p class="cl-profile-page-subtitle">
                 Application for <strong>@Model.JobTitle</strong>
             </p>
         </div>
@@ -54,335 +62,389 @@
         <a asp-controller="RecruiterApplications"
            asp-action="Index"
            asp-route-jobId="@Model.JobId"
-           class="btn btn-outline-secondary">
+           class="cl-soft-button">
+            <i class="bi bi-arrow-left"></i>
             Back to Applicants
         </a>
+
     </div>
 
     @if (TempData["SuccessMessage"] != null)
     {
-        <div class="alert alert-success">
-            @TempData["SuccessMessage"]
+        <div class="cl-profile-success">
+            <i class="bi bi-check-circle-fill"></i>
+            <span>@TempData["SuccessMessage"]</span>
         </div>
     }
 
-    <div class="row g-4">
+    <div class="cl-applicant-details-grid">
 
-        <!-- Applicant information -->
-        <div class="col-lg-8">
+        <div>
 
-            <div class="card shadow-sm mb-4">
-                <div class="card-body">
+            <!-- Applicant profile -->
+            <div class="cl-profile-card cl-applicant-profile-card">
 
-                    <h3 class="mb-1">
-                        @Model.ApplicantName
-                    </h3>
+                <div class="cl-applicant-profile-header">
 
-                    @if (!string.IsNullOrWhiteSpace(Model.ProfessionalTitle))
-                    {
-                        <p class="text-muted mb-3">
-                            @Model.ProfessionalTitle
-                        </p>
-                    }
+                    <div class="cl-applicant-large-avatar">
+                        @(
+                            string.IsNullOrWhiteSpace(Model.ApplicantName)
+                                ? "?"
+                                : Model.ApplicantName.Substring(0, 1).ToUpper()
+                         )
+                    </div>
 
-                    <div class="row g-3">
+                    <div>
 
-                        <div class="col-md-6">
-                            <div class="text-muted small">
-                                Email
-                            </div>
+                        <h2>
+                            @Model.ApplicantName
+                        </h2>
 
-                            <div>
-                                @Model.ApplicantEmail
-                            </div>
+                        @if (!string.IsNullOrWhiteSpace(Model.ProfessionalTitle))
+                        {
+                            <p>
+                                @Model.ProfessionalTitle
+                            </p>
+                        }
+
+                        <span class="cl-status-badge @badgeClass">
+                            <span></span>
+                            @statusText
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="cl-applicant-contact-grid">
+
+                    <div class="cl-applicant-contact-item">
+                        <i class="bi bi-envelope"></i>
+
+                        <div>
+                            <span>Email</span>
+                            <strong>@Model.ApplicantEmail</strong>
                         </div>
+                    </div>
 
-                        <div class="col-md-6">
-                            <div class="text-muted small">
-                                Phone
-                            </div>
+                    <div class="cl-applicant-contact-item">
+                        <i class="bi bi-telephone"></i>
 
-                            <div>
+                        <div>
+                            <span>Phone</span>
+                            <strong>
                                 @(string.IsNullOrWhiteSpace(Model.ApplicantPhone)
                                     ? "Not provided"
                                     : Model.ApplicantPhone)
-                            </div>
+                            </strong>
                         </div>
+                    </div>
 
-                        <div class="col-md-6">
-                            <div class="text-muted small">
-                                Location
-                            </div>
+                    <div class="cl-applicant-contact-item">
+                        <i class="bi bi-geo-alt"></i>
 
-                            <div>
+                        <div>
+                            <span>Location</span>
+                            <strong>
                                 @(string.IsNullOrWhiteSpace(Model.Location)
                                     ? "Not provided"
                                     : Model.Location)
-                            </div>
+                            </strong>
                         </div>
-
-                        <div class="col-md-6">
-                            <div class="text-muted small">
-                                Company
-                            </div>
-
-                            <div>
-                                @Model.CompanyName
-                            </div>
-                        </div>
-
                     </div>
+
+                    <div class="cl-applicant-contact-item">
+                        <i class="bi bi-building"></i>
+
+                        <div>
+                            <span>Company</span>
+                            <strong>@Model.CompanyName</strong>
+                        </div>
+                    </div>
+
                 </div>
+
             </div>
 
             <!-- Professional summary -->
-            <div class="card shadow-sm mb-4">
-                <div class="card-body">
+            <div class="cl-profile-card cl-applicant-content-card">
 
-                    <h4>Professional Summary</h4>
+                <div class="cl-applicant-section-heading">
+                    <div class="cl-applicant-section-icon">
+                        <i class="bi bi-person-lines-fill"></i>
+                    </div>
 
-                    @if (string.IsNullOrWhiteSpace(Model.Summary))
-                    {
-                        <p class="text-muted mb-0">
-                            No professional summary provided.
-                        </p>
-                    }
-                    else
-                    {
-                        <p class="mb-0" style="white-space: pre-line;">
-                            @Model.Summary
-                        </p>
-                    }
-
+                    <div>
+                        <h3>Professional Summary</h3>
+                        <p>Candidate profile overview</p>
+                    </div>
                 </div>
+
+                @if (string.IsNullOrWhiteSpace(Model.Summary))
+                {
+                    <p class="cl-applicant-empty-content">
+                        No professional summary provided.
+                    </p>
+                }
+                else
+                {
+                    <p class="cl-applicant-content-text">
+                        @Model.Summary
+                    </p>
+                }
+
             </div>
 
             <!-- Cover letter -->
-            <div class="card shadow-sm mb-4">
-                <div class="card-body">
+            <div class="cl-profile-card cl-applicant-content-card">
 
-                    <h4>Cover Letter</h4>
+                <div class="cl-applicant-section-heading">
+                    <div class="cl-applicant-section-icon">
+                        <i class="bi bi-file-earmark-text"></i>
+                    </div>
 
-                    @if (string.IsNullOrWhiteSpace(Model.CoverLetter))
-                    {
-                        <p class="text-muted mb-0">
-                            No cover letter provided.
-                        </p>
-                    }
-                    else
-                    {
-                        <p class="mb-0" style="white-space: pre-line;">
-                            @Model.CoverLetter
-                        </p>
-                    }
-
+                    <div>
+                        <h3>Cover Letter</h3>
+                        <p>Candidate's application message</p>
+                    </div>
                 </div>
+
+                @if (string.IsNullOrWhiteSpace(Model.CoverLetter))
+                {
+                    <p class="cl-applicant-empty-content">
+                        No cover letter provided.
+                    </p>
+                }
+                else
+                {
+                    <p class="cl-applicant-content-text">
+                        @Model.CoverLetter
+                    </p>
+                }
+
             </div>
 
             <!-- Resume -->
-            <div class="card shadow-sm mb-4">
-                <div class="card-body">
+            <div class="cl-profile-card cl-applicant-content-card">
 
-                    <h4>Resume</h4>
+                <div class="cl-applicant-section-heading">
+                    <div class="cl-applicant-section-icon">
+                        <i class="bi bi-file-earmark-pdf"></i>
+                    </div>
 
-                    @if (string.IsNullOrWhiteSpace(Model.ResumePath))
-                    {
-                        <p class="text-muted mb-0">
-                            No resume was uploaded with this application.
-                        </p>
-                    }
-                    else
-                    {
-                        <p class="mb-0">
-                            Resume:
-                            <strong>@Model.ResumePath</strong>
-                        </p>
-                    }
-
+                    <div>
+                        <h3>Resume</h3>
+                        <p>Resume submitted with this application</p>
+                    </div>
                 </div>
+
+                @if (string.IsNullOrWhiteSpace(Model.ResumePath))
+                {
+                    <p class="cl-applicant-empty-content">
+                        No resume was uploaded with this application.
+                    </p>
+                }
+                else
+                {
+                    <div class="cl-resume-box">
+                        <i class="bi bi-file-earmark-pdf"></i>
+
+                        <div>
+                            <span>Resume</span>
+                            <strong>@Model.ResumePath</strong>
+                        </div>
+                    </div>
+                }
+
             </div>
 
         </div>
 
         <!-- Application management -->
-        <div class="col-lg-4">
+        <div class="cl-applicant-sidebar">
 
-            <div class="card shadow-sm mb-4">
-                <div class="card-body">
+            <!-- Application overview -->
+            <div class="cl-profile-card cl-applicant-sidebar-card">
 
-                    <h4 class="mb-3">
-                        Application
-                    </h4>
+                <div class="cl-sidebar-heading">
+                    <i class="bi bi-clipboard-check"></i>
+                    <h3>Application</h3>
+                </div>
 
-                    <div class="mb-3">
-                        <div class="text-muted small">
-                            Current Status
-                        </div>
+                <div class="cl-application-stat">
 
-                        <span class="badge @badgeClass">
-                            @statusText
-                        </span>
-                    </div>
+                    <span>Current Status</span>
 
-                    <div class="mb-3">
-                        <div class="text-muted small">
-                            Match Score
-                        </div>
-
-                        @if (Model.MatchScore.HasValue)
-                        {
-                            <div class="fs-4 fw-semibold">
-                                @Model.MatchScore.Value.ToString("0.##")%
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="text-muted">
-                                Not calculated
-                            </div>
-                        }
-                    </div>
-
-                    <div class="mb-3">
-                        <div class="text-muted small">
-                            Applied
-                        </div>
-
-                        <div>
-                            @Model.AppliedAt
-                                .ToLocalTime()
-                                .ToString("dd MMM yyyy, hh:mm tt")
-                        </div>
-                    </div>
-
-                    @if (Model.UpdatedAt.HasValue)
-                    {
-                        <div class="mb-3">
-                            <div class="text-muted small">
-                                Last Updated
-                            </div>
-
-                            <div>
-                                @Model.UpdatedAt.Value
-                                    .ToLocalTime()
-                                    .ToString("dd MMM yyyy, hh:mm tt")
-                            </div>
-                        </div>
-                    }
+                    <span class="cl-status-badge @badgeClass">
+                        <span></span>
+                        @statusText
+                    </span>
 
                 </div>
-            </div>
 
-            <!-- Schedule interview -->
-            <div class="card shadow-sm mb-4">
-                <div class="card-body">
+                <div class="cl-application-stat">
 
-                    <h4 class="mb-3">
-                        Interview
-                    </h4>
+                    <span>Match Score</span>
 
-                    @if (Model.Status == CareerLink.Models.Enums.ApplicationStatus.Shortlisted ||
-                         Model.Status == CareerLink.Models.Enums.ApplicationStatus.Interview)
+                    @if (Model.MatchScore.HasValue)
                     {
-                        <p class="text-muted">
-                            Schedule an interview for this applicant.
-                        </p>
-
-                        <a asp-controller="RecruiterInterviews"
-                           asp-action="Create"
-                           asp-route-applicationId="@Model.ApplicationId"
-                           class="btn btn-primary w-100">
-                            Schedule Interview
-                        </a>
+                        <strong class="cl-detail-match-score">
+                            @Model.MatchScore.Value.ToString("0.##")%
+                        </strong>
                     }
                     else
                     {
-                        <p class="text-muted mb-0">
-                            Shortlist the applicant before scheduling an interview.
-                        </p>
+                        <span class="text-muted">
+                            Not calculated
+                        </span>
                     }
 
-                    <a asp-controller="RecruiterInterviews"
-                       asp-action="Index"
-                       class="btn btn-outline-secondary w-100 mt-2">
-                        View Interviews
-                    </a>
+                </div>
+
+                <div class="cl-application-stat">
+
+                    <span>Applied</span>
+
+                    <strong>
+                        @Model.AppliedAt.ToLocalTime().ToString("dd MMM yyyy, hh:mm tt")
+                    </strong>
 
                 </div>
+
+                @if (Model.UpdatedAt.HasValue)
+                {
+                    <div class="cl-application-stat">
+
+                        <span>Last Updated</span>
+
+                        <strong>
+                            @Model.UpdatedAt.Value.ToLocalTime().ToString("dd MMM yyyy, hh:mm tt")
+                        </strong>
+
+                    </div>
+                }
+
+            </div>
+
+            <!-- Interview -->
+            <div class="cl-profile-card cl-applicant-sidebar-card">
+
+                <div class="cl-sidebar-heading">
+                    <i class="bi bi-calendar2-event"></i>
+                    <h3>Interview</h3>
+                </div>
+
+                @if (Model.Status == CareerLink.Models.Enums.ApplicationStatus.Shortlisted ||
+                     Model.Status == CareerLink.Models.Enums.ApplicationStatus.Interview)
+                {
+                    <p class="cl-sidebar-description">
+                        Schedule an interview for this applicant.
+                    </p>
+
+                    <a asp-controller="RecruiterInterviews"
+                       asp-action="Create"
+                       asp-route-applicationId="@Model.ApplicationId"
+                       class="cl-purple-button w-100 justify-content-center">
+                        <i class="bi bi-calendar-plus"></i>
+                        Schedule Interview
+                    </a>
+                }
+                else
+                {
+                    <div class="cl-interview-locked">
+                        <i class="bi bi-lock"></i>
+
+                        <p>
+                            Shortlist the applicant before scheduling
+                            an interview.
+                        </p>
+                    </div>
+                }
+
+                <a asp-controller="RecruiterInterviews"
+                   asp-action="Index"
+                   class="cl-soft-button w-100 justify-content-center mt-2">
+                    <i class="bi bi-calendar3"></i>
+                    View Interviews
+                </a>
+
             </div>
 
             <!-- Status management -->
-            <div class="card shadow-sm">
-                <div class="card-body">
+            <div class="cl-profile-card cl-applicant-sidebar-card">
 
-                    <h4 class="mb-3">
-                        Update Status
-                    </h4>
-
-                    <form asp-controller="RecruiterApplications"
-                          asp-action="UpdateStatus"
-                          method="post">
-
-                        @Html.AntiForgeryToken()
-
-                        <input type="hidden"
-                               name="id"
-                               value="@Model.ApplicationId" />
-
-                        <div class="mb-3">
-                            <label for="status"
-                                   class="form-label">
-                                Application Status
-                            </label>
-
-                            <select id="status"
-                                    name="status"
-                                    class="form-select">
-
-                                <option value="Applied"
-                                    selected="@(Model.Status == CareerLink.Models.Enums.ApplicationStatus.Applied)">
-                                    Applied
-                                </option>
-
-                                <option value="UnderReview"
-                                    selected="@(Model.Status == CareerLink.Models.Enums.ApplicationStatus.UnderReview)">
-                                    Under Review
-                                </option>
-
-                                <option value="Shortlisted"
-                                    selected="@(Model.Status == CareerLink.Models.Enums.ApplicationStatus.Shortlisted)">
-                                    Shortlisted
-                                </option>
-
-                                <option value="Interview"
-                                    selected="@(Model.Status == CareerLink.Models.Enums.ApplicationStatus.Interview)">
-                                    Interview
-                                </option>
-
-                                <option value="Selected"
-                                    selected="@(Model.Status == CareerLink.Models.Enums.ApplicationStatus.Selected)">
-                                    Selected
-                                </option>
-
-                                <option value="Rejected"
-                                    selected="@(Model.Status == CareerLink.Models.Enums.ApplicationStatus.Rejected)">
-                                    Rejected
-                                </option>
-
-                            </select>
-                        </div>
-
-                        <button type="submit"
-                                class="btn btn-primary w-100">
-                            Update Status
-                        </button>
-
-                    </form>
-
+                <div class="cl-sidebar-heading">
+                    <i class="bi bi-arrow-repeat"></i>
+                    <h3>Update Status</h3>
                 </div>
+
+                <form asp-controller="RecruiterApplications"
+                      asp-action="UpdateStatus"
+                      method="post">
+
+                    @Html.AntiForgeryToken()
+
+                    <input type="hidden"
+                           name="id"
+                           value="@Model.ApplicationId" />
+
+                    <div class="mb-3">
+
+                        <label for="status"
+                               class="form-label">
+                            Application Status
+                        </label>
+
+                        <select id="status"
+                                name="status"
+                                class="form-select">
+
+                            <option value="Applied"
+                                    selected="@(Model.Status == CareerLink.Models.Enums.ApplicationStatus.Applied)">
+                                Applied
+                            </option>
+
+                            <option value="UnderReview"
+                                    selected="@(Model.Status == CareerLink.Models.Enums.ApplicationStatus.UnderReview)">
+                                Under Review
+                            </option>
+
+                            <option value="Shortlisted"
+                                    selected="@(Model.Status == CareerLink.Models.Enums.ApplicationStatus.Shortlisted)">
+                                Shortlisted
+                            </option>
+
+                            <option value="Interview"
+                                    selected="@(Model.Status == CareerLink.Models.Enums.ApplicationStatus.Interview)">
+                                Interview
+                            </option>
+
+                            <option value="Selected"
+                                    selected="@(Model.Status == CareerLink.Models.Enums.ApplicationStatus.Selected)">
+                                Selected
+                            </option>
+
+                            <option value="Rejected"
+                                    selected="@(Model.Status == CareerLink.Models.Enums.ApplicationStatus.Rejected)">
+                                Rejected
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <button type="submit"
+                            class="cl-purple-button w-100 justify-content-center">
+                        <i class="bi bi-check-circle"></i>
+                        Update Status
+                    </button>
+
+                </form>
+
             </div>
 
         </div>
 
     </div>
+
 </div>

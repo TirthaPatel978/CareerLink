@@ -1,171 +1,241 @@
-﻿@model CareerLink.ViewModels.AdminDashboardViewModel
+﻿@model IEnumerable<CareerLink.ViewModels.AdminUserViewModel>
 
 @{
-    ViewData["Title"] = "Admin Dashboard";
+    ViewData["Title"] = "Manage Users";
 }
 
-<div class="container py-4">
+<div class="cl-admin-page">
 
-    <div class="mb-4">
-        <h1 class="mb-1">Admin Dashboard</h1>
-        <p class="text-muted mb-0">
-            Manage users, companies, jobs, skills, and platform activity.
-        </p>
-    </div>
+    <div class="cl-admin-page-header">
 
-    <div class="row g-4 mb-4">
-
-        <div class="col-md-6 col-lg-3">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
-                    <h6 class="text-muted">Total Users</h6>
-                    <h2>@Model.TotalUsers</h2>
-                </div>
+        <div>
+            <div class="cl-admin-eyebrow">
+                <i class="bi bi-people"></i>
+                USER MANAGEMENT
             </div>
+
+            <h1 class="cl-admin-title">
+                Manage Users
+            </h1>
+
+            <p class="cl-admin-subtitle">
+                View and manage CareerLink user accounts.
+            </p>
         </div>
 
-        <div class="col-md-6 col-lg-3">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
-                    <h6 class="text-muted">Job Seekers</h6>
-                    <h2>@Model.JobSeekers</h2>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6 col-lg-3">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
-                    <h6 class="text-muted">Recruiters</h6>
-                    <h2>@Model.Recruiters</h2>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6 col-lg-3">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
-                    <h6 class="text-muted">Companies</h6>
-                    <h2>@Model.Companies</h2>
-                </div>
-            </div>
-        </div>
+        <a asp-controller="Admin"
+           asp-action="Index"
+           class="cl-soft-button">
+            <i class="bi bi-arrow-left"></i>
+            Dashboard
+        </a>
 
     </div>
 
-    <div class="row g-4 mb-4">
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="cl-profile-success">
+            <i class="bi bi-check-circle-fill"></i>
+            <span>@TempData["SuccessMessage"]</span>
+        </div>
+    }
 
-        <div class="col-md-6 col-lg-3">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
-                    <h6 class="text-muted">Total Jobs</h6>
-                    <h2>@Model.Jobs</h2>
-                </div>
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="cl-admin-error">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+            <span>@TempData["ErrorMessage"]</span>
+        </div>
+    }
+
+    <div class="cl-admin-table-card">
+
+        <div class="cl-admin-table-header">
+            <div>
+                <h2>User Accounts</h2>
+                <p>@Model.Count() account@(Model.Count() == 1 ? "" : "s") registered.</p>
+            </div>
+
+            <div class="cl-admin-table-count">
+                <i class="bi bi-people"></i>
+                @Model.Count()
             </div>
         </div>
 
-        <div class="col-md-6 col-lg-3">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
-                    <h6 class="text-muted">Active Jobs</h6>
-                    <h2>@Model.ActiveJobs</h2>
-                </div>
-            </div>
+        <div class="table-responsive">
+
+            <table class="table cl-admin-table align-middle mb-0">
+
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Created</th>
+                        <th>Status</th>
+                        <th class="text-end">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+
+                            <td>
+                                <div class="cl-admin-user-cell">
+
+                                    <div class="cl-admin-avatar">
+                                        @(
+                                            string.IsNullOrWhiteSpace(user.FullName)
+                                                ? "?"
+                                                : user.FullName.Substring(0, 1).ToUpper()
+                                         )
+                                    </div>
+
+                                    <div>
+                                        <strong>
+                                            @(string.IsNullOrWhiteSpace(user.FullName)
+                                                ? "Unnamed User"
+                                                : user.FullName)
+                                        </strong>
+
+                                        @if (user.IsCurrentUser)
+                                        {
+                                            <span class="cl-current-user-badge">
+                                                You
+                                            </span>
+                                        }
+                                    </div>
+
+                                </div>
+                            </td>
+
+                            <td>
+                                <span class="cl-admin-email">
+                                    @user.Email
+                                </span>
+                            </td>
+
+                            <td>
+
+                                @if (user.Role == "Admin")
+                                {
+                                    <span class="cl-admin-role cl-admin-role-admin">
+                                        Admin
+                                    </span>
+                                }
+                                else if (user.Role == "Recruiter")
+                                {
+                                    <span class="cl-admin-role cl-admin-role-recruiter">
+                                        Recruiter
+                                    </span>
+                                }
+                                else if (user.Role == "JobSeeker")
+                                {
+                                    <span class="cl-admin-role cl-admin-role-seeker">
+                                        Job Seeker
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="cl-admin-role">
+                                        @user.Role
+                                    </span>
+                                }
+
+                            </td>
+
+                            <td>
+                                <span class="cl-admin-date">
+                                    @user.CreatedAt.ToLocalTime().ToString("dd MMM yyyy")
+                                </span>
+                            </td>
+
+                            <td>
+
+                                @if (user.IsActive)
+                                {
+                                    <span class="cl-admin-account-status cl-account-active">
+                                        <span></span>
+                                        Active
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="cl-admin-account-status cl-account-inactive">
+                                        <span></span>
+                                        Inactive
+                                    </span>
+                                }
+
+                            </td>
+
+                            <td class="text-end">
+
+                                @if (user.IsCurrentUser)
+                                {
+                                    <button type="button"
+                                            class="cl-admin-disabled-button"
+                                            disabled>
+                                        <i class="bi bi-person-check"></i>
+                                        Current Account
+                                    </button>
+                                }
+                                else
+                                {
+                                    <form asp-controller="AdminUsers"
+                                          asp-action="ToggleStatus"
+                                          method="post"
+                                          class="d-inline">
+
+                                        <input type="hidden"
+                                               name="id"
+                                               value="@user.Id" />
+
+                                        @if (user.IsActive)
+                                        {
+                                            <button type="submit"
+                                                    class="cl-admin-danger-button"
+                                                    onclick="return confirm('Are you sure you want to deactivate this account?');">
+                                                <i class="bi bi-person-dash"></i>
+                                                Deactivate
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <button type="submit"
+                                                    class="cl-admin-success-button">
+                                                <i class="bi bi-person-check"></i>
+                                                Activate
+                                            </button>
+                                        }
+
+                                    </form>
+                                }
+
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
         </div>
 
-        <div class="col-md-6 col-lg-3">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
-                    <h6 class="text-muted">Applications</h6>
-                    <h2>@Model.Applications</h2>
+        @if (!Model.Any())
+        {
+            <div class="cl-admin-empty-state">
+                <div>
+                    <i class="bi bi-people"></i>
                 </div>
+                <h3>No users found</h3>
+                <p>There are currently no registered users.</p>
             </div>
-        </div>
-
-        <div class="col-md-6 col-lg-3">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
-                    <h6 class="text-muted">Interviews</h6>
-                    <h2>@Model.Interviews</h2>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <div class="card shadow-sm">
-
-        <div class="card-body">
-
-            <h5 class="card-title mb-3">
-                Administration
-            </h5>
-
-            <div class="d-flex flex-wrap gap-2">
-
-                <a asp-controller="AdminUsers"
-                   asp-action="Index"
-                   class="btn btn-outline-primary">
-                    Manage Users
-                </a>
-
-                <a asp-controller="AdminCompanies"
-                   asp-action="Index"
-                   class="btn btn-outline-primary">
-                    Manage Companies
-                </a>
-
-                <a asp-controller="AdminJobs"
-                   asp-action="Index"
-                   class="btn btn-outline-primary">
-                    Manage Jobs
-                </a>
-
-                <a asp-controller="AdminSkills"
-                   asp-action="Index"
-                   class="btn btn-outline-primary">
-                    Manage Skills
-                </a>
-
-                <a asp-controller="AdminReports"
-                   asp-action="Index"
-                   class="btn btn-outline-primary">
-                    Reports & Statistics
-                </a>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="card shadow-sm mt-4">
-
-        <div class="card-body">
-
-            <h5 class="card-title mb-3">
-                User Status
-            </h5>
-
-            <div class="row">
-
-                <div class="col-md-6">
-                    <p class="mb-1">
-                        <strong>Active Users:</strong>
-                        @Model.ActiveUsers
-                    </p>
-                </div>
-
-                <div class="col-md-6">
-                    <p class="mb-1">
-                        <strong>Inactive Users:</strong>
-                        @Model.InactiveUsers
-                    </p>
-                </div>
-
-            </div>
-
-        </div>
+        }
 
     </div>
 

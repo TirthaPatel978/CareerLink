@@ -4,128 +4,302 @@
     ViewData["Title"] = "Company Profile";
 }
 
-<div class="container py-4">
-    <div class="row justify-content-center">
-        <div class="col-lg-9">
+<div class="cl-recruiter-page">
 
-            <div class="card shadow-sm">
+    <div class="container">
 
-                <div class="card-header">
-                    <h3 class="mb-0">Company Profile</h3>
-                    <small class="text-muted">
-                        Create or update your company information.
-                    </small>
-                </div>
+        <div class="cl-profile-page-header">
 
-                <div class="card-body">
+            <div>
+                <span class="cl-recruiter-eyebrow">
+                    <i class="bi bi-building"></i>
+                    Employer workspace
+                </span>
+
+                <h1 class="cl-profile-page-title">
+                    Company Profile
+                </h1>
+
+                <p class="cl-profile-page-subtitle">
+                    Create or update the company information candidates
+                    will see across your job postings.
+                </p>
+            </div>
+
+            <a asp-controller="Recruiter"
+               asp-action="Index"
+               class="cl-soft-button">
+
+                <i class="bi bi-arrow-left"></i>
+                Dashboard
+
+            </a>
+
+        </div>
+
+
+        <div class="row g-4">
+
+            <div class="col-lg-8">
+
+                <div class="cl-profile-card">
+
+                    <div class="cl-profile-card-header">
+
+                        <div class="cl-profile-card-icon">
+                            <i class="bi bi-building"></i>
+                        </div>
+
+                        <div>
+                            <h2>
+                                Company information
+                            </h2>
+
+                            <p>
+                                Provide clear information about your organization
+                                for potential candidates.
+                            </p>
+                        </div>
+
+                    </div>
+
 
                     @if (TempData["SuccessMessage"] != null)
                     {
-                        <div class="alert alert-success">
-                            @TempData["SuccessMessage"]
+                        <div class="cl-profile-success">
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span>@TempData["SuccessMessage"]</span>
                         </div>
                     }
+
 
                     <form asp-action="Profile" method="post">
 
                         <div asp-validation-summary="ModelOnly"
-                             class="text-danger mb-3">
+                             class="cl-profile-validation">
                         </div>
 
+
                         <div class="mb-3">
-                            <label asp-for="Name" class="form-label"></label>
+
+                            <label asp-for="Name"
+                                   class="form-label">
+                            </label>
 
                             <input asp-for="Name"
                                    class="form-control"
                                    placeholder="Enter company name" />
 
                             <span asp-validation-for="Name"
-                                  class="text-danger"></span>
+                                  class="text-danger">
+                            </span>
+
                         </div>
 
+
                         <div class="mb-3">
+
                             <label asp-for="Description"
-                                   class="form-label"></label>
+                                   class="form-label">
+                            </label>
 
                             <textarea asp-for="Description"
                                       class="form-control"
-                                      rows="5"
-                                      placeholder="Tell us about your company"></textarea>
+                                      rows="6"
+                                      placeholder="Tell candidates about your company, culture and work environment"></textarea>
 
                             <span asp-validation-for="Description"
-                                  class="text-danger"></span>
+                                  class="text-danger">
+                            </span>
+
                         </div>
 
-                        <div class="mb-3">
-                            <label asp-for="Website"
-                                   class="form-label"></label>
 
-                            <input asp-for="Website"
-                                   class="form-control"
-                                   placeholder="https://example.com" />
+                        <div class="row g-3">
 
-                            <span asp-validation-for="Website"
-                                  class="text-danger"></span>
+                            <div class="col-md-6">
+
+                                <label asp-for="Website"
+                                       class="form-label">
+                                </label>
+
+                                <div class="cl-input-with-icon">
+
+                                    <i class="bi bi-globe2"></i>
+
+                                    <input asp-for="Website"
+                                           class="form-control"
+                                           placeholder="https://example.com" />
+
+                                </div>
+
+                                <span asp-validation-for="Website"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+
+                            <div class="col-md-6">
+
+                                <label asp-for="Industry"
+                                       class="form-label">
+                                </label>
+
+                                <div class="cl-input-with-icon">
+
+                                    <i class="bi bi-diagram-3"></i>
+
+                                    <input asp-for="Industry"
+                                           class="form-control"
+                                           placeholder="e.g. Information Technology" />
+
+                                </div>
+
+                                <span asp-validation-for="Industry"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+
+                            <div class="col-md-6">
+
+                                <label asp-for="Location"
+                                       class="form-label">
+                                </label>
+
+                                <div class="cl-input-with-icon">
+
+                                    <i class="bi bi-geo-alt"></i>
+
+                                    <input asp-for="Location"
+                                           class="form-control"
+                                           placeholder="e.g. Ahmedabad, Gujarat" />
+
+                                </div>
+
+                                <span asp-validation-for="Location"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+
+                            <div class="col-md-6">
+
+                                <label asp-for="LogoPath"
+                                       class="form-label">
+                                </label>
+
+                                <div class="cl-input-with-icon">
+
+                                    <i class="bi bi-image"></i>
+
+                                    <input asp-for="LogoPath"
+                                           class="form-control"
+                                           placeholder="Logo URL or path" />
+
+                                </div>
+
+                                <span asp-validation-for="LogoPath"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
                         </div>
 
-                        <div class="mb-3">
-                            <label asp-for="Industry"
-                                   class="form-label"></label>
 
-                            <input asp-for="Industry"
-                                   class="form-control"
-                                   placeholder="e.g. Information Technology" />
+                        <div class="cl-profile-form-footer">
 
-                            <span asp-validation-for="Industry"
-                                  class="text-danger"></span>
-                        </div>
+                            <a asp-controller="Recruiter"
+                               asp-action="Index"
+                               class="btn btn-outline-secondary">
 
-                        <div class="mb-3">
-                            <label asp-for="Location"
-                                   class="form-label"></label>
+                                Cancel
 
-                            <input asp-for="Location"
-                                   class="form-control"
-                                   placeholder="e.g. Ahmedabad, Gujarat" />
-
-                            <span asp-validation-for="Location"
-                                  class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="LogoPath"
-                                   class="form-label"></label>
-
-                            <input asp-for="LogoPath"
-                                   class="form-control"
-                                   placeholder="Logo URL or path" />
-
-                            <span asp-validation-for="LogoPath"
-                                  class="text-danger"></span>
-                        </div>
-
-                        <div class="d-flex gap-2">
+                            </a>
 
                             <button type="submit"
                                     class="btn btn-primary">
-                                Save Company Profile
-                            </button>
 
-                            <a asp-controller="Recruiter"
-                               asp-action="Profile"
-                               class="btn btn-outline-secondary">
-                                Back to Recruiter Profile
-                            </a>
+                                <i class="bi bi-check2"></i>
+                                Save Company Profile
+
+                            </button>
 
                         </div>
 
                     </form>
 
                 </div>
+
+            </div>
+
+
+            <div class="col-lg-4">
+
+                <div class="cl-profile-side-card">
+
+                    <div class="cl-profile-side-icon">
+                        <i class="bi bi-stars"></i>
+                    </div>
+
+                    <span class="cl-profile-side-label">
+                        Company presence
+                    </span>
+
+                    <h3>
+                        Make a strong first impression
+                    </h3>
+
+                    <p>
+                        A complete company profile helps candidates understand
+                        who you are before they apply for a position.
+                    </p>
+
+
+                    <div class="cl-profile-tip">
+
+                        <i class="bi bi-check-circle"></i>
+
+                        <span>
+                            Add a clear company description.
+                        </span>
+
+                    </div>
+
+
+                    <div class="cl-profile-tip">
+
+                        <i class="bi bi-check-circle"></i>
+
+                        <span>
+                            Keep your industry and location accurate.
+                        </span>
+
+                    </div>
+
+
+                    <div class="cl-profile-tip">
+
+                        <i class="bi bi-check-circle"></i>
+
+                        <span>
+                            Add your company website when available.
+                        </span>
+
+                    </div>
+
+                </div>
+
             </div>
 
         </div>
+
     </div>
+
 </div>
 
 @section Scripts {

@@ -4,14 +4,22 @@
     ViewData["Title"] = "Job Details";
 }
 
-<div class="container py-4">
+<div class="cl-admin-page">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="cl-admin-page-header">
 
         <div>
-            <h1 class="mb-1">@Model.Title</h1>
-            <p class="text-muted mb-0">
-                Admin view of job details and activity.
+            <div class="cl-admin-eyebrow">
+                <i class="bi bi-briefcase"></i>
+                JOB DETAILS
+            </div>
+
+            <h1 class="cl-admin-title">
+                @Model.Title
+            </h1>
+
+            <p class="cl-admin-subtitle">
+                Admin view of job details and platform activity.
             </p>
         </div>
 
@@ -19,13 +27,14 @@
 
             <a asp-controller="AdminJobs"
                asp-action="Index"
-               class="btn btn-outline-secondary">
-                Back to Jobs
+               class="cl-soft-button">
+                <i class="bi bi-arrow-left"></i>
+                Jobs
             </a>
 
             <a asp-controller="Admin"
                asp-action="Index"
-               class="btn btn-outline-secondary">
+               class="cl-soft-button">
                 Dashboard
             </a>
 
@@ -33,50 +42,61 @@
 
     </div>
 
-    <div class="row g-4">
+    <div class="cl-admin-details-grid">
 
-        <div class="col-lg-8">
+        <div>
 
-            <div class="card shadow-sm mb-4">
+            <div class="cl-admin-detail-card">
 
-                <div class="card-body">
+                <div class="cl-admin-detail-card-header">
 
-                    <h5 class="card-title mb-3">
-                        Job Information
-                    </h5>
+                    <div class="cl-admin-detail-icon">
+                        <i class="bi bi-briefcase"></i>
+                    </div>
 
-                    <dl class="row mb-0">
+                    <div>
+                        <h2>Job Information</h2>
+                        <p>Posting details and requirements.</p>
+                    </div>
 
-                        <dt class="col-sm-4">Job Title</dt>
-                        <dd class="col-sm-8">
-                            @Model.Title
-                        </dd>
+                </div>
 
-                        <dt class="col-sm-4">Company</dt>
-                        <dd class="col-sm-8">
-                            @Model.CompanyName
-                        </dd>
+                <div class="cl-admin-detail-list">
 
-                        <dt class="col-sm-4">Job Type</dt>
-                        <dd class="col-sm-8">
-                            @Model.JobType
-                        </dd>
+                    <div>
+                        <span>Job Title</span>
+                        <strong>@Model.Title</strong>
+                    </div>
 
-                        <dt class="col-sm-4">Location</dt>
-                        <dd class="col-sm-8">
+                    <div>
+                        <span>Company</span>
+                        <strong>@Model.CompanyName</strong>
+                    </div>
+
+                    <div>
+                        <span>Job Type</span>
+                        <strong>@Model.JobType</strong>
+                    </div>
+
+                    <div>
+                        <span>Location</span>
+                        <strong>
                             @(string.IsNullOrWhiteSpace(Model.Location)
                                 ? "Not provided"
                                 : Model.Location)
-                        </dd>
+                        </strong>
+                    </div>
 
-                        <dt class="col-sm-4">Remote</dt>
-                        <dd class="col-sm-8">
+                    <div>
+                        <span>Remote</span>
+                        <strong>
                             @(Model.IsRemote ? "Yes" : "No")
-                        </dd>
+                        </strong>
+                    </div>
 
-                        <dt class="col-sm-4">Salary</dt>
-                        <dd class="col-sm-8">
-
+                    <div>
+                        <span>Salary</span>
+                        <strong>
                             @if (Model.SalaryMin.HasValue && Model.SalaryMax.HasValue)
                             {
                                 @($"{Model.SalaryMin.Value:N2} - {Model.SalaryMax.Value:N2}")
@@ -93,125 +113,134 @@
                             {
                                 <span>Not provided</span>
                             }
+                        </strong>
+                    </div>
 
-                        </dd>
-
-                        <dt class="col-sm-4">Experience Required</dt>
-                        <dd class="col-sm-8">
+                    <div>
+                        <span>Experience Required</span>
+                        <strong>
                             @Model.ExperienceRequired years
-                        </dd>
+                        </strong>
+                    </div>
 
-                        <dt class="col-sm-4">Education</dt>
-                        <dd class="col-sm-8">
+                    <div>
+                        <span>Education</span>
+                        <strong>
                             @(string.IsNullOrWhiteSpace(Model.EducationRequirement)
                                 ? "Not specified"
                                 : Model.EducationRequirement)
-                        </dd>
+                        </strong>
+                    </div>
 
-                        <dt class="col-sm-4">Application Deadline</dt>
-                        <dd class="col-sm-8">
-
+                    <div>
+                        <span>Application Deadline</span>
+                        <strong>
                             @if (Model.ApplicationDeadline.HasValue)
                             {
-                                @(
-                                    Model.ApplicationDeadline.Value
-                                        .ToLocalTime()
-                                        .ToString("dd MMM yyyy")
-                                )
+                                var deadline = Model.ApplicationDeadline.Value.ToLocalTime();
+                                @deadline.ToString("dd MMM yyyy")
                             }
                             else
                             {
                                 <span>No deadline</span>
                             }
+                        </strong>
+                    </div>
 
-                        </dd>
+                    <div>
+                        <span>Created</span>
+                        <strong>
+                            @{
+                                var createdAt = Model.CreatedAt.ToLocalTime();
+                            }
+                            @createdAt.ToString("dd MMM yyyy, hh:mm tt")
+                        </strong>
+                    </div>
 
-                        <dt class="col-sm-4">Created</dt>
-                        <dd class="col-sm-8">
-                            @(
-                                Model.CreatedAt
-                                    .ToLocalTime()
-                                    .ToString("dd MMM yyyy, hh:mm tt")
-                            )
-                        </dd>
-
-                        <dt class="col-sm-4">Last Updated</dt>
-                        <dd class="col-sm-8">
-
+                    <div>
+                        <span>Last Updated</span>
+                        <strong>
                             @if (Model.UpdatedAt.HasValue)
                             {
-                                @(
-                                    Model.UpdatedAt.Value
-                                        .ToLocalTime()
-                                        .ToString("dd MMM yyyy, hh:mm tt")
-                                )
+                                var updatedAt = Model.UpdatedAt.Value.ToLocalTime();
+                                @updatedAt.ToString("dd MMM yyyy, hh:mm tt")
                             }
                             else
                             {
                                 <span>Not updated</span>
                             }
-
-                        </dd>
-
-                    </dl>
+                        </strong>
+                    </div>
 
                 </div>
 
             </div>
 
-            <div class="card shadow-sm">
+            <div class="cl-admin-detail-card mt-4">
 
-                <div class="card-body">
+                <div class="cl-admin-detail-card-header">
 
-                    <h5 class="card-title">
-                        Description
-                    </h5>
+                    <div class="cl-admin-detail-icon">
+                        <i class="bi bi-file-text"></i>
+                    </div>
 
-                    @if (string.IsNullOrWhiteSpace(Model.Description))
-                    {
-                        <p class="text-muted mb-0">
-                            No job description has been provided.
-                        </p>
-                    }
-                    else
-                    {
-                        <p class="mb-0">
-                            @Model.Description
-                        </p>
-                    }
+                    <div>
+                        <h2>Description</h2>
+                        <p>Job posting description.</p>
+                    </div>
 
                 </div>
+
+                @if (string.IsNullOrWhiteSpace(Model.Description))
+                {
+                    <p class="cl-admin-empty-content">
+                        No job description has been provided.
+                    </p>
+                }
+                else
+                {
+                    <p class="cl-admin-description">
+                        @Model.Description
+                    </p>
+                }
 
             </div>
 
         </div>
 
-        <div class="col-lg-4">
+        <div>
 
-            <div class="card shadow-sm mb-4">
+            <div class="cl-admin-detail-card">
 
-                <div class="card-body">
+                <div class="cl-admin-detail-card-header">
 
-                    <h5 class="card-title mb-3">
-                        Job Status
-                    </h5>
-
-                    <div class="mb-3">
-
-                        @if (Model.IsActive)
-                        {
-                            <span class="badge bg-success fs-6">
-                                Active
-                            </span>
-                        }
-                        else
-                        {
-                            <span class="badge bg-secondary fs-6">
-                                Closed
-                            </span>
-                        }
-
+                    <div class="cl-admin-detail-icon">
+                        <i class="bi bi-toggle-on"></i>
                     </div>
+
+                    <div>
+                        <h2>Job Status</h2>
+                        <p>Control job availability.</p>
+                    </div>
+
+                </div>
+
+                <div class="cl-admin-job-status-panel">
+
+                    @if (Model.IsActive)
+                    {
+                        <span class="cl-admin-large-status cl-job-status-active">
+                            <span></span>
+                            Active
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="cl-admin-large-status cl-job-status-closed">
+                            <span></span>
+                            Closed
+                        </span>
+                    }
 
                     <form asp-controller="AdminJobs"
                           asp-action="ToggleStatus"
@@ -221,14 +250,16 @@
                         @if (Model.IsActive)
                         {
                             <button type="submit"
-                                    class="btn btn-outline-danger w-100">
+                                    class="cl-admin-danger-button w-100">
+                                <i class="bi bi-x-circle"></i>
                                 Close Job
                             </button>
                         }
                         else
                         {
                             <button type="submit"
-                                    class="btn btn-outline-success w-100">
+                                    class="cl-admin-success-button w-100">
+                                <i class="bi bi-check-circle"></i>
                                 Activate Job
                             </button>
                         }
@@ -239,19 +270,27 @@
 
             </div>
 
-            <div class="card shadow-sm">
+            <div class="cl-admin-detail-card mt-4">
 
-                <div class="card-body">
+                <div class="cl-admin-detail-card-header">
 
-                    <h5 class="card-title mb-3">
-                        Platform Activity
-                    </h5>
-
-                    <div class="d-flex justify-content-between py-2">
-                        <span>Applications</span>
-                        <strong>@Model.ApplicationCount</strong>
+                    <div class="cl-admin-detail-icon">
+                        <i class="bi bi-bar-chart"></i>
                     </div>
 
+                    <div>
+                        <h2>Platform Activity</h2>
+                        <p>Application activity.</p>
+                    </div>
+
+                </div>
+
+                <div class="cl-admin-big-number">
+                    @Model.ApplicationCount
+                </div>
+
+                <div class="cl-admin-big-number-label">
+                    Total Applications
                 </div>
 
             </div>

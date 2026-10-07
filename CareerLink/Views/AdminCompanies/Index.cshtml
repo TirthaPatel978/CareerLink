@@ -4,110 +4,142 @@
     ViewData["Title"] = "Manage Companies";
 }
 
-<div class="container py-4">
+<div class="cl-admin-page">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="cl-admin-page-header">
+
         <div>
-            <h1 class="mb-1">Manage Companies</h1>
-            <p class="text-muted mb-0">
+            <div class="cl-admin-eyebrow">
+                <i class="bi bi-building"></i>
+                COMPANY MANAGEMENT
+            </div>
+
+            <h1 class="cl-admin-title">
+                Manage Companies
+            </h1>
+
+            <p class="cl-admin-subtitle">
                 View companies registered on the CareerLink platform.
             </p>
         </div>
 
         <a asp-controller="Admin"
            asp-action="Index"
-           class="btn btn-outline-secondary">
-            Back to Dashboard
+           class="cl-soft-button">
+            <i class="bi bi-arrow-left"></i>
+            Dashboard
         </a>
+
     </div>
 
-    <div class="card shadow-sm">
+    <div class="cl-admin-table-card">
 
-        <div class="card-body">
+        <div class="cl-admin-table-header">
+            <div>
+                <h2>Registered Companies</h2>
+                <p>@Model.Count() compan@(Model.Count() == 1 ? "y" : "ies") available.</p>
+            </div>
 
-            <div class="table-responsive">
+            <div class="cl-admin-table-count">
+                <i class="bi bi-building"></i>
+                @Model.Count()
+            </div>
+        </div>
 
-                <table class="table table-hover align-middle mb-0">
+        <div class="table-responsive">
 
-                    <thead>
+            <table class="table cl-admin-table align-middle mb-0">
+
+                <thead>
+                    <tr>
+                        <th>Company</th>
+                        <th>Industry</th>
+                        <th>Location</th>
+                        <th>Recruiters</th>
+                        <th>Jobs</th>
+                        <th>Created</th>
+                        <th class="text-end">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (var company in Model)
+                    {
                         <tr>
-                            <th>Company</th>
-                            <th>Industry</th>
-                            <th>Location</th>
-                            <th>Recruiters</th>
-                            <th>Jobs</th>
-                            <th>Created</th>
-                            <th class="text-end">Action</th>
-                        </tr>
-                    </thead>
 
-                    <tbody>
+                            <td>
+                                <div class="cl-admin-company-cell">
+                                    <div class="cl-admin-company-icon">
+                                        <i class="bi bi-building"></i>
+                                    </div>
 
-                        @foreach (var company in Model)
-                        {
-                            <tr>
-
-                                <td>
                                     <strong>@company.Name</strong>
-                                </td>
+                                </div>
+                            </td>
 
-                                <td>
-                                    @(string.IsNullOrWhiteSpace(company.Industry)
-                                        ? "—"
-                                        : company.Industry)
-                                </td>
+                            <td>
+                                @(string.IsNullOrWhiteSpace(company.Industry)
+                                    ? "—"
+                                    : company.Industry)
+                            </td>
 
-                                <td>
+                            <td>
+                                <span class="cl-admin-location">
+                                    <i class="bi bi-geo-alt"></i>
                                     @(string.IsNullOrWhiteSpace(company.Location)
                                         ? "—"
                                         : company.Location)
-                                </td>
+                                </span>
+                            </td>
 
-                                <td>
-                                    <span class="badge bg-primary">
-                                        @company.RecruiterCount
-                                    </span>
-                                </td>
+                            <td>
+                                <span class="cl-admin-number-badge">
+                                    @company.RecruiterCount
+                                </span>
+                            </td>
 
-                                <td>
-                                    <span class="badge bg-secondary">
-                                        @company.JobCount
-                                    </span>
-                                </td>
+                            <td>
+                                <span class="cl-admin-number-badge">
+                                    @company.JobCount
+                                </span>
+                            </td>
 
-                                <td>
-                                    @(company.CreatedAt.ToLocalTime().ToString("dd MMM yyyy"))
-                                </td>
+                            <td>
+                                @company.CreatedAt.ToLocalTime().ToString("dd MMM yyyy")
+                            </td>
 
-                                <td class="text-end">
-                                    <a asp-controller="AdminCompanies"
-                                       asp-action="Details"
-                                       asp-route-id="@company.Id"
-                                       class="btn btn-sm btn-outline-primary">
-                                        View Details
-                                    </a>
-                                </td>
+                            <td class="text-end">
 
-                            </tr>
-                        }
+                                <a asp-controller="AdminCompanies"
+                                   asp-action="Details"
+                                   asp-route-id="@company.Id"
+                                   class="cl-view-applicant-button">
+                                    View Details
+                                    <i class="bi bi-arrow-right"></i>
+                                </a>
 
-                    </tbody>
+                            </td>
 
-                </table>
+                        </tr>
+                    }
 
-            </div>
+                </tbody>
 
-            @if (!Model.Any())
-            {
-                <div class="text-center py-5">
-                    <h5>No companies found.</h5>
-                    <p class="text-muted mb-0">
-                        There are currently no companies registered.
-                    </p>
-                </div>
-            }
+            </table>
 
         </div>
+
+        @if (!Model.Any())
+        {
+            <div class="cl-admin-empty-state">
+                <div>
+                    <i class="bi bi-building"></i>
+                </div>
+                <h3>No companies found</h3>
+                <p>There are currently no companies registered.</p>
+            </div>
+        }
 
     </div>
 

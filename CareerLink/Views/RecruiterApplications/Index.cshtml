@@ -6,18 +6,27 @@
     var companyName = ViewBag.CompanyName as string;
 }
 
-<div class="container py-4">
+<div class="cl-recruiter-page">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="cl-profile-page-header">
+
         <div>
-            <h1 class="mb-1">Applicants</h1>
+            <div class="cl-recruiter-eyebrow">
+                <i class="bi bi-people"></i>
+                APPLICATION MANAGEMENT
+            </div>
 
-            @if (!string.IsNullOrWhiteSpace(companyName))
-            {
-                <p class="text-muted mb-0">
-                    Applications received by @companyName
-                </p>
-            }
+            <h1 class="cl-profile-page-title">
+                Applicants
+            </h1>
+
+            <p class="cl-profile-page-subtitle">
+                Review candidates who have applied to your company's positions.
+                @if (!string.IsNullOrWhiteSpace(companyName))
+                {
+                    <span>@companyName</span>
+                }
+            </p>
         </div>
 
         @if (jobId.HasValue)
@@ -25,7 +34,8 @@
             <a asp-controller="RecruiterJobs"
                asp-action="Details"
                asp-route-id="@jobId.Value"
-               class="btn btn-outline-secondary">
+               class="cl-soft-button">
+                <i class="bi bi-arrow-left"></i>
                 Back to Job
             </a>
         }
@@ -33,154 +43,223 @@
         {
             <a asp-controller="RecruiterJobs"
                asp-action="Index"
-               class="btn btn-outline-secondary">
+               class="cl-soft-button">
+                <i class="bi bi-arrow-left"></i>
                 Back to Jobs
             </a>
         }
+
     </div>
 
     @if (TempData["SuccessMessage"] != null)
     {
-        <div class="alert alert-success">
-            @TempData["SuccessMessage"]
+        <div class="cl-profile-success">
+            <i class="bi bi-check-circle-fill"></i>
+            <span>@TempData["SuccessMessage"]</span>
         </div>
     }
 
     @if (Model.Count == 0)
     {
-        <div class="card shadow-sm">
-            <div class="card-body text-center py-5">
-                <h4>No applicants yet</h4>
-                <p class="text-muted mb-0">
-                    There are currently no applications for this selection.
-                </p>
+        <div class="cl-profile-card cl-applicant-empty-state">
+
+            <div class="cl-applicant-empty-icon">
+                <i class="bi bi-people"></i>
             </div>
+
+            <h2>No applicants yet</h2>
+
+            <p>
+                There are currently no applications for this selection.
+                New candidates will appear here when they apply.
+            </p>
+
+            <a asp-controller="RecruiterJobs"
+               asp-action="Index"
+               class="cl-soft-button">
+                <i class="bi bi-briefcase"></i>
+                View Jobs
+            </a>
+
         </div>
     }
     else
     {
-        <div class="card shadow-sm">
-            <div class="card-body p-0">
+        <div class="cl-profile-card cl-applicants-table-card">
 
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0">
+            <div class="cl-applicants-table-header">
 
-                        <thead class="table-light">
-                            <tr>
-                                <th>Applicant</th>
-                                <th>Job</th>
-                                <th>Match Score</th>
-                                <th>Status</th>
-                                <th>Applied</th>
-                                <th class="text-end">Action</th>
-                            </tr>
-                        </thead>
+                <div>
+                    <h2>Candidate Applications</h2>
+                    <p>
+                        @Model.Count applicant@(Model.Count == 1 ? "" : "s") found.
+                    </p>
+                </div>
 
-                        <tbody>
-                            @foreach (var applicant in Model)
-                            {
-                                <tr>
-                                    <td>
-                                        <div class="fw-semibold">
-                                            @applicant.ApplicantName
-                                        </div>
-
-                                        @if (!string.IsNullOrWhiteSpace(
-                                            applicant.ProfessionalTitle))
-                                        {
-                                            <div class="small text-muted">
-                                                @applicant.ProfessionalTitle
-                                            </div>
-                                        }
-
-                                        <div class="small text-muted">
-                                            @applicant.ApplicantEmail
-                                        </div>
-                                    </td>
-
-                                    <td>
-                                        @applicant.JobTitle
-                                    </td>
-
-                                    <td>
-                                        @if (applicant.MatchScore.HasValue)
-                                        {
-                                            <span class="fw-semibold">
-                                                @applicant.MatchScore.Value.ToString("0.##")%
-                                            </span>
-                                        }
-                                        else
-                                        {
-                                            <span class="text-muted">
-                                                Not calculated
-                                            </span>
-                                        }
-                                    </td>
-
-                                    <td>
-                                        @{
-                                            var badgeClass =
-                                                applicant.Status switch
-                                                {
-                                                    CareerLink.Models.Enums.ApplicationStatus.Applied
-                                                        => "bg-secondary",
-
-                                                    CareerLink.Models.Enums.ApplicationStatus.UnderReview
-                                                        => "bg-info text-dark",
-
-                                                    CareerLink.Models.Enums.ApplicationStatus.Shortlisted
-                                                        => "bg-success",
-
-                                                    CareerLink.Models.Enums.ApplicationStatus.Interview
-                                                        => "bg-primary",
-
-                                                    CareerLink.Models.Enums.ApplicationStatus.Selected
-                                                        => "bg-success",
-
-                                                    CareerLink.Models.Enums.ApplicationStatus.Rejected
-                                                        => "bg-danger",
-
-                                                    CareerLink.Models.Enums.ApplicationStatus.Withdrawn
-                                                        => "bg-dark",
-
-                                                    _ => "bg-secondary"
-                                                };
-
-                                            var statusText =
-                                                applicant.Status switch
-                                                {
-                                                    CareerLink.Models.Enums.ApplicationStatus.UnderReview
-                                                        => "Under Review",
-
-                                                    _ => applicant.Status.ToString()
-                                                };
-                                        }
-
-                                        <span class="badge @badgeClass">
-                                            @statusText
-                                        </span>
-                                    </td>
-
-                                    <td>
-                                        @applicant.AppliedAt.ToLocalTime().ToString("dd MMM yyyy")
-                                    </td>
-
-                                    <td class="text-end">
-                                        <a asp-controller="RecruiterApplications"
-                                           asp-action="Details"
-                                           asp-route-id="@applicant.ApplicationId"
-                                           class="btn btn-sm btn-outline-primary">
-                                            View Details
-                                        </a>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-
-                    </table>
+                <div class="cl-applicant-count-badge">
+                    <i class="bi bi-people"></i>
+                    @Model.Count
                 </div>
 
             </div>
+
+            <div class="table-responsive">
+
+                <table class="table cl-applicants-table align-middle mb-0">
+
+                    <thead>
+                        <tr>
+                            <th>Applicant</th>
+                            <th>Job</th>
+                            <th>Match Score</th>
+                            <th>Status</th>
+                            <th>Applied</th>
+                            <th class="text-end">Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var applicant in Model)
+                        {
+                            <tr>
+
+                                <td>
+                                    <div class="cl-applicant-cell">
+
+                                        <div class="cl-applicant-avatar">
+                                            @(
+                                                string.IsNullOrWhiteSpace(applicant.ApplicantName)
+                                                    ? "?"
+                                                    : applicant.ApplicantName.Substring(0, 1).ToUpper()
+                                             )
+                                        </div>
+
+                                        <div>
+                                            <strong>
+                                                @applicant.ApplicantName
+                                            </strong>
+
+                                            @if (!string.IsNullOrWhiteSpace(applicant.ProfessionalTitle))
+                                            {
+                                                <span>
+                                                    @applicant.ProfessionalTitle
+                                                </span>
+                                            }
+
+                                            <small>
+                                                @applicant.ApplicantEmail
+                                            </small>
+                                        </div>
+
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <span class="cl-applicant-job">
+                                        <i class="bi bi-briefcase"></i>
+                                        @applicant.JobTitle
+                                    </span>
+                                </td>
+
+                                <td>
+
+                                    @if (applicant.MatchScore.HasValue)
+                                    {
+                                        <div class="cl-match-score">
+
+                                            <div class="cl-match-score-ring">
+                                                @applicant.MatchScore.Value.ToString("0.##")%
+                                            </div>
+
+                                            <span>Match</span>
+
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <span class="cl-not-calculated">
+                                            Not calculated
+                                        </span>
+                                    }
+
+                                </td>
+
+                                <td>
+
+                                    @{
+                                        var badgeClass =
+                                            applicant.Status switch
+                                            {
+                                                CareerLink.Models.Enums.ApplicationStatus.Applied
+                                                    => "cl-status-applied",
+
+                                                CareerLink.Models.Enums.ApplicationStatus.UnderReview
+                                                    => "cl-status-review",
+
+                                                CareerLink.Models.Enums.ApplicationStatus.Shortlisted
+                                                    => "cl-status-shortlisted",
+
+                                                CareerLink.Models.Enums.ApplicationStatus.Interview
+                                                    => "cl-status-interview",
+
+                                                CareerLink.Models.Enums.ApplicationStatus.Selected
+                                                    => "cl-status-selected",
+
+                                                CareerLink.Models.Enums.ApplicationStatus.Rejected
+                                                    => "cl-status-rejected",
+
+                                                CareerLink.Models.Enums.ApplicationStatus.Withdrawn
+                                                    => "cl-status-withdrawn",
+
+                                                _ => "cl-status-applied"
+                                            };
+
+                                        var statusText =
+                                            applicant.Status switch
+                                            {
+                                                CareerLink.Models.Enums.ApplicationStatus.UnderReview
+                                                    => "Under Review",
+
+                                                _ => applicant.Status.ToString()
+                                            };
+                                    }
+
+                                    <span class="cl-status-badge @badgeClass">
+                                        <span></span>
+                                        @statusText
+                                    </span>
+
+                                </td>
+
+                                <td>
+                                    <span class="cl-applied-date">
+                                        @applicant.AppliedAt.ToLocalTime().ToString("dd MMM yyyy")
+                                    </span>
+                                </td>
+
+                                <td class="text-end">
+
+                                    <a asp-controller="RecruiterApplications"
+                                       asp-action="Details"
+                                       asp-route-id="@applicant.ApplicationId"
+                                       class="cl-view-applicant-button">
+                                        View Details
+                                        <i class="bi bi-arrow-right"></i>
+                                    </a>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
         </div>
     }
+
 </div>

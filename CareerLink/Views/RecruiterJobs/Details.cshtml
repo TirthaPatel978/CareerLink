@@ -8,204 +8,299 @@
         : 0;
 }
 
-<div class="container py-4">
+<div class="cl-recruiter-page">
 
-    <div class="card shadow-sm">
+    <div class="cl-profile-page-header">
 
-        <!-- Header -->
-        <div class="card-header d-flex justify-content-between align-items-start">
-            <div>
-                <h2 class="mb-1">@Model.Title</h2>
-
-                @if (!string.IsNullOrWhiteSpace(Model.Description))
-                {
-                    <div class="text-muted">
-                        @Model.Description
-                    </div>
-                }
+        <div>
+            <div class="cl-recruiter-eyebrow">
+                <i class="bi bi-briefcase"></i>
+                JOB POSTING
             </div>
 
-            @if (Model.IsActive)
-            {
-                <span class="badge bg-success">
-                    Active
-                </span>
-            }
-            else
-            {
-                <span class="badge bg-secondary">
-                    Closed
-                </span>
-            }
+            <h1 class="cl-profile-page-title">
+                @Model.Title
+            </h1>
+
+            <p class="cl-profile-page-subtitle">
+                Review your job posting, applications, and matching configuration.
+            </p>
         </div>
 
-        <div class="card-body">
+        <a asp-controller="RecruiterJobs"
+           asp-action="Index"
+           class="cl-soft-button">
+            <i class="bi bi-arrow-left"></i>
+            Back to Jobs
+        </a>
 
-            <!-- Job information -->
-            <div class="row g-4">
+    </div>
 
-                <div class="col-md-6">
-                    <strong>Job Type</strong>
-                    <div>
-                        @Model.JobType
-                    </div>
+    <div class="cl-job-details-grid">
+
+        <div class="cl-profile-card">
+
+            <div class="cl-job-details-header">
+
+                <div class="cl-job-details-icon">
+                    <i class="bi bi-briefcase"></i>
                 </div>
 
-                <div class="col-md-6">
-                    <strong>Location</strong>
-                    <div>
-                        @(Model.IsRemote
-                            ? "Remote"
-                            : string.IsNullOrWhiteSpace(Model.Location)
-                                ? "Not specified"
-                                : Model.Location)
+                <div class="cl-job-details-title-area">
+
+                    <div class="d-flex align-items-center gap-2 flex-wrap">
+
+                        <h2>@Model.Title</h2>
+
+                        @if (Model.IsActive)
+                        {
+                            <span class="cl-status-badge cl-status-active">
+                                <span></span>
+                                Active
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="cl-status-badge cl-status-closed">
+                                <span></span>
+                                Closed
+                            </span>
+                        }
+
                     </div>
+
+                    <div class="cl-job-meta-row">
+
+                        <span>
+                            <i class="bi bi-briefcase"></i>
+                            @Model.JobType
+                        </span>
+
+                        <span>
+                            <i class="bi bi-geo-alt"></i>
+
+                            @(Model.IsRemote
+                                ? "Remote"
+                                : string.IsNullOrWhiteSpace(Model.Location)
+                                    ? "Location not specified"
+                                    : Model.Location)
+                        </span>
+
+                    </div>
+
                 </div>
 
-                <div class="col-md-6">
-                    <strong>Salary</strong>
-                    <div>
+            </div>
+
+            <div class="cl-job-details-body">
+
+                <section class="cl-job-detail-section">
+
+                    <div class="cl-job-section-heading">
+                        <i class="bi bi-file-text"></i>
+                        <h3>Description</h3>
+                    </div>
+
+                    @if (string.IsNullOrWhiteSpace(Model.Description))
+                    {
+                        <p class="text-muted">
+                            No description provided.
+                        </p>
+                    }
+                    else
+                    {
+                        <p class="cl-job-description">
+                            @Model.Description
+                        </p>
+                    }
+
+                </section>
+
+                <section class="cl-job-detail-section">
+
+                    <div class="cl-job-section-heading">
+                        <i class="bi bi-list-check"></i>
+                        <h3>Requirements</h3>
+                    </div>
+
+                    <div class="cl-job-requirement-grid">
+
+                        <div class="cl-job-requirement">
+                            <span>Experience</span>
+                            <strong>
+                                @Model.ExperienceRequired years
+                            </strong>
+                        </div>
+
+                        <div class="cl-job-requirement">
+                            <span>Education</span>
+
+                            <strong>
+                                @(string.IsNullOrWhiteSpace(Model.EducationRequirement)
+                                    ? "Not specified"
+                                    : Model.EducationRequirement)
+                            </strong>
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <section class="cl-job-detail-section">
+
+                    <div class="cl-job-section-heading">
+                        <i class="bi bi-currency-dollar"></i>
+                        <h3>Salary</h3>
+                    </div>
+
+                    <div class="cl-job-salary">
+
                         @if (Model.SalaryMin.HasValue && Model.SalaryMax.HasValue)
                         {
-                            @($"{Model.SalaryMin.Value:N2} - {Model.SalaryMax.Value:N2}")
+                            <strong>
+                                @($"{Model.SalaryMin.Value:N2} - {Model.SalaryMax.Value:N2}")
+                            </strong>
                         }
                         else if (Model.SalaryMin.HasValue)
                         {
-                            @($"{Model.SalaryMin.Value:N2}+")
+                            <strong>
+                                @($"{Model.SalaryMin.Value:N2}+")
+                            </strong>
                         }
                         else if (Model.SalaryMax.HasValue)
                         {
-                            @($"Up to {Model.SalaryMax.Value:N2}")
+                            <strong>
+                                @($"Up to {Model.SalaryMax.Value:N2}")
+                            </strong>
                         }
                         else
                         {
                             <span class="text-muted">
-                                Not specified
+                                Salary not specified
                             </span>
                         }
+
                     </div>
+
+                </section>
+
+                <section class="cl-job-detail-section">
+
+                    <div class="cl-job-section-heading">
+                        <i class="bi bi-calendar-event"></i>
+                        <h3>Application Deadline</h3>
+                    </div>
+
+                    @if (Model.ApplicationDeadline.HasValue)
+                    {
+                        <div class="cl-job-deadline">
+
+                            <i class="bi bi-calendar3"></i>
+
+                            <span>
+                                @Model.ApplicationDeadline.Value.ToString("dd MMM yyyy")
+                            </span>
+
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-muted mb-0">
+                            No deadline specified.
+                        </p>
+                    }
+
+                </section>
+
+                <section class="cl-job-detail-section">
+
+                    <div class="cl-job-section-heading">
+                        <i class="bi bi-bar-chart"></i>
+                        <h3>Matching Weights</h3>
+                    </div>
+
+                    <div class="cl-matching-weight-grid">
+
+                        <div class="cl-weight-card">
+                            <span>Skills</span>
+                            <strong>
+                                @Model.SkillWeight.ToString("0.##")%
+                            </strong>
+                        </div>
+
+                        <div class="cl-weight-card">
+                            <span>Education</span>
+                            <strong>
+                                @Model.EducationWeight.ToString("0.##")%
+                            </strong>
+                        </div>
+
+                        <div class="cl-weight-card">
+                            <span>Experience</span>
+                            <strong>
+                                @Model.ExperienceWeight.ToString("0.##")%
+                            </strong>
+                        </div>
+
+                        <div class="cl-weight-card">
+                            <span>Location</span>
+                            <strong>
+                                @Model.LocationWeight.ToString("0.##")%
+                            </strong>
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </div>
+
+        <div class="cl-job-details-sidebar">
+
+            <div class="cl-profile-card cl-job-stat-card">
+
+                <div class="cl-job-stat-icon">
+                    <i class="bi bi-people"></i>
                 </div>
 
-                <div class="col-md-6">
-                    <strong>Experience Required</strong>
-                    <div>
-                        @Model.ExperienceRequired years
-                    </div>
+                <span>Applications Received</span>
+
+                <strong>
+                    @applicationCount
+                </strong>
+
+                <a asp-controller="RecruiterApplications"
+                   asp-action="Index"
+                   asp-route-jobId="@Model.Id"
+                   class="cl-job-sidebar-link">
+                    View applicants
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+
+            </div>
+
+            <div class="cl-profile-card cl-job-actions-card">
+
+                <div class="cl-job-sidebar-heading">
+                    <i class="bi bi-lightning"></i>
+                    <h3>Job Actions</h3>
                 </div>
-
-            </div>
-
-            <!-- Description -->
-            <div class="mt-4">
-                <h4>Description</h4>
-
-                @if (string.IsNullOrWhiteSpace(Model.Description))
-                {
-                    <p class="text-muted">
-                        No description provided.
-                    </p>
-                }
-                else
-                {
-                    <p style="white-space: pre-line;">
-                        @Model.Description
-                    </p>
-                }
-            </div>
-
-            <!-- Education -->
-            <div class="mt-4">
-                <h4>Education Requirement</h4>
-
-                @if (string.IsNullOrWhiteSpace(Model.EducationRequirement))
-                {
-                    <p class="text-muted">
-                        No specific education requirement.
-                    </p>
-                }
-                else
-                {
-                    <p>
-                        @Model.EducationRequirement
-                    </p>
-                }
-            </div>
-
-            <!-- Deadline -->
-            <div class="mt-4">
-                <h4>Application Deadline</h4>
-
-                @if (Model.ApplicationDeadline.HasValue)
-                {
-                    <p>
-                        @Model.ApplicationDeadline.Value.ToString("dd MMM yyyy")
-                    </p>
-                }
-                else
-                {
-                    <p class="text-muted">
-                        No deadline specified.
-                    </p>
-                }
-            </div>
-
-            <!-- Matching weights -->
-            <div class="mt-4">
-                <h4>Matching Weights</h4>
-
-                <div class="row">
-
-                    <div class="col-md-3">
-                        <strong>Skills</strong>
-                        <div>
-                            @Model.SkillWeight.ToString("0.##")%
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <strong>Education</strong>
-                        <div>
-                            @Model.EducationWeight.ToString("0.##")%
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <strong>Experience</strong>
-                        <div>
-                            @Model.ExperienceWeight.ToString("0.##")%
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <strong>Location</strong>
-                        <div>
-                            @Model.LocationWeight.ToString("0.##")%
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- Applications -->
-            <div class="alert alert-light border mt-4">
-                <strong>Applications received:</strong>
-                @applicationCount
-            </div>
-
-            <!-- Actions -->
-            <div class="d-flex flex-wrap gap-2 mt-3">
 
                 <a asp-controller="RecruiterJobs"
                    asp-action="Edit"
                    asp-route-id="@Model.Id"
-                   class="btn btn-primary">
+                   class="cl-purple-button w-100 justify-content-center">
+                    <i class="bi bi-pencil"></i>
                     Edit Job
                 </a>
 
                 <a asp-controller="RecruiterApplications"
                    asp-action="Index"
                    asp-route-jobId="@Model.Id"
-                   class="btn btn-outline-primary">
+                   class="cl-soft-button w-100 justify-content-center">
+                    <i class="bi bi-people"></i>
                     View Applicants
                 </a>
 
@@ -214,13 +309,13 @@
                     <form asp-controller="RecruiterJobs"
                           asp-action="ToggleStatus"
                           asp-route-id="@Model.Id"
-                          method="post"
-                          class="d-inline">
+                          method="post">
 
                         @Html.AntiForgeryToken()
 
                         <button type="submit"
-                                class="btn btn-outline-danger">
+                                class="cl-job-danger-button w-100">
+                            <i class="bi bi-x-circle"></i>
                             Close Job
                         </button>
 
@@ -231,27 +326,23 @@
                     <form asp-controller="RecruiterJobs"
                           asp-action="ToggleStatus"
                           asp-route-id="@Model.Id"
-                          method="post"
-                          class="d-inline">
+                          method="post">
 
                         @Html.AntiForgeryToken()
 
                         <button type="submit"
-                                class="btn btn-outline-success">
+                                class="cl-job-success-button w-100">
+                            <i class="bi bi-arrow-clockwise"></i>
                             Reopen Job
                         </button>
 
                     </form>
                 }
 
-                <a asp-controller="RecruiterJobs"
-                   asp-action="Index"
-                   class="btn btn-outline-secondary">
-                    Back to Jobs
-                </a>
-
             </div>
 
         </div>
+
     </div>
+
 </div>

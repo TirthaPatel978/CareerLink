@@ -4,150 +4,232 @@
     ViewData["Title"] = "Recruiter Dashboard";
 }
 
-<div class="container py-4">
+<div class="cl-recruiter-page">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="container">
 
-        <div>
+        <!-- =========================
+             PAGE HEADER
+             ========================= -->
 
-            <h1 class="mb-1">
-                Recruiter Dashboard
-            </h1>
+        <div class="cl-recruiter-header">
 
-            <p class="text-muted mb-0">
-                Welcome, @Model.RecruiterName
-            </p>
+            <div>
 
-            @if (!string.IsNullOrWhiteSpace(Model.CompanyName))
-            {
-                <p class="text-muted mb-0">
-                    Company: @Model.CompanyName
+                <span class="cl-recruiter-eyebrow">
+                    <i class="bi bi-grid-1x2"></i>
+                    Recruiter workspace
+                </span>
+
+                <h1 class="cl-recruiter-title">
+                    Welcome back,
+                    <span>@Model.RecruiterName</span>
+                </h1>
+
+                <p class="cl-recruiter-subtitle">
+                    Manage your company, job postings and hiring activity
+                    from one place.
                 </p>
-            }
+
+                @if (!string.IsNullOrWhiteSpace(Model.CompanyName))
+                {
+                    <div class="cl-recruiter-company">
+                        <i class="bi bi-building"></i>
+                        <span>@Model.CompanyName</span>
+                    </div>
+                }
+
+            </div>
+
+
+            <div class="cl-recruiter-header-actions">
+
+                <a asp-controller="Recruiter"
+                   asp-action="Profile"
+                   class="cl-soft-button">
+
+                    <i class="bi bi-person"></i>
+                    Profile
+
+                </a>
+
+                <a asp-controller="Company"
+                   asp-action="Profile"
+                   class="cl-soft-button">
+
+                    <i class="bi bi-building"></i>
+                    Company
+
+                </a>
+
+                <a asp-controller="RecruiterJobs"
+                   asp-action="Index"
+                   class="cl-purple-button">
+
+                    <i class="bi bi-briefcase"></i>
+                    Manage Jobs
+
+                </a>
+
+            </div>
 
         </div>
 
-        <div class="d-flex gap-2">
 
-            <a asp-controller="Recruiter"
-               asp-action="Profile"
-               class="btn btn-outline-primary">
-                Recruiter Profile
-            </a>
+        <!-- =========================
+             COMPANY WARNING
+             ========================= -->
 
-            <a asp-controller="Company"
-               asp-action="Profile"
-               class="btn btn-outline-primary">
-                Company Profile
-            </a>
+        @if (string.IsNullOrWhiteSpace(Model.CompanyName))
+        {
+            <div class="cl-recruiter-warning">
 
-            <a asp-controller="RecruiterJobs"
-               asp-action="Index"
-               class="btn btn-primary">
-                Manage Jobs
-            </a>
+                <div class="cl-recruiter-warning-icon">
+                    <i class="bi bi-exclamation-circle"></i>
+                </div>
 
-        </div>
+                <div class="flex-grow-1">
 
-    </div>
+                    <h5>
+                        Company profile not set up
+                    </h5>
 
-    @if (string.IsNullOrWhiteSpace(Model.CompanyName))
-    {
-        <div class="alert alert-warning">
+                    <p>
+                        Create your company profile before creating
+                        or managing job postings.
+                    </p>
 
-            <h5 class="alert-heading">
-                Company profile not set up
-            </h5>
+                </div>
 
-            <p class="mb-2">
-                You need to create your company profile before
-                managing jobs.
-            </p>
+                <a asp-controller="Company"
+                   asp-action="Profile"
+                   class="cl-warning-button">
 
-            <a asp-controller="Company"
-               asp-action="Profile"
-               class="btn btn-warning">
-                Create Company Profile
-            </a>
+                    Create Company Profile
+                    <i class="bi bi-arrow-right"></i>
 
-        </div>
-    }
+                </a>
 
-    <div class="row g-4 mb-4">
+            </div>
+        }
 
-        <div class="col-md-6 col-lg-3">
 
-            <div class="card shadow-sm h-100">
+        <!-- =========================
+             STATISTICS
+             ========================= -->
 
-                <div class="card-body">
+        <div class="row g-3 cl-recruiter-stats">
 
-                    <h6 class="text-muted">
-                        Total Jobs
-                    </h6>
+            <div class="col-sm-6 col-xl-3">
 
-                    <h2 class="mb-0">
+                <div class="cl-recruiter-stat">
+
+                    <div class="cl-recruiter-stat-top">
+
+                        <div class="cl-recruiter-stat-icon">
+                            <i class="bi bi-briefcase"></i>
+                        </div>
+
+                        <span class="cl-recruiter-stat-label">
+                            Total Jobs
+                        </span>
+
+                    </div>
+
+                    <div class="cl-recruiter-stat-value">
                         @Model.TotalJobs
-                    </h2>
+                    </div>
+
+                    <div class="cl-recruiter-stat-note">
+                        All job postings
+                    </div>
 
                 </div>
 
             </div>
 
-        </div>
 
-        <div class="col-md-6 col-lg-3">
+            <div class="col-sm-6 col-xl-3">
 
-            <div class="card shadow-sm h-100">
+                <div class="cl-recruiter-stat">
 
-                <div class="card-body">
+                    <div class="cl-recruiter-stat-top">
 
-                    <h6 class="text-muted">
-                        Active Jobs
-                    </h6>
+                        <div class="cl-recruiter-stat-icon cl-stat-success">
+                            <i class="bi bi-check-circle"></i>
+                        </div>
 
-                    <h2 class="mb-0">
+                        <span class="cl-recruiter-stat-label">
+                            Active Jobs
+                        </span>
+
+                    </div>
+
+                    <div class="cl-recruiter-stat-value">
                         @Model.ActiveJobs
-                    </h2>
+                    </div>
+
+                    <div class="cl-recruiter-stat-note">
+                        Currently accepting applications
+                    </div>
 
                 </div>
 
             </div>
 
-        </div>
 
-        <div class="col-md-6 col-lg-3">
+            <div class="col-sm-6 col-xl-3">
 
-            <div class="card shadow-sm h-100">
+                <div class="cl-recruiter-stat">
 
-                <div class="card-body">
+                    <div class="cl-recruiter-stat-top">
 
-                    <h6 class="text-muted">
-                        Closed Jobs
-                    </h6>
+                        <div class="cl-recruiter-stat-icon cl-stat-warning">
+                            <i class="bi bi-pause-circle"></i>
+                        </div>
 
-                    <h2 class="mb-0">
+                        <span class="cl-recruiter-stat-label">
+                            Closed Jobs
+                        </span>
+
+                    </div>
+
+                    <div class="cl-recruiter-stat-value">
                         @Model.ClosedJobs
-                    </h2>
+                    </div>
+
+                    <div class="cl-recruiter-stat-note">
+                        No longer accepting applications
+                    </div>
 
                 </div>
 
             </div>
 
-        </div>
 
-        <div class="col-md-6 col-lg-3">
+            <div class="col-sm-6 col-xl-3">
 
-            <div class="card shadow-sm h-100">
+                <div class="cl-recruiter-stat">
 
-                <div class="card-body">
+                    <div class="cl-recruiter-stat-top">
 
-                    <h6 class="text-muted">
-                        Applications
-                    </h6>
+                        <div class="cl-recruiter-stat-icon cl-stat-applications">
+                            <i class="bi bi-people"></i>
+                        </div>
 
-                    <h2 class="mb-0">
+                        <span class="cl-recruiter-stat-label">
+                            Applications
+                        </span>
+
+                    </div>
+
+                    <div class="cl-recruiter-stat-value">
                         @Model.TotalApplications
-                    </h2>
+                    </div>
+
+                    <div class="cl-recruiter-stat-note">
+                        Candidate applications
+                    </div>
 
                 </div>
 
@@ -155,65 +237,236 @@
 
         </div>
 
-    </div>
 
-    <div class="card shadow-sm">
+        <!-- =========================
+             QUICK ACTIONS
+             ========================= -->
 
-        <div class="card-header">
+        <section class="cl-recruiter-section">
 
-            <h4 class="mb-0">
-                Recruiter Actions
-            </h4>
+            <div class="cl-recruiter-section-heading">
 
-        </div>
+                <div>
 
-        <div class="card-body">
+                    <span class="section-eyebrow">
+                        Hiring tools
+                    </span>
+
+                    <h2>
+                        Quick actions
+                    </h2>
+
+                </div>
+
+                <span class="cl-recruiter-section-caption">
+                    Manage your recruiting workflow
+                </span>
+
+            </div>
+
 
             <div class="row g-3">
 
-                <div class="col-md-3">
-
-                    <a asp-controller="Company"
-                       asp-action="Profile"
-                       class="btn btn-outline-primary w-100">
-                        Manage Company
-                    </a>
-
-                </div>
-
-                <div class="col-md-3">
-
-                    <a asp-controller="Recruiter"
-                       asp-action="Profile"
-                       class="btn btn-outline-primary w-100">
-                        Manage Profile
-                    </a>
-
-                </div>
-
-                <div class="col-md-3">
-
-                    <a asp-controller="RecruiterJobs"
-                       asp-action="Index"
-                       class="btn btn-outline-primary w-100">
-                        Manage Jobs
-                    </a>
-
-                </div>
-
-                <div class="col-md-3">
+                <div class="col-md-6 col-xl-3">
 
                     <a asp-controller="RecruiterJobs"
                        asp-action="Create"
-                       class="btn btn-primary w-100">
-                        Create Job
+                       class="cl-recruiter-action">
+
+                        <span class="cl-recruiter-action-icon">
+                            <i class="bi bi-plus-lg"></i>
+                        </span>
+
+                        <span class="cl-recruiter-action-content">
+
+                            <strong>Create Job</strong>
+
+                            <small>
+                                Publish a new opportunity
+                            </small>
+
+                        </span>
+
+                        <i class="bi bi-arrow-up-right cl-action-arrow"></i>
+
+                    </a>
+
+                </div>
+
+
+                <div class="col-md-6 col-xl-3">
+
+                    <a asp-controller="RecruiterJobs"
+                       asp-action="Index"
+                       class="cl-recruiter-action">
+
+                        <span class="cl-recruiter-action-icon">
+                            <i class="bi bi-briefcase"></i>
+                        </span>
+
+                        <span class="cl-recruiter-action-content">
+
+                            <strong>Manage Jobs</strong>
+
+                            <small>
+                                View and update postings
+                            </small>
+
+                        </span>
+
+                        <i class="bi bi-arrow-up-right cl-action-arrow"></i>
+
+                    </a>
+
+                </div>
+
+
+                <div class="col-md-6 col-xl-3">
+
+                    <a asp-controller="RecruiterApplications"
+                       asp-action="Index"
+                       class="cl-recruiter-action">
+
+                        <span class="cl-recruiter-action-icon">
+                            <i class="bi bi-people"></i>
+                        </span>
+
+                        <span class="cl-recruiter-action-content">
+
+                            <strong>Applicants</strong>
+
+                            <small>
+                                Review candidate applications
+                            </small>
+
+                        </span>
+
+                        <i class="bi bi-arrow-up-right cl-action-arrow"></i>
+
+                    </a>
+
+                </div>
+
+
+                <div class="col-md-6 col-xl-3">
+
+                    <a asp-controller="RecruiterInterviews"
+                       asp-action="Index"
+                       class="cl-recruiter-action">
+
+                        <span class="cl-recruiter-action-icon">
+                            <i class="bi bi-calendar2-week"></i>
+                        </span>
+
+                        <span class="cl-recruiter-action-content">
+
+                            <strong>Interviews</strong>
+
+                            <small>
+                                Manage scheduled interviews
+                            </small>
+
+                        </span>
+
+                        <i class="bi bi-arrow-up-right cl-action-arrow"></i>
+
                     </a>
 
                 </div>
 
             </div>
 
-        </div>
+        </section>
+
+
+        <!-- =========================
+             PROFILE / COMPANY
+             ========================= -->
+
+        <section class="cl-recruiter-section">
+
+            <div class="row g-4">
+
+                <div class="col-lg-6">
+
+                    <div class="cl-recruiter-info-card">
+
+                        <div class="cl-recruiter-info-icon">
+                            <i class="bi bi-person-badge"></i>
+                        </div>
+
+                        <div>
+
+                            <span class="cl-recruiter-info-label">
+                                Recruiter profile
+                            </span>
+
+                            <h3>
+                                Keep your profile up to date
+                            </h3>
+
+                            <p>
+                                Update your name, phone number and job title
+                                so your recruiter information stays accurate.
+                            </p>
+
+                            <a asp-controller="Recruiter"
+                               asp-action="Profile"
+                               class="cl-text-link">
+
+                                Manage profile
+                                <i class="bi bi-arrow-right"></i>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-lg-6">
+
+                    <div class="cl-recruiter-info-card">
+
+                        <div class="cl-recruiter-info-icon">
+                            <i class="bi bi-building"></i>
+                        </div>
+
+                        <div>
+
+                            <span class="cl-recruiter-info-label">
+                                Company profile
+                            </span>
+
+                            <h3>
+                                Build your company presence
+                            </h3>
+
+                            <p>
+                                Keep your company information updated for
+                                candidates viewing your job opportunities.
+                            </p>
+
+                            <a asp-controller="Company"
+                               asp-action="Profile"
+                               class="cl-text-link">
+
+                                Manage company
+                                <i class="bi bi-arrow-right"></i>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
 
     </div>
 

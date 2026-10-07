@@ -4,201 +4,273 @@
     ViewData["Title"] = "Reschedule Interview";
 }
 
-<div class="container py-4">
+<div class="cl-recruiter-page">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="cl-profile-page-header">
 
         <div>
-            <h1 class="mb-1">Reschedule Interview</h1>
+            <div class="cl-recruiter-eyebrow">
+                <i class="bi bi-calendar-event"></i>
+                INTERVIEW MANAGEMENT
+            </div>
 
-            <p class="text-muted mb-0">
+            <h1 class="cl-profile-page-title">
+                Reschedule Interview
+            </h1>
+
+            <p class="cl-profile-page-subtitle">
                 @Model.JobTitle - @Model.ApplicantName
             </p>
         </div>
 
         <a asp-controller="RecruiterInterviews"
            asp-action="Index"
-           class="btn btn-outline-secondary">
+           class="cl-soft-button">
+            <i class="bi bi-arrow-left"></i>
             Back to Interviews
         </a>
 
     </div>
 
-    <div class="card shadow-sm">
-        <div class="card-body">
+    <div class="cl-interview-form-grid">
 
-            @if (ViewBag.ValidationErrors != null)
-            {
-                <div class="alert alert-danger">
-                    <h5 class="alert-heading">
-                        The interview could not be rescheduled.
-                    </h5>
+        <div class="cl-profile-card">
 
-                    <ul class="mb-0">
-                        @foreach (var error in (IEnumerable<string>)ViewBag.ValidationErrors)
-                        {
-                            <li>@error</li>
-                        }
-                    </ul>
-                </div>
-            }
+            <div class="cl-profile-card-header">
 
-            <form asp-controller="RecruiterInterviews"
-                  asp-action="Edit"
-                  method="post">
-
-                @Html.AntiForgeryToken()
-
-                <input type="hidden"
-                       name="Id"
-                       value="@Model.Id" />
-
-                <input type="hidden"
-                       name="ApplicationId"
-                       value="@Model.ApplicationId" />
-
-                <div asp-validation-summary="All"
-                     class="alert alert-danger">
+                <div class="cl-profile-card-icon">
+                    <i class="bi bi-calendar-event"></i>
                 </div>
 
-                <div class="mb-3">
-
-                    <label class="form-label">
-                        Applicant
-                    </label>
-
-                    <input type="text"
-                           class="form-control"
-                           value="@Model.ApplicantName (@Model.ApplicantEmail)"
-                           readonly />
-
+                <div>
+                    <h2>Update Interview</h2>
+                    <p>
+                        Change the interview schedule or format.
+                    </p>
                 </div>
 
-                <div class="mb-3">
+            </div>
 
-                    <label for="ScheduledAt"
-                           class="form-label">
-                        Interview Date and Time
-                    </label>
+            <div class="cl-profile-card-body">
 
-                    <input type="datetime-local"
-                           id="ScheduledAt"
-                           name="ScheduledAt"
-                           class="form-control"
-                           value="@Model.ScheduledAt.ToLocalTime().ToString("yyyy-MM-ddTHH:mm")"
-                           required />
+                @if (ViewBag.ValidationErrors != null)
+                {
+                    <div class="cl-interview-validation">
+                        <i class="bi bi-exclamation-triangle-fill"></i>
 
-                    <span asp-validation-for="ScheduledAt"
-                          class="text-danger">
-                    </span>
+                        <div>
+                            <strong>
+                                The interview could not be rescheduled.
+                            </strong>
 
-                </div>
+                            <ul>
+                                @foreach (var error in (IEnumerable<string>)ViewBag.ValidationErrors)
+                                {
+                                    <li>@error</li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                }
 
-                <div class="mb-3">
+                <form asp-controller="RecruiterInterviews"
+                      asp-action="Edit"
+                      method="post">
 
-                    <label for="InterviewType"
-                           class="form-label">
-                        Interview Type
-                    </label>
+                    @Html.AntiForgeryToken()
 
-                    <select id="InterviewType"
-                            name="InterviewType"
-                            class="form-select">
+                    <input type="hidden"
+                           name="Id"
+                           value="@Model.Id" />
 
-                        <option value="0"
-                                selected="@(Model.InterviewType == CareerLink.Models.Enums.InterviewType.Online)">
-                            Online
-                        </option>
+                    <input type="hidden"
+                           name="ApplicationId"
+                           value="@Model.ApplicationId" />
 
-                        <option value="1"
-                                selected="@(Model.InterviewType == CareerLink.Models.Enums.InterviewType.InPerson)">
-                            In Person
-                        </option>
+                    <div asp-validation-summary="All"
+                         class="cl-profile-validation">
+                    </div>
 
-                        <option value="2"
-                                selected="@(Model.InterviewType == CareerLink.Models.Enums.InterviewType.Phone)">
-                            Phone
-                        </option>
+                    <div class="cl-interview-applicant-box">
 
-                    </select>
+                        <div class="cl-applicant-avatar">
+                            @(
+                                string.IsNullOrWhiteSpace(Model.ApplicantName)
+                                    ? "?"
+                                    : Model.ApplicantName.Substring(0, 1).ToUpper()
+                             )
+                        </div>
 
-                </div>
+                        <div>
+                            <span>Interview with</span>
+                            <strong>@Model.ApplicantName</strong>
+                            <small>@Model.ApplicantEmail</small>
+                        </div>
 
-                <div class="mb-3"
-                     id="meetingLinkGroup">
+                    </div>
 
-                    <label for="MeetingLink"
-                           class="form-label">
-                        Meeting Link
-                    </label>
+                    <div class="row g-4">
 
-                    <input type="text"
-                           id="MeetingLink"
-                           name="MeetingLink"
-                           class="form-control"
-                           value="@Model.MeetingLink"
-                           placeholder="https://meet.google.com/..." />
+                        <div class="col-md-6">
 
-                    <span asp-validation-for="MeetingLink"
-                          class="text-danger">
-                    </span>
+                            <label for="ScheduledAt"
+                                   class="form-label">
+                                Interview Date and Time
+                            </label>
 
-                </div>
+                            <input type="datetime-local"
+                                   id="ScheduledAt"
+                                   name="ScheduledAt"
+                                   class="form-control"
+                                   value="@Model.ScheduledAt.ToLocalTime().ToString("yyyy-MM-ddTHH:mm")"
+                                   required />
 
-                <div class="mb-3"
-                     id="locationGroup">
+                            <span asp-validation-for="ScheduledAt"
+                                  class="text-danger">
+                            </span>
 
-                    <label for="Location"
-                           class="form-label">
-                        Location
-                    </label>
+                        </div>
 
-                    <input type="text"
-                           id="Location"
-                           name="Location"
-                           class="form-control"
-                           value="@Model.Location"
-                           placeholder="Office address or interview location" />
+                        <div class="col-md-6">
 
-                    <span asp-validation-for="Location"
-                          class="text-danger">
-                    </span>
+                            <label for="InterviewType"
+                                   class="form-label">
+                                Interview Type
+                            </label>
 
-                </div>
+                            <select id="InterviewType"
+                                    name="InterviewType"
+                                    class="form-select">
 
-                <div class="mb-3">
+                                <option value="0"
+                                        selected="@(Model.InterviewType == CareerLink.Models.Enums.InterviewType.Online)">
+                                    Online
+                                </option>
 
-                    <label for="Notes"
-                           class="form-label">
-                        Notes
-                    </label>
+                                <option value="1"
+                                        selected="@(Model.InterviewType == CareerLink.Models.Enums.InterviewType.InPerson)">
+                                    In Person
+                                </option>
 
-                    <textarea id="Notes"
-                              name="Notes"
-                              class="form-control"
-                              rows="4">@Model.Notes</textarea>
+                                <option value="2"
+                                        selected="@(Model.InterviewType == CareerLink.Models.Enums.InterviewType.Phone)">
+                                    Phone
+                                </option>
 
-                </div>
+                            </select>
 
-                <div class="d-flex gap-2">
+                        </div>
 
-                    <button type="submit"
-                            class="btn btn-primary">
-                        Save Reschedule
-                    </button>
+                        <div class="col-12"
+                             id="meetingLinkGroup">
 
-                    <a asp-controller="RecruiterInterviews"
-                       asp-action="Index"
-                       class="btn btn-outline-secondary">
-                        Cancel
-                    </a>
+                            <label for="MeetingLink"
+                                   class="form-label">
+                                Meeting Link
+                            </label>
 
-                </div>
+                            <div class="cl-interview-input-icon">
+                                <i class="bi bi-link-45deg"></i>
 
-            </form>
+                                <input type="text"
+                                       id="MeetingLink"
+                                       name="MeetingLink"
+                                       class="form-control"
+                                       value="@Model.MeetingLink"
+                                       placeholder="https://meet.google.com/..." />
+                            </div>
+
+                            <span asp-validation-for="MeetingLink"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="col-12"
+                             id="locationGroup">
+
+                            <label for="Location"
+                                   class="form-label">
+                                Location
+                            </label>
+
+                            <div class="cl-interview-input-icon">
+                                <i class="bi bi-geo-alt"></i>
+
+                                <input type="text"
+                                       id="Location"
+                                       name="Location"
+                                       class="form-control"
+                                       value="@Model.Location"
+                                       placeholder="Office address or interview location" />
+                            </div>
+
+                            <span asp-validation-for="Location"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="col-12">
+
+                            <label for="Notes"
+                                   class="form-label">
+                                Notes
+                            </label>
+
+                            <textarea id="Notes"
+                                      name="Notes"
+                                      class="form-control"
+                                      rows="5"
+                                      placeholder="Interview instructions or additional notes">@Model.Notes</textarea>
+
+                        </div>
+
+                    </div>
+
+                    <div class="cl-profile-form-footer">
+
+                        <a asp-controller="RecruiterInterviews"
+                           asp-action="Index"
+                           class="cl-soft-button">
+                            Cancel
+                        </a>
+
+                        <button type="submit"
+                                class="cl-purple-button">
+                            <i class="bi bi-calendar-check"></i>
+                            Save Reschedule
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
 
         </div>
+
+        <div class="cl-interview-info-column">
+
+            <div class="cl-profile-card cl-interview-info-card">
+
+                <div class="cl-profile-side-icon">
+                    <i class="bi bi-arrow-repeat"></i>
+                </div>
+
+                <h3>Rescheduling</h3>
+
+                <p>
+                    Changing an existing scheduled interview will update
+                    its status to <strong>Rescheduled</strong>.
+                </p>
+
+            </div>
+
+        </div>
+
     </div>
+
 </div>
 
 @section Scripts
@@ -208,8 +280,7 @@
     <script>
         function updateInterviewFields() {
 
-            const type =
-                document.getElementById("InterviewType").value;
+            const type = document.getElementById("InterviewType").value;
 
             const meetingLinkGroup =
                 document.getElementById("meetingLinkGroup");
