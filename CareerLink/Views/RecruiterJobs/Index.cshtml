@@ -155,13 +155,20 @@
 
                                 <td>
 
-                                    <div class="d-flex justify-content-end gap-2">
+                                    <div class="d-flex justify-content-end gap-2 flex-wrap">
 
                                         <a asp-controller="RecruiterJobs"
                                            asp-action="Details"
                                            asp-route-id="@job.Id"
                                            class="btn btn-sm btn-outline-secondary">
                                             View
+                                        </a>
+
+                                        <a asp-controller="RecruiterApplications"
+                                           asp-action="Index"
+                                           asp-route-jobId="@job.Id"
+                                           class="btn btn-sm btn-outline-primary">
+                                            Applicants
                                         </a>
 
                                         <a asp-controller="RecruiterJobs"
@@ -175,6 +182,8 @@
                                               asp-action="ToggleStatus"
                                               asp-route-id="@job.Id"
                                               method="post">
+
+                                            @Html.AntiForgeryToken()
 
                                             @if (job.IsActive)
                                             {

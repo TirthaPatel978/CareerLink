@@ -1,7 +1,7 @@
 ﻿@model CareerLink.ViewModels.RecruiterInterviewViewModel
 
 @{
-    ViewData["Title"] = "Schedule Interview";
+    ViewData["Title"] = "Reschedule Interview";
 }
 
 <div class="container py-4">
@@ -9,36 +9,55 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
 
         <div>
-            <h1 class="mb-1">Schedule Interview</h1>
+            <h1 class="mb-1">Reschedule Interview</h1>
 
             <p class="text-muted mb-0">
                 @Model.JobTitle - @Model.ApplicantName
             </p>
         </div>
 
-        <a asp-controller="RecruiterApplications"
-           asp-action="Details"
-           asp-route-id="@Model.ApplicationId"
+        <a asp-controller="RecruiterInterviews"
+           asp-action="Index"
            class="btn btn-outline-secondary">
-            Back to Applicant
+            Back to Interviews
         </a>
 
     </div>
 
     <div class="card shadow-sm">
-
         <div class="card-body">
 
+            @if (ViewBag.ValidationErrors != null)
+            {
+                <div class="alert alert-danger">
+                    <h5 class="alert-heading">
+                        The interview could not be rescheduled.
+                    </h5>
+
+                    <ul class="mb-0">
+                        @foreach (var error in (IEnumerable<string>)ViewBag.ValidationErrors)
+                        {
+                            <li>@error</li>
+                        }
+                    </ul>
+                </div>
+            }
+
             <form asp-controller="RecruiterInterviews"
-                  asp-action="Create"
+                  asp-action="Edit"
                   method="post">
 
                 @Html.AntiForgeryToken()
 
                 <input type="hidden"
-                       asp-for="ApplicationId" />
+                       name="Id"
+                       value="@Model.Id" />
 
-                <div asp-validation-summary="ModelOnly"
+                <input type="hidden"
+                       name="ApplicationId"
+                       value="@Model.ApplicationId" />
+
+                <div asp-validation-summary="All"
                      class="alert alert-danger">
                 </div>
 
@@ -57,14 +76,17 @@
 
                 <div class="mb-3">
 
-                    <label asp-for="ScheduledAt"
+                    <label for="ScheduledAt"
                            class="form-label">
+                        Interview Date and Time
                     </label>
 
-                    <input asp-for="ScheduledAt"
-                           type="datetime-local"
+                    <input type="datetime-local"
+                           id="ScheduledAt"
+                           name="ScheduledAt"
                            class="form-control"
-                           value="@Model.ScheduledAt.ToString("yyyy-MM-ddTHH:mm")" />
+                           value="@Model.ScheduledAt.ToLocalTime().ToString("yyyy-MM-ddTHH:mm")"
+                           required />
 
                     <span asp-validation-for="ScheduledAt"
                           class="text-danger">
@@ -74,30 +96,47 @@
 
                 <div class="mb-3">
 
-                    <label asp-for="InterviewType"
+                    <label for="InterviewType"
                            class="form-label">
+                        Interview Type
                     </label>
 
-                    <select asp-for="InterviewType"
-                            class="form-select"
-                            asp-items="Html.GetEnumSelectList<CareerLink.Models.Enums.InterviewType>()">
-                    </select>
+                    <select id="InterviewType"
+                            name="InterviewType"
+                            class="form-select">
 
-                    <span asp-validation-for="InterviewType"
-                          class="text-danger">
-                    </span>
+                        <option value="0"
+                                selected="@(Model.InterviewType == CareerLink.Models.Enums.InterviewType.Online)">
+                            Online
+                        </option>
+
+                        <option value="1"
+                                selected="@(Model.InterviewType == CareerLink.Models.Enums.InterviewType.InPerson)">
+                            In Person
+                        </option>
+
+                        <option value="2"
+                                selected="@(Model.InterviewType == CareerLink.Models.Enums.InterviewType.Phone)">
+                            Phone
+                        </option>
+
+                    </select>
 
                 </div>
 
                 <div class="mb-3"
                      id="meetingLinkGroup">
 
-                    <label asp-for="MeetingLink"
+                    <label for="MeetingLink"
                            class="form-label">
+                        Meeting Link
                     </label>
 
-                    <input asp-for="MeetingLink"
+                    <input type="text"
+                           id="MeetingLink"
+                           name="MeetingLink"
                            class="form-control"
+                           value="@Model.MeetingLink"
                            placeholder="https://meet.google.com/..." />
 
                     <span asp-validation-for="MeetingLink"
@@ -109,12 +148,16 @@
                 <div class="mb-3"
                      id="locationGroup">
 
-                    <label asp-for="Location"
+                    <label for="Location"
                            class="form-label">
+                        Location
                     </label>
 
-                    <input asp-for="Location"
+                    <input type="text"
+                           id="Location"
+                           name="Location"
                            class="form-control"
+                           value="@Model.Location"
                            placeholder="Office address or interview location" />
 
                     <span asp-validation-for="Location"
@@ -125,19 +168,15 @@
 
                 <div class="mb-3">
 
-                    <label asp-for="Notes"
+                    <label for="Notes"
                            class="form-label">
+                        Notes
                     </label>
 
-                    <textarea asp-for="Notes"
+                    <textarea id="Notes"
+                              name="Notes"
                               class="form-control"
-                              rows="4"
-                              placeholder="Interview instructions or additional notes">
-                    </textarea>
-
-                    <span asp-validation-for="Notes"
-                          class="text-danger">
-                    </span>
+                              rows="4">@Model.Notes</textarea>
 
                 </div>
 
@@ -145,12 +184,11 @@
 
                     <button type="submit"
                             class="btn btn-primary">
-                        Schedule Interview
+                        Save Reschedule
                     </button>
 
-                    <a asp-controller="RecruiterApplications"
-                       asp-action="Details"
-                       asp-route-id="@Model.ApplicationId"
+                    <a asp-controller="RecruiterInterviews"
+                       asp-action="Index"
                        class="btn btn-outline-secondary">
                         Cancel
                     </a>
@@ -160,9 +198,7 @@
             </form>
 
         </div>
-
     </div>
-
 </div>
 
 @section Scripts
@@ -182,17 +218,14 @@
                 document.getElementById("locationGroup");
 
             if (type === "0") {
-                // Online
                 meetingLinkGroup.style.display = "block";
                 locationGroup.style.display = "none";
             }
             else if (type === "1") {
-                // In Person
                 meetingLinkGroup.style.display = "none";
                 locationGroup.style.display = "block";
             }
             else {
-                // Phone
                 meetingLinkGroup.style.display = "none";
                 locationGroup.style.display = "none";
             }

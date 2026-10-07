@@ -1,0 +1,194 @@
+﻿@model IEnumerable<CareerLink.ViewModels.JobSeekerInterviewViewModel>
+
+@{
+    ViewData["Title"] = "My Interviews";
+}
+
+<div class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h1 class="mb-1">My Interviews</h1>
+
+            <p class="text-muted mb-0">
+                View your scheduled job interviews.
+            </p>
+        </div>
+
+        <a asp-controller="JobSeeker"
+           asp-action="Index"
+           class="btn btn-outline-secondary">
+            Back to Dashboard
+        </a>
+
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="card shadow-sm">
+
+            <div class="card-body text-center py-5">
+
+                <h4 class="mb-3">
+                    No interviews scheduled
+                </h4>
+
+                <p class="text-muted mb-0">
+                    You don't have any interviews scheduled yet.
+                </p>
+
+            </div>
+
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+
+            @foreach (var interview in Model)
+            {
+                <div class="col-12">
+
+                    <div class="card shadow-sm">
+
+                        <div class="card-body">
+
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+
+                                <div>
+                                    <h4 class="mb-1">
+                                        @interview.JobTitle
+                                    </h4>
+
+                                    <p class="text-muted mb-0">
+                                        @interview.CompanyName
+                                    </p>
+                                </div>
+
+                                <span class="badge
+                                    @(interview.Status == CareerLink.Models.Enums.InterviewStatus.Scheduled
+                                        ? "bg-primary"
+                                        : interview.Status == CareerLink.Models.Enums.InterviewStatus.Completed
+                                            ? "bg-success"
+                                            : interview.Status == CareerLink.Models.Enums.InterviewStatus.Cancelled
+                                                ? "bg-danger"
+                                                : "bg-warning text-dark")">
+
+                                    @interview.Status
+                                </span>
+
+                            </div>
+
+                            <div class="row g-3">
+
+                                <div class="col-md-3">
+
+                                    <strong>Date & Time</strong>
+
+                                    <div class="text-muted">
+                                        @interview.ScheduledAt.ToLocalTime()
+                                            .ToString("dd MMM yyyy, hh:mm tt")
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-3">
+
+                                    <strong>Interview Type</strong>
+
+                                    <div class="text-muted">
+                                        @interview.InterviewType
+                                    </div>
+
+                                </div>
+
+                                @if (interview.InterviewType ==
+                                    CareerLink.Models.Enums.InterviewType.Online)
+                                {
+                                    <div class="col-md-3">
+
+                                        <strong>Meeting</strong>
+
+                                        <div>
+
+                                            @if (!string.IsNullOrWhiteSpace(
+                                                interview.MeetingLink))
+                                            {
+                                                <a href="@interview.MeetingLink"
+                                                   target="_blank"
+                                                   rel="noopener noreferrer"
+                                                   class="btn btn-sm btn-outline-primary">
+                                                    Join Interview
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted">
+                                                    No meeting link provided
+                                                </span>
+                                            }
+
+                                        </div>
+
+                                    </div>
+                                }
+
+                                @if (interview.InterviewType ==
+                                    CareerLink.Models.Enums.InterviewType.InPerson)
+                                {
+                                    <div class="col-md-3">
+
+                                        <strong>Location</strong>
+
+                                        <div class="text-muted">
+                                            @(string.IsNullOrWhiteSpace(interview.Location)
+                                                ? "No location provided"
+                                                : interview.Location)
+                                        </div>
+
+                                    </div>
+                                }
+
+                                @if (interview.InterviewType ==
+                                    CareerLink.Models.Enums.InterviewType.Phone)
+                                {
+                                    <div class="col-md-3">
+
+                                        <strong>Interview Method</strong>
+
+                                        <div class="text-muted">
+                                            Phone interview
+                                        </div>
+
+                                    </div>
+                                }
+
+                            </div>
+
+                            @if (!string.IsNullOrWhiteSpace(interview.Notes))
+                            {
+                                <hr />
+
+                                <div>
+
+                                    <strong>Notes</strong>
+
+                                    <p class="text-muted mb-0">
+                                        @interview.Notes
+                                    </p>
+
+                                </div>
+                            }
+
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    }
+
+</div>
