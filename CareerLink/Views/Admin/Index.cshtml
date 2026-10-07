@@ -1,241 +1,385 @@
-﻿@model IEnumerable<CareerLink.ViewModels.AdminUserViewModel>
+﻿@model CareerLink.ViewModels.AdminDashboardViewModel
 
 @{
-    ViewData["Title"] = "Manage Users";
+    ViewData["Title"] = "Admin Dashboard";
 }
 
 <div class="cl-admin-page">
 
+    <!-- Header -->
     <div class="cl-admin-page-header">
 
         <div>
             <div class="cl-admin-eyebrow">
-                <i class="bi bi-people"></i>
-                USER MANAGEMENT
+                <i class="bi bi-speedometer2"></i>
+                ADMINISTRATION
             </div>
 
             <h1 class="cl-admin-title">
-                Manage Users
+                Admin Dashboard
             </h1>
 
             <p class="cl-admin-subtitle">
-                View and manage CareerLink user accounts.
+                Monitor and manage CareerLink from one place.
             </p>
         </div>
 
-        <a asp-controller="Admin"
-           asp-action="Index"
-           class="cl-soft-button">
-            <i class="bi bi-arrow-left"></i>
-            Dashboard
-        </a>
+    </div>
+
+
+    <!-- Main statistics -->
+    <div class="cl-admin-stats-grid">
+
+        <div class="cl-admin-stat-card">
+            <div class="cl-admin-stat-icon">
+                <i class="bi bi-people"></i>
+            </div>
+
+            <div>
+                <div class="cl-admin-stat-label">
+                    Total Users
+                </div>
+
+                <div class="cl-admin-stat-value">
+                    @Model.TotalUsers
+                </div>
+            </div>
+        </div>
+
+
+        <div class="cl-admin-stat-card">
+            <div class="cl-admin-stat-icon">
+                <i class="bi bi-person-badge"></i>
+            </div>
+
+            <div>
+                <div class="cl-admin-stat-label">
+                    Job Seekers
+                </div>
+
+                <div class="cl-admin-stat-value">
+                    @Model.JobSeekers
+                </div>
+            </div>
+        </div>
+
+
+        <div class="cl-admin-stat-card">
+            <div class="cl-admin-stat-icon">
+                <i class="bi bi-briefcase"></i>
+            </div>
+
+            <div>
+                <div class="cl-admin-stat-label">
+                    Recruiters
+                </div>
+
+                <div class="cl-admin-stat-value">
+                    @Model.Recruiters
+                </div>
+            </div>
+        </div>
+
+
+        <div class="cl-admin-stat-card">
+            <div class="cl-admin-stat-icon">
+                <i class="bi bi-building"></i>
+            </div>
+
+            <div>
+                <div class="cl-admin-stat-label">
+                    Companies
+                </div>
+
+                <div class="cl-admin-stat-value">
+                    @Model.Companies
+                </div>
+            </div>
+        </div>
+
+
+        <div class="cl-admin-stat-card">
+            <div class="cl-admin-stat-icon">
+                <i class="bi bi-file-earmark-text"></i>
+            </div>
+
+            <div>
+                <div class="cl-admin-stat-label">
+                    Total Jobs
+                </div>
+
+                <div class="cl-admin-stat-value">
+                    @Model.Jobs
+                </div>
+            </div>
+        </div>
+
+
+        <div class="cl-admin-stat-card">
+            <div class="cl-admin-stat-icon">
+                <i class="bi bi-check-circle"></i>
+            </div>
+
+            <div>
+                <div class="cl-admin-stat-label">
+                    Active Jobs
+                </div>
+
+                <div class="cl-admin-stat-value">
+                    @Model.ActiveJobs
+                </div>
+            </div>
+        </div>
+
+
+        <div class="cl-admin-stat-card">
+            <div class="cl-admin-stat-icon">
+                <i class="bi bi-send"></i>
+            </div>
+
+            <div>
+                <div class="cl-admin-stat-label">
+                    Applications
+                </div>
+
+                <div class="cl-admin-stat-value">
+                    @Model.Applications
+                </div>
+            </div>
+        </div>
+
+
+        <div class="cl-admin-stat-card">
+            <div class="cl-admin-stat-icon">
+                <i class="bi bi-calendar-event"></i>
+            </div>
+
+            <div>
+                <div class="cl-admin-stat-label">
+                    Interviews
+                </div>
+
+                <div class="cl-admin-stat-value">
+                    @Model.Interviews
+                </div>
+            </div>
+        </div>
 
     </div>
 
-    @if (TempData["SuccessMessage"] != null)
-    {
-        <div class="cl-profile-success">
-            <i class="bi bi-check-circle-fill"></i>
-            <span>@TempData["SuccessMessage"]</span>
-        </div>
-    }
 
-    @if (TempData["ErrorMessage"] != null)
-    {
-        <div class="cl-admin-error">
-            <i class="bi bi-exclamation-triangle-fill"></i>
-            <span>@TempData["ErrorMessage"]</span>
-        </div>
-    }
+    <!-- User status -->
+    <div class="cl-admin-section-card">
 
-    <div class="cl-admin-table-card">
+        <div class="cl-admin-section-header">
 
-        <div class="cl-admin-table-header">
             <div>
-                <h2>User Accounts</h2>
-                <p>@Model.Count() account@(Model.Count() == 1 ? "" : "s") registered.</p>
+                <div class="cl-admin-eyebrow">
+                    <i class="bi bi-person-check"></i>
+                    ACCOUNT STATUS
+                </div>
+
+                <h2>
+                    User Activity
+                </h2>
+
+                <p>
+                    Overview of active and inactive CareerLink accounts.
+                </p>
             </div>
-
-            <div class="cl-admin-table-count">
-                <i class="bi bi-people"></i>
-                @Model.Count()
-            </div>
-        </div>
-
-        <div class="table-responsive">
-
-            <table class="table cl-admin-table align-middle mb-0">
-
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th>Created</th>
-                        <th>Status</th>
-                        <th class="text-end">Action</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-
-                    @foreach (var user in Model)
-                    {
-                        <tr>
-
-                            <td>
-                                <div class="cl-admin-user-cell">
-
-                                    <div class="cl-admin-avatar">
-                                        @(
-                                            string.IsNullOrWhiteSpace(user.FullName)
-                                                ? "?"
-                                                : user.FullName.Substring(0, 1).ToUpper()
-                                         )
-                                    </div>
-
-                                    <div>
-                                        <strong>
-                                            @(string.IsNullOrWhiteSpace(user.FullName)
-                                                ? "Unnamed User"
-                                                : user.FullName)
-                                        </strong>
-
-                                        @if (user.IsCurrentUser)
-                                        {
-                                            <span class="cl-current-user-badge">
-                                                You
-                                            </span>
-                                        }
-                                    </div>
-
-                                </div>
-                            </td>
-
-                            <td>
-                                <span class="cl-admin-email">
-                                    @user.Email
-                                </span>
-                            </td>
-
-                            <td>
-
-                                @if (user.Role == "Admin")
-                                {
-                                    <span class="cl-admin-role cl-admin-role-admin">
-                                        Admin
-                                    </span>
-                                }
-                                else if (user.Role == "Recruiter")
-                                {
-                                    <span class="cl-admin-role cl-admin-role-recruiter">
-                                        Recruiter
-                                    </span>
-                                }
-                                else if (user.Role == "JobSeeker")
-                                {
-                                    <span class="cl-admin-role cl-admin-role-seeker">
-                                        Job Seeker
-                                    </span>
-                                }
-                                else
-                                {
-                                    <span class="cl-admin-role">
-                                        @user.Role
-                                    </span>
-                                }
-
-                            </td>
-
-                            <td>
-                                <span class="cl-admin-date">
-                                    @user.CreatedAt.ToLocalTime().ToString("dd MMM yyyy")
-                                </span>
-                            </td>
-
-                            <td>
-
-                                @if (user.IsActive)
-                                {
-                                    <span class="cl-admin-account-status cl-account-active">
-                                        <span></span>
-                                        Active
-                                    </span>
-                                }
-                                else
-                                {
-                                    <span class="cl-admin-account-status cl-account-inactive">
-                                        <span></span>
-                                        Inactive
-                                    </span>
-                                }
-
-                            </td>
-
-                            <td class="text-end">
-
-                                @if (user.IsCurrentUser)
-                                {
-                                    <button type="button"
-                                            class="cl-admin-disabled-button"
-                                            disabled>
-                                        <i class="bi bi-person-check"></i>
-                                        Current Account
-                                    </button>
-                                }
-                                else
-                                {
-                                    <form asp-controller="AdminUsers"
-                                          asp-action="ToggleStatus"
-                                          method="post"
-                                          class="d-inline">
-
-                                        <input type="hidden"
-                                               name="id"
-                                               value="@user.Id" />
-
-                                        @if (user.IsActive)
-                                        {
-                                            <button type="submit"
-                                                    class="cl-admin-danger-button"
-                                                    onclick="return confirm('Are you sure you want to deactivate this account?');">
-                                                <i class="bi bi-person-dash"></i>
-                                                Deactivate
-                                            </button>
-                                        }
-                                        else
-                                        {
-                                            <button type="submit"
-                                                    class="cl-admin-success-button">
-                                                <i class="bi bi-person-check"></i>
-                                                Activate
-                                            </button>
-                                        }
-
-                                    </form>
-                                }
-
-                            </td>
-
-                        </tr>
-                    }
-
-                </tbody>
-
-            </table>
 
         </div>
 
-        @if (!Model.Any())
-        {
-            <div class="cl-admin-empty-state">
+
+        <div class="cl-admin-user-status-grid">
+
+            <div class="cl-admin-status-card">
+
+                <div class="cl-admin-status-icon cl-admin-status-active">
+                    <i class="bi bi-person-check"></i>
+                </div>
+
                 <div>
+                    <div class="cl-admin-status-label">
+                        Active Users
+                    </div>
+
+                    <div class="cl-admin-status-value">
+                        @Model.ActiveUsers
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="cl-admin-status-card">
+
+                <div class="cl-admin-status-icon cl-admin-status-inactive">
+                    <i class="bi bi-person-x"></i>
+                </div>
+
+                <div>
+                    <div class="cl-admin-status-label">
+                        Inactive Users
+                    </div>
+
+                    <div class="cl-admin-status-value">
+                        @Model.InactiveUsers
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Management -->
+    <div class="cl-admin-section-card">
+
+        <div class="cl-admin-section-header">
+
+            <div>
+                <div class="cl-admin-eyebrow">
+                    <i class="bi bi-grid"></i>
+                    MANAGEMENT
+                </div>
+
+                <h2>
+                    Administration Tools
+                </h2>
+
+                <p>
+                    Manage users, companies, jobs, skills and platform reports.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="cl-admin-management-grid">
+
+            <!-- Users -->
+            <a asp-controller="AdminUsers"
+               asp-action="Index"
+               class="cl-admin-management-card">
+
+                <div class="cl-admin-management-icon">
                     <i class="bi bi-people"></i>
                 </div>
-                <h3>No users found</h3>
-                <p>There are currently no registered users.</p>
-            </div>
-        }
+
+                <div class="cl-admin-management-content">
+                    <h3>
+                        Manage Users
+                    </h3>
+
+                    <p>
+                        View user accounts and activate or deactivate users.
+                    </p>
+                </div>
+
+                <i class="bi bi-arrow-right cl-admin-management-arrow"></i>
+
+            </a>
+
+
+            <!-- Companies -->
+            <a asp-controller="AdminCompanies"
+               asp-action="Index"
+               class="cl-admin-management-card">
+
+                <div class="cl-admin-management-icon">
+                    <i class="bi bi-building"></i>
+                </div>
+
+                <div class="cl-admin-management-content">
+                    <h3>
+                        Manage Companies
+                    </h3>
+
+                    <p>
+                        View registered companies and their activity.
+                    </p>
+                </div>
+
+                <i class="bi bi-arrow-right cl-admin-management-arrow"></i>
+
+            </a>
+
+
+            <!-- Jobs -->
+            <a asp-controller="AdminJobs"
+               asp-action="Index"
+               class="cl-admin-management-card">
+
+                <div class="cl-admin-management-icon">
+                    <i class="bi bi-briefcase"></i>
+                </div>
+
+                <div class="cl-admin-management-content">
+                    <h3>
+                        Manage Jobs
+                    </h3>
+
+                    <p>
+                        Monitor job postings and manage their status.
+                    </p>
+                </div>
+
+                <i class="bi bi-arrow-right cl-admin-management-arrow"></i>
+
+            </a>
+
+
+            <!-- Skills -->
+            <a asp-controller="AdminSkills"
+               asp-action="Index"
+               class="cl-admin-management-card">
+
+                <div class="cl-admin-management-icon">
+                    <i class="bi bi-stars"></i>
+                </div>
+
+                <div class="cl-admin-management-content">
+                    <h3>
+                        Manage Skills
+                    </h3>
+
+                    <p>
+                        Add, edit and manage platform skills.
+                    </p>
+                </div>
+
+                <i class="bi bi-arrow-right cl-admin-management-arrow"></i>
+
+            </a>
+
+
+            <!-- Reports -->
+            <a asp-controller="AdminReports"
+               asp-action="Index"
+               class="cl-admin-management-card">
+
+                <div class="cl-admin-management-icon">
+                    <i class="bi bi-bar-chart"></i>
+                </div>
+
+                <div class="cl-admin-management-content">
+                    <h3>
+                        Reports &amp; Statistics
+                    </h3>
+
+                    <p>
+                        Review platform statistics and application activity.
+                    </p>
+                </div>
+
+                <i class="bi bi-arrow-right cl-admin-management-arrow"></i>
+
+            </a>
+
+        </div>
 
     </div>
 
