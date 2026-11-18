@@ -157,62 +157,6 @@ CareerLink follows the **Model-View-Controller (MVC)** architectural pattern.
 
 ---
 
-## 📂 Project Structure
-
-```text
-CareerLink/
-│
-├── Controllers/
-│   ├── ApplicationsController.cs
-│   ├── JobsController.cs
-│   ├── JobSeekerController.cs
-│   ├── RecruiterController.cs
-│   └── AdminController.cs
-│
-├── Data/
-│   └── ApplicationDbContext.cs
-│
-├── Models/
-│   ├── ApplicationUser.cs
-│   ├── JobSeeker.cs
-│   ├── Recruiter.cs
-│   ├── Company.cs
-│   ├── Job.cs
-│   ├── Application.cs
-│   ├── Skill.cs
-│   ├── JobSkill.cs
-│   ├── JobSeekerSkill.cs
-│   ├── Education.cs
-│   ├── Experience.cs
-│   ├── Certification.cs
-│   ├── Project.cs
-│   ├── Interview.cs
-│   ├── SavedJob.cs
-│   └── Notification.cs
-│
-├── Views/
-│   ├── Applications/
-│   ├── Jobs/
-│   ├── JobSeeker/
-│   ├── Recruiter/
-│   └── Admin/
-│
-├── wwwroot/
-│   ├── css/
-│   ├── js/
-│   ├── images/
-│   └── uploads/
-│
-├── Data/
-├── Migrations/
-│
-├── Program.cs
-├── appsettings.json
-└── CareerLink.csproj
-```
-
----
-
 ## 🗄️ Database
 
 CareerLink uses **Microsoft SQL Server** with **Entity Framework Core**.
@@ -337,24 +281,6 @@ Role-based authorization restricts access to functionalities according to the us
 
 ---
 
-## 📸 Screenshots
-
-_Add screenshots of the CareerLink application here._
-
-Suggested screenshots:
-
-- Home Page
-- Login and Registration
-- Job Seeker Dashboard
-- Job Search Page
-- Job Details Page
-- Recruiter Dashboard
-- Create Job Page
-- Application Management
-- Admin Dashboard
-
----
-
 ## 🎓 Project Information
 
 **Project Name:** CareerLink – Job Portal  
@@ -379,13 +305,3 @@ The project demonstrates the practical application of web development concepts, 
 - Deployment to a cloud hosting platform
 
 ---
-
-## 👨‍💻 Author
-
-Developed as an academic project.
-
----
-
-## 📄 License
-
-This project is developed for educational and academic purposes.
